@@ -2,23 +2,26 @@
 title: ASP.NET Core Web 主机
 author: guardrex
 description: 了解有关 ASP.NET Core 中负责应用启动和生存期管理的 Web 主机。
-monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 11/05/2018
+ms.date: 12/18/2018
 uid: fundamentals/host/web-host
-ms.openlocfilehash: a3601b71c65321af56644eb87c4527d6290e4378
-ms.sourcegitcommit: edb9d2d78c9a4d68b397e74ae2aff088b325a143
+ms.openlocfilehash: 7215027a083c0ed0bc3b15196e390a31c5dcfc14
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51505812"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637841"
 ---
 # <a name="aspnet-core-web-host"></a>ASP.NET Core Web 主机
 
 作者：[Luke Latham](https://github.com/guardrex)
 
+::: moniker range="<= aspnetcore-1.1"
+
 对于本主题的 1.1 版本，请下载 [ASP.NET Core Web 主机（版本 1.1，PDF）](https://webpifeed.blob.core.windows.net/webpifeed/Partners/Web-Host_1.1.pdf)。
+
+::: moniker-end
 
 ASP.NET Core 应用配置和启动“主机”。 主机负责应用程序启动和生存期管理。 至少，主机配置服务器和请求处理管道。 本主题介绍 ASP.NET Core Web 主机 ([IWebHostBuilder](/dotnet/api/microsoft.aspnetcore.hosting.iwebhostbuilder))，它可用于托管 Web 应用。 有关 .NET 通用主机 ([IHostBuilder](/dotnet/api/microsoft.extensions.hosting.ihostbuilder)) 的介绍，请参阅 <xref:fundamentals/host/generic-host>。
 
@@ -42,7 +45,7 @@ public class Program
 
 `CreateDefaultBuilder` 执行下列任务：
 
-* 使用应用的托管配置提供程序将 [Kestrel](xref:fundamentals/servers/kestrel) 配置为 Web 服务器并配置该服务器。 有关 Kestrel 默认选项，请参阅 <xref:fundamentals/servers/kestrel#kestrel-options>。
+* 使用应用的托管配置提供程序将 [Kestrel](xref:fundamentals/servers/kestrel) 服务器配置为 Web 服务器。 有关 Kestrel 服务器默认选项，请参阅 <xref:fundamentals/servers/kestrel#kestrel-options>。
 * 将内容根设置为由 [Directory.GetCurrentDirectory](/dotnet/api/system.io.directory.getcurrentdirectory) 返回的路径。
 * 通过以下对象加载[主机配置](#host-configuration-values)：
   * 前缀为 `ASPNETCORE_` 的环境变量（例如，`ASPNETCORE_ENVIRONMENT`）。
@@ -54,7 +57,7 @@ public class Program
   * 环境变量。
   * 命令行参数。
 * 配置控制台和调试输出的[日志记录](xref:fundamentals/logging/index)。 日志记录包含 appsettings.json 或 appsettings.{Environment}.json 文件的日志记录配置部分中指定的[日志筛选](xref:fundamentals/logging/index#log-filtering)规则。
-* 在 IIS 后方运行时，启用 [IIS 集成](xref:host-and-deploy/iis/index)。 当使用 [ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)时配置基路径和被服务器侦听的端口。 该模块创建 IIS 与 Kestrel 之间的反向代理。 还配置应用到[捕获启动错误](#capture-startup-errors)。 有关 IIS 默认选项，请参阅 <xref:host-and-deploy/iis/index#iis-options>。
+* 使用 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)在 IIS 后面运行时，`CreateDefaultBuilder` 会启用 [IIS 集成](xref:host-and-deploy/iis/index)，这会配置应用的基址和端口。 IIS 集成还配置应用以[捕获启动错误](#capture-startup-errors)。 有关 IIS 默认选项，请参阅 <xref:host-and-deploy/iis/index#iis-options>。
 * 如果应用环境为“开发”，请将 [ServiceProviderOptions.ValidateScopes](/dotnet/api/microsoft.extensions.dependencyinjection.serviceprovideroptions.validatescopes) 设为 `true`。 有关详细信息，请参阅[作用域验证](#scope-validation)。
 
 [ConfigureAppConfiguration](/dotnet/api/microsoft.aspnetcore.hosting.webhostbuilderextensions.configureappconfiguration)、[ConfigureLogging](/dotnet/api/microsoft.aspnetcore.hosting.webhostbuilderextensions.configurelogging) 以及 [IWebHostBuilder](/dotnet/api/microsoft.aspnetcore.hosting.iwebhostbuilder) 的其他方法和扩展方法可重写和增强 `CreateDefaultBuilder` 定义的配置。 下面是一些示例：
@@ -134,7 +137,7 @@ public class Program
 
 **密钥**：applicationName  
 **类型**：string  
-**默认**：包含应用入口点的程序集的名称。  
+**默认值**：包含应用入口点的程序集的名称。  
 **设置使用**：`UseSetting`  
 **环境变量**：`ASPNETCORE_APPLICATIONNAME`
 
@@ -236,7 +239,7 @@ WebHost.CreateDefaultBuilder(args)
 
 键：https_port；类型：字符串；
 默认值：未设置默认值。
-使用的设置：`UseSetting`
+设置使用：`UseSetting`
 环境变量：`ASPNETCORE_HTTPS_PORT`
 
 ```csharp

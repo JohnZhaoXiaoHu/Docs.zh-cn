@@ -4,14 +4,14 @@ author: shirhatti
 description: 发现对调试 ASP.NET Core 应用的支持（在 Windows Server 上的 IIS 后方运行时）。
 ms.author: riande
 ms.custom: mvc
-ms.date: 05/14/2018
+ms.date: 12/18/2018
 uid: host-and-deploy/iis/development-time-iis-support
-ms.openlocfilehash: eb8b4369d6d5434adbac187f59b18d7a2b80055c
-ms.sourcegitcommit: a1afd04758e663d7062a5bfa8a0d4dca38f42afc
+ms.openlocfilehash: 44570bb28451ce4c5fde12ec77e3856fb5bd3062
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 06/20/2018
-ms.locfileid: "36277649"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637658"
 ---
 # <a name="development-time-iis-support-in-visual-studio-for-aspnet-core"></a>Visual Studio 中针对 ASP.NET Core 的开发时 IIS 支持
 
@@ -54,9 +54,9 @@ IIS 必须具有具备以下配置的网站：
 ## <a name="enable-development-time-iis-support-in-visual-studio"></a>在 Visual Studio 中启用开发时 IIS 支持
 
 1. 启动 Visual Studio 安装程序。
-1. 选择“开发时 IIS 支持”组件。 该组件在“ASP.NET 和 Web 开发”工作负荷的“摘要”面板中列为可选。 此组件将安装 [ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)，该模块是在反向代理配置中的 IIS 的后方运行 ASP.NET Core 应用所需的本机 IIS 模块。
+1. 选择“开发时 IIS 支持”组件。 该组件在“ASP.NET 和 Web 开发”工作负荷的“摘要”面板中列为可选。 该组件将安装 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)，该模块是运行具有 IIS 的 ASP.NET Core 应用所需的本机 IIS 模块。
 
-![修改 Visual Studio 功能：选择“工作负荷”选项卡。 在“Web 和云”部分，选择“ASP.NET 和 Web 开发”面板。 在“摘要”面板的“可选”区域右侧，有一“开发时 IIS 支持”复选框。](development-time-iis-support/_static/development_time_support.png)
+![修改 Visual Studio 功能：“工作负荷”选项卡处于选中状态。 在“Web 和云”部分，选择“ASP.NET 和 Web 开发”面板。 在“摘要”面板的“可选”区域右侧，有一“开发时 IIS 支持”复选框。](development-time-iis-support/_static/development_time_support.png)
 
 ## <a name="configure-the-project"></a>配置项目
 
@@ -129,17 +129,23 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
 
 ## <a name="run-the-project"></a>运行该项目
 
-在 VS 用户界面中，将“运行”按钮设置为 IIS 配置文件，然后选择此按钮以启动该应用：
+在 Visual Studio 中：
 
-![运行 VS 工具栏中设置为“IIS”配置文件的按钮。](development-time-iis-support/_static/toolbar.png)
+* 确认已将生成配置下拉列表设置为“调试”。
+* 将“运行”按钮设置为 IIS 配置文件，然后选择此按钮以启动该应用。
+
+![将 VS 工具栏中的“运行”按钮设置为 IIS 配置文件，并将生成配置下拉列表设置为“发布”。](development-time-iis-support/_static/toolbar.png)
 
 如果不以管理员身份运行，Visual Studio 可能会提示重启。 如果出现提示，请重启 Visual Studio。
 
 如果使用不受信任的开发证书，则浏览器可能会要求你为不受信任的证书创建异常。
 
+> [!NOTE]
+> 通过[仅我的代码](/visualstudio/debugger/just-my-code)调试“发布”生成配置，从而导致降低编译器优化体验。 例如，不会遇到断点。
+
 ## <a name="additional-resources"></a>其他资源
 
 * [使用 IIS 在 Windows 上托管 ASP.NET Core](xref:host-and-deploy/iis/index)
-* [ASP.NET Core 模块简介](xref:fundamentals/servers/aspnet-core-module)
+* [ASP.NET Core 模块简介](xref:host-and-deploy/aspnet-core-module)
 * [ASP.NET Core 模块配置参考](xref:host-and-deploy/aspnet-core-module)
 * [Enforce HTTPS](xref:security/enforcing-ssl)

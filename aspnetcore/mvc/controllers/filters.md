@@ -6,18 +6,18 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 10/15/2018
 uid: mvc/controllers/filters
-ms.openlocfilehash: e5305852fad058961661373f9310d6dcaf30aa16
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: d4fe49a9225b9980a956ef9c773ad631beb557ae
+ms.sourcegitcommit: cec77d5ad8a0cedb1ecbec32834111492afd0cd2
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50253190"
+ms.lasthandoff: 01/10/2019
+ms.locfileid: "54207455"
 ---
 # <a name="filters-in-aspnet-core"></a>ASP.NET Core 中的筛选器
 
 作者：[Rick Anderson](https://twitter.com/RickAndMSFT)、[Tom Dykstra](https://github.com/tdykstra/) 和 [Steve Smith](https://ardalis.com/)
 
-ASP.NET Core MVC 中的筛选器允许在请求处理管道中的特定阶段之前或之后运行代码。
+通过使用 ASP.NET Core MVC 中的筛选器，可在请求处理管道中的特定阶段之前或之后运行代码。
 
 > [!IMPORTANT]
 > 本主题不适用于 Razor 页面。 ASP.NET Core 2.1 及更高版本支持适用于 Razor 页面的 [IPageFilter](/dotnet/api/microsoft.aspnetcore.mvc.filters.ipagefilter?view=aspnetcore-2.0) 和 [IAsyncPageFilter](/dotnet/api/microsoft.aspnetcore.mvc.filters.iasyncpagefilter?view=aspnetcore-2.0)。 有关详细信息，请参阅 [Razor 页面的筛选方法](xref:razor-pages/filter)。
@@ -28,13 +28,13 @@ ASP.NET Core MVC 中的筛选器允许在请求处理管道中的特定阶段之
  * 确保所有请求都使用 HTTPS。
  * 响应缓存（对请求管道进行短路出路，以便返回缓存的响应）。 
 
-可以创建自定义筛选器来处理横切关注点。 筛选器可以避免跨操作复制代码。 例如，错误处理异常筛选器可以合并错误处理。
+可以创建自定义筛选器，用于处理横切关注点。 筛选器可以避免跨操作复制代码。 例如，错误处理异常筛选器可以合并错误处理。
 
 [查看或下载 GitHub 中的示例](https://github.com/aspnet/Docs/tree/master/aspnetcore/mvc/controllers/filters/sample)。
 
 ## <a name="how-do-filters-work"></a>筛选器的工作原理
 
-筛选器在 *MVC 操作调用管道*（有时称为*筛选器管道*）内运行。  筛选器管道在 MVC 选择要执行的操作之后运行。
+筛选器在 *MVC 操作调用管道*（有时称为*筛选器管道*）内运行。  筛选器管道在 MVC 选择了要执行的操作之后运行。
 
 ![请求通过其他中间件、路由中间件、操作选择和 MVC 操作调用管道进行处理。 请求处理继续往回通过操作选择、路由中间件和各种其他中间件，变成发送到客户端的响应。](filters/_static/filter-pipeline-1.png)
 
@@ -58,7 +58,7 @@ ASP.NET Core MVC 中的筛选器允许在请求处理管道中的特定阶段之
 
 ## <a name="implementation"></a>实现
 
-筛选器通过不同的接口定义支持同步和异步实现。 
+通过不同的接口定义，筛选器同时支持同步和异步实现。 
 
 可在其管道阶段之前和之后运行代码的同步筛选器定义 On*Stage*Executing 方法和 On*Stage*Executed 方法。 例如，在调用操作方法之前调用 `OnActionExecuting`，在操作方法返回之后调用 `OnActionExecuted`。
 
@@ -89,7 +89,7 @@ ASP.NET Core MVC 中的筛选器允许在请求处理管道中的特定阶段之
 
 [!code-csharp[](./filters/sample/src/FiltersSample/Filters/AddHeaderAttribute.cs?highlight=5,16)]
 
-属性允许筛选器采用参数，如上面的示例所示。 可将此属性添加到控制器或操作方法，并指定 HTTP 标头的名称和值：
+通过使用属性，筛选器可接收参数，如上面的示例所示。 可将此属性添加到控制器或操作方法，并指定 HTTP 标头的名称和值：
 
 [!code-csharp[](./filters/sample/src/FiltersSample/Controllers/SampleController.cs?name=snippet_AddHeader&highlight=1)]
 
@@ -236,6 +236,7 @@ System.InvalidOperationException: No service for type
 下面的示例演示如何使用 `TypeFilterAttribute` 将参数传递到类型：
 
 [!code-csharp[](../../mvc/controllers/filters/sample/src/FiltersSample/Controllers/HomeController.cs?name=snippet_TypeFilter&highlight=1,2)]
+[!code-csharp[](../../mvc/controllers/filters/sample/src/FiltersSample/Filters/LogConstantFilter.cs?name=snippet_TypeFilter_Implementation&highlight=6)]
 
 ### <a name="ifilterfactory-implemented-on-your-attribute"></a>在属性上实现 IFilterFactory
 
@@ -252,7 +253,8 @@ System.InvalidOperationException: No service for type
 
 ## <a name="authorization-filters"></a>授权筛选器
 
-*授权筛选器：
+授权筛选器：
+
 * 控制对操作方法的访问。
 * 是筛选器管道中要执行的第一个筛选器。 
 * 具有在它之前的执行的方法，但没有之后执行的方法。 

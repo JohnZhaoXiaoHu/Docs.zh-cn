@@ -3,14 +3,14 @@ title: ASP.NET Core 1.1 的新增功能
 author: rick-anderson
 description: 了解 ASP.NET Core 1.1 的新增功能。
 ms.author: riande
-ms.date: 02/14/2017
+ms.date: 12/18/2018
 uid: aspnetcore-1.1
-ms.openlocfilehash: 1f35874b253ca23743e1b046732723c3a75e855e
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: a21b2b82bfefb5b24898cf58ef97284a143e2e4a
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207818"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637594"
 ---
 # <a name="whats-new-in-aspnet-core-11"></a>ASP.NET Core 1.1 的新增功能
 
@@ -24,7 +24,7 @@ ASP.NET Core 1.1 新增了以下功能：
 - [Azure App Service 日志记录提供程序](xref:fundamentals/logging/index#azure-app-service-provider)
 - [Azure Key Vault 配置提供程序](xref:security/key-vault-configuration)
 - [Azure 和 Redis 存储数据保护密钥存储库](xref:security/data-protection/implementation/key-storage-providers#azure-and-redis)
-- [适用于 Windows 的 WebListener 服务器](xref:fundamentals/servers/weblistener)
+- 适用于 Windows 的 WebListener 服务器
 - [WebSockets 支持](xref:fundamentals/websockets)
 
 ## <a name="choosing-between-versions-10-and-11-of-aspnet-core"></a>在 ASP.NET Core 的 1.0 和 1.1 版本之间进行选择

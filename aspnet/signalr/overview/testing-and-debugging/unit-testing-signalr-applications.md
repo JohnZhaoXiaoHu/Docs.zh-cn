@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: d1983524-e0d5-4ee6-9d87-1f552f7cb964
 msc.legacyurl: /signalr/overview/testing-and-debugging/unit-testing-signalr-applications
 msc.type: authoredcontent
-ms.openlocfilehash: ba8f5d4577403fe9765641d7ee5d88bde045680a
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: d8f3afdc2749173d1e260096ee6bd4bf1ae4c7cb
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48910819"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287503"
 ---
 <a name="unit-testing-signalr-applications"></a>单元测试 SignalR 应用程序
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文介绍如何使用 SignalR 2 的单元测试功能。
 >
@@ -42,7 +44,7 @@ ms.locfileid: "48910819"
 
 在本部分中，你将添加的应用程序中创建单元测试[入门教程](../getting-started/tutorial-getting-started-with-signalr.md)使用[XUnit.net](https://github.com/xunit/xunit)并[Moq](https://github.com/Moq/moq4)。
 
-XUnit.net 将用于控制测试;Moq 将用于创建[模拟](http://en.wikipedia.org/wiki/Mock_object)用于测试的对象。 如果所需的; 可以使用其他模拟框架[Nsubstitute 这样](http://nsubstitute.github.io/)也是一个不错的选择。 本教程演示如何设置的两种方式是模拟对象： 首先，使用`dynamic`对象 （在.NET Framework 4 中引入） 与第二，使用的接口。
+XUnit.net 将用于控制测试;Moq 将用于创建[模拟](http://en.wikipedia.org/wiki/Mock_object)用于测试的对象。 如果所需的; 可以使用其他模拟框架[Nsubstitute 这样](http://nsubstitute.github.io/)也是一个不错的选择。 本教程演示如何设置的两种方式是模拟对象：首先，使用`dynamic`对象 （在.NET Framework 4 中引入） 与第二，使用的接口。
 
 ### <a name="contents"></a>内容
 

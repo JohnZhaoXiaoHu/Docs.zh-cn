@@ -1,6 +1,6 @@
 ---
 uid: signalr/overview/deployment/tutorial-signalr-self-host
-title: 教程： SignalR 自托管 |Microsoft Docs
+title: 教程：自承载 SignalR |Microsoft Docs
 author: pfletcher
 description: 本教程演示如何创建自承载的 SignalR 2 服务器，以及如何使用 JavaScript 客户端连接到它。 在本教程 V 中使用的软件版本...
 ms.author: riande
@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: 400db427-27af-4f2f-abf0-5486d5e024b5
 msc.legacyurl: /signalr/overview/deployment/tutorial-signalr-self-host
 msc.type: authoredcontent
-ms.openlocfilehash: a08ce2e89ae13125cbc3915b44bcd1120fc22150
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 48cb3d4d71c33ac3382b2b35b5a19fa1c4958874
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911518"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287398"
 ---
-<a name="tutorial-signalr-self-host"></a>教程： SignalR 自托管
+<a name="tutorial-signalr-self-host"></a>教程：自承载 SignalR
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 [下载已完成的项目](http://code.msdn.microsoft.com/SignalR-Self-Host-Sample-6da0f383)
 
@@ -91,7 +93,7 @@ SignalR 服务器通常托管在 ASP.NET 应用程序在 IIS 中，但它也可�
 
     上面的代码包括三个类：
 
-    - **程序**，其中包括**Main**定义执行主路径的方法。 在此方法中，类型的 web 应用程序**启动**开始时间为指定的 URL (`http://localhost:8080`)。 如果安全需要的终结点上，可以实现 SSL。 请参阅[如何： 使用 SSL 证书配置端口](https://msdn.microsoft.com/library/ms733791.aspx)有关详细信息。
+    - **程序**，其中包括**Main**定义执行主路径的方法。 在此方法中，类型的 web 应用程序**启动**开始时间为指定的 URL (`http://localhost:8080`)。 如果安全需要的终结点上，可以实现 SSL。 请参阅[如何：使用 SSL 证书配置端口](https://msdn.microsoft.com/library/ms733791.aspx)有关详细信息。
     - **启动**、 包含 SignalR 服务器的配置的类 (本教程使用的唯一配置是在调用`UseCors`)，以及对调用`MapSignalR`，用于在项目中创建路由的中心的任何对象。
     - **MyHub**，应用程序将向客户端提供的 SignalR Hub 类。 此类有一个单一的方法，**发送**，客户端将调用以将一条消息广播到所有其他连接的客户端。
 6. 编译并运行该应用程序。 服务器正在运行的地址应显示在控制台窗口中。

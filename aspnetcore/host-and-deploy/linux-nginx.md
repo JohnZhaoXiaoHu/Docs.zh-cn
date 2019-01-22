@@ -4,14 +4,14 @@ author: rick-anderson
 description: 了解如何在 Ubuntu 16.04 上将 Nginx 设置为反向代理，从而将 HTTP 流量转发到在 Kestrel 上运行的 ASP.NET Core Web 应用。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/23/2018
+ms.date: 12/20/2018
 uid: host-and-deploy/linux-nginx
-ms.openlocfilehash: d29a9287cbce27a54e779fadfa05e57febec0413
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: 24973e7bedcb219ac411948db8aa27d7219eac31
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50253112"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099281"
 ---
 # <a name="host-aspnet-core-on-linux-with-nginx"></a>使用 Nginx 在 Linux 上托管 ASP.NET Core
 
@@ -68,7 +68,7 @@ dotnet publish --configuration Release
 
 ### <a name="use-a-reverse-proxy-server"></a>使用反向代理服务器
 
-Kestrel 非常适合从 ASP.NET Core 提供动态内容。 但是，Web 服务功能不像服务器（如 IIS、Apache 或 Nginx）那样功能丰富。 反向代理服务器可以从 HTTP 服务器卸载服务静态内容、缓存请求、压缩请求和 SSL 终端等工作。 反向代理服务器可能驻留在专用计算机上，也可能与 HTTP 服务器一起部署。
+Kestrel 非常适合从 ASP.NET Core 提供动态内容。 但是，Web 服务功能不像服务器（如 IIS、Apache 或 Nginx）那样功能丰富。 反向代理服务器可以卸载 HTTP 服务器的工作负载，如提供静态内容、缓存请求、压缩请求和 HTTPS 终端。 反向代理服务器可能驻留在专用计算机上，也可能与 HTTP 服务器一起部署。
 
 鉴于此指南的目的，使用 Nginx 的单个实例。 它与 HTTP 服务器一起运行在同一服务器上。 根据要求，可以选择不同的设置。
 
@@ -126,7 +126,7 @@ services.Configure<ForwardedHeadersOptions>(options =>
 
 ### <a name="install-nginx"></a>安装 Nginx
 
-使用 `apt-get` 安装 Nginx。 安装程序将创建一个 systemd init 脚本，该脚本运行 Nginx，作为系统启动时的守护程序。 按照 [Nginx：官方 Debian/Ubuntu 包](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)中的 Ubuntu 安装说明操作。
+使用 `apt-get` 安装 Nginx。 安装程序将创建一个 systemd init 脚本，该脚本运行 Nginx，作为系统启动时的守护程序。 按照以下网站上的 Ubuntu 安装说明操作：[Nginx：官方 Debian/Ubuntu 包](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)。
 
 > [!NOTE]
 > 如果需要可选 Nginx 模块，则可能需要从源代码生成 Nginx。
@@ -170,7 +170,7 @@ server {
 }
 ```
 
-使用上述配置文件和默认服务器，Nginx 接受主机标头 `example.com` 或 `*.example.com` 端口 80 上的公共流量。 与这些主机不匹配的请求不会转接到 Kestrel。 Nginx 将匹配的请求转接到 `http://localhost:5000` 中的 Kestrel。 有关详细信息，请参阅 [nginx 如何处理请求](https://nginx.org/docs/http/request_processing.html)。 要更改 Kestrel 的 IP/端口，请参阅 [Kestrel：终结点配置](xref:fundamentals/servers/kestrel#endpoint-configuration)。
+使用上述配置文件和默认服务器，Nginx 接受主机标头 `example.com` 或 `*.example.com` 端口 80 上的公共流量。 与这些主机不匹配的请求不会转接到 Kestrel。 Nginx 将匹配的请求转接到 `http://localhost:5000` 中的 Kestrel。 有关详细信息，请参阅 [nginx 如何处理请求](https://nginx.org/docs/http/request_processing.html)。 若要更改 Kestrel 的 IP/端口，请参阅 [Kestrel：终结点配置](xref:fundamentals/servers/kestrel#endpoint-configuration)。
 
 > [!WARNING]
 > 未能指定正确的 [server_name 指令](https://nginx.org/docs/http/server_names.html)会公开应用的安全漏洞。 如果可控制整个父域（区别于易受攻击的 `*.com`），则子域通配符绑定（例如，`*.example.com`）不具有此安全风险。 有关详细信息，请参阅 [rfc7230 第 5.4 条](https://tools.ietf.org/html/rfc7230#section-5.4)。
@@ -186,7 +186,7 @@ server {
 
 测试应用完成后，请在命令提示符处按 `Ctrl+C` 关闭应用。
 
-## <a name="monitoring-the-app"></a>监视应用
+## <a name="monitor-the-app"></a>监视应用
 
 服务器设置为将对 `http://<serveraddress>:80` 发起的请求转接到在 `http://127.0.0.1:5000` 中的 Kestrel 上运行的 ASP.NET Core 应用。 但是，未将 Nginx 设置为管理 Kestrel 进程。 systemd 可用于创建服务文件以启动和监视基础 Web 应用。 systemd 是一个 init 系统，可以提供用于启动、停止和管理进程的许多强大的功能。 
 
@@ -268,7 +268,7 @@ Connection: Keep-Alive
 Transfer-Encoding: chunked
 ```
 
-### <a name="viewing-logs"></a>查看日志
+### <a name="view-logs"></a>查看日志
 
 使用 Kestrel 的 Web 应用是通过 `systemd` 进行管理的，因此所有事件和进程都被记录到集中日志。 但是，此日志包含由 `systemd` 管理的所有服务和进程的全部条目。 若要查看特定于 `kestrel-helloapp.service` 的项，请使用以下命令：
 
@@ -297,13 +297,25 @@ sudo journalctl -fu kestrel-helloapp.service --since "2016-10-18" --until "2016-
 * <xref:security/data-protection/implementation/key-storage-providers>
 * <xref:security/data-protection/implementation/key-encryption-at-rest>
 
-## <a name="securing-the-app"></a>保护应用
+## <a name="long-request-header-fields"></a>较长的请求标头字段
+
+如果应用需要的请求标头字段超过代理服务器的默认设置允许的长度（具体取决于平台，通常为 4K 或 8K），则需调整以下指令。 要应用的值依赖应用场景。 有关详细信息，请参见服务器文档。
+
+* [proxy_buffer_size](https://nginx.org/docs/http/ngx_http_proxy_module.html#proxy_buffer_size)
+* [proxy_buffers](https://nginx.org/docs/http/ngx_http_proxy_module.html#proxy_buffers)
+* [proxy_busy_buffers_size](https://nginx.org/docs/http/ngx_http_proxy_module.html#proxy_busy_buffers_size)
+* [large_client_header_buffers](https://nginx.org/docs/http/ngx_http_core_module.html#large_client_header_buffers)
+
+> [!WARNING]
+> 除非必要，否则不要提高代理缓冲区的默认值。 提高这些值将增加缓冲区溢出的风险和恶意用户的拒绝服务 (DoS) 攻击风险。
+
+## <a name="secure-the-app"></a>保护应用
 
 ### <a name="enable-apparmor"></a>启用 AppArmor
 
 Linux 安全模块 (LSM) 是一个框架，它是自 Linux 2.6 后的 Linux kernel 的一部分。 LSM 支持安全模块的不同实现。 [AppArmor](https://wiki.ubuntu.com/AppArmor) 是实现强制访问控制系统的 LSM，它允许将程序限制在一组有限的资源内。 确保已启用并成功配置 AppArmor。
 
-### <a name="configuring-the-firewall"></a>配置防火墙
+### <a name="configure-the-firewall"></a>配置防火墙
 
 关闭所有未使用的外部端口。 通过为配置防火墙提供命令行接口，不复杂的防火墙 (ufw) 为 `iptables` 提供了前端。
 
@@ -322,7 +334,7 @@ sudo ufw allow 443/tcp
 sudo ufw enable
 ```
 
-### <a name="securing-nginx"></a>保护 Nginx
+### <a name="secure-nginx"></a>保护 Nginx
 
 #### <a name="change-the-nginx-response-name"></a>更改 Nginx 响应名称
 
@@ -337,7 +349,7 @@ static char ngx_http_server_full_string[] = "Server: Web Server" CRLF;
 
 用其他必需模块配置服务器。 请考虑使用 [ModSecurity](https://www.modsecurity.org/) 等 Web 应用防火墙来加强对应用的保护。
 
-#### <a name="configure-ssl"></a>配置 SSL
+#### <a name="https-configuration"></a>HTTPS 配置
 
 * 通过指定由受信任的证书颁发机构 (CA) 颁发的有效证书来配置服务器，以侦听端口 `443` 上的 HTTPS 流量。
 
@@ -345,7 +357,7 @@ static char ngx_http_server_full_string[] = "Server: Web Server" CRLF;
 
 * 添加 `HTTP Strict-Transport-Security` (HSTS) 标头可确保由客户端发起的所有后续请求都通过 HTTPS。
 
-* 如果以后会禁用 SSL，则不要添加 HSTS 标头或选择相应的 `max-age`。
+* 如果以后会禁用 HTTPS，请勿添加 HSTS 头或选择相应的 `max-age`。
 
 添加 /etc/nginx/proxy.conf 配置文件：
 
@@ -387,5 +399,6 @@ sudo nano /etc/nginx/nginx.conf
 
 * [Linux 上 .NET Core 的先决条件](/dotnet/core/linux-prerequisites)
 * [Nginx：二进制版本：官方 Debian/Ubuntu 包](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/#official-debian-ubuntu-packages)
-* [配置 ASP.NET Core 以使用代理服务器和负载均衡器](xref:host-and-deploy/proxy-load-balancer)
+* <xref:test/troubleshoot>
+* <xref:host-and-deploy/proxy-load-balancer>
 * [NGINX：使用转接头](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/)

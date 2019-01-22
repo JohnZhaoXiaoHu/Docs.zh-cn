@@ -5,12 +5,12 @@ description: 将视图添加到 MVC 应用
 ms.author: riande
 ms.date: 09/1721/2017
 uid: mvc/overview/getting-started/introduction/adding-a-view
-ms.openlocfilehash: 56c00d5992a95971f48bb6e1ec30d63706948997
-ms.sourcegitcommit: 7b4e3936feacb1a8fcea7802aab3e2ea9c8af5b4
+ms.openlocfilehash: 47447c82506cc0eb4dafabe272b3204f76a2edd7
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/04/2018
-ms.locfileid: "48578225"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098657"
 ---
 <a name="adding-a-view"></a>添加视图
 ====================
@@ -22,7 +22,7 @@ ms.locfileid: "48578225"
 
 使用视图模板文件，您将创建[Razor 视图引擎](../../../../web-pages/overview/getting-started/introducing-razor-syntax-c.md)。 基于 razor 的视图模板具有 *.cshtml*文件扩展名，并提供创建 HTML 输出使用 C# 的简洁方法。 Razor 字符和击键时编写视图模板，所需的数量降至最低，并启用编码工作流即快速、 流畅。
 
-当前，`Index` 方法返回带有在控制器类中硬编码的消息的字符串。 更改`Index`方法以返回`View`对象，如下面的代码中所示：
+当前，`Index` 方法返回带有在控制器类中硬编码的消息的字符串。 更改`Index`方法来调用控制器[视图](/dotnet/api/microsoft.aspnetcore.mvc.controller.view#Microsoft_AspNetCore_Mvc_Controller_View)方法，如以下代码所示：
 
 [!code-csharp[Main](adding-a-view/samples/sample1.cs?highlight=1,3)]
 
@@ -112,7 +112,7 @@ ms.locfileid: "48578225"
 
 我们转到数据库，并讨论模型之前，不过，我们首先讨论一下将信息从控制器传递给视图。 控制器类调用以响应传入的 URL 请求。 控制器类是响应的编写处理传入浏览器的代码的请求、 从数据库检索数据，并最终决定将哪些类型发送回浏览器的位置。 查看模板然后可从控制器来生成并格式化对浏览器的 HTML 响应。
 
-控制器负责提供使视图模板能够呈现到浏览器的响应所需的任何数据或对象。 最佳做法是：**视图模板应永远不会执行业务逻辑或直接与数据库交互**。 相反，视图模板应使用仅由控制器提供给它的数据。 维护这&quot;关注点分离&quot;有助于保持代码干净、 可测试且更易于维护。
+控制器负责提供使视图模板能够呈现到浏览器的响应所需的任何数据或对象。 一种最佳做法：**视图模板应永远不会执行业务逻辑或直接与数据库交互**。 相反，视图模板应使用仅由控制器提供给它的数据。 维护这&quot;关注点分离&quot;有助于保持代码干净、 可测试且更易于维护。
 
 目前，`Welcome`操作方法中的`HelloWorldController`类采用`name`和一个`numTimes`参数，然后输出直接向浏览器的值。 而不是使控制器将作为一个字符串，此响应呈现，让我们更改控制器以改为使用视图模板。 视图模板将生成动态响应，这意味着你需要将适当的数据位从控制器传递给视图以生成响应。 可以为此，需要查看模板的动态数据 （参数） 放置在控制器`ViewBag`视图模板稍后可以访问的对象。
 

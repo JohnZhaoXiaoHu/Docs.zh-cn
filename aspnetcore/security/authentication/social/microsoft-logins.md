@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 11/11/2018
 uid: security/authentication/microsoft-logins
-ms.openlocfilehash: 89969370cea66b7b6632f1b0be59e135767c831e
-ms.sourcegitcommit: 09bcda59a58019fdf47b2db5259fe87acf19dd38
+ms.openlocfilehash: 4909a0084994654777ad7a6ebda866ac727f0528
+ms.sourcegitcommit: 3e94d192b2ed9409fe72e3735e158b333354964c
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/15/2018
-ms.locfileid: "51708395"
+ms.lasthandoff: 12/21/2018
+ms.locfileid: "53735747"
 ---
 # <a name="microsoft-account-external-login-setup-with-aspnet-core"></a>使用 ASP.NET Core 的 Microsoft 帐户外部登录设置
 
@@ -25,7 +25,7 @@ ms.locfileid: "51708395"
 
 ![登录对话框](index/_static/MicrosoftDevLogin.png)
 
-如果还没有 Microsoft 帐户，请点击**[创建一个 ！](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=13&ct=1478151035&rver=6.7.6643.0&wp=SAPI_LONG&wreply=https%3a%2f%2fapps.dev.microsoft.com%2fLoginPostBack&id=293053&aadredir=1&contextid=D70D4F21246BAB50&bk=1478151036&uiflavor=web&uaid=f0c3de863a914c358b8dc01b1ff49e85&mkt=EN-US&lc=1033&lic=1)** 在登录后你将重定向到**我的应用程序**页：
+如果还没有 Microsoft 帐户，请点击 **[创建一个 ！](https://signup.live.com/signup?wa=wsignin1.0&rpsnv=13&ct=1478151035&rver=6.7.6643.0&wp=SAPI_LONG&wreply=https%3a%2f%2fapps.dev.microsoft.com%2fLoginPostBack&id=293053&aadredir=1&contextid=D70D4F21246BAB50&bk=1478151036&uiflavor=web&uaid=f0c3de863a914c358b8dc01b1ff49e85&mkt=EN-US&lc=1033&lic=1)** 在登录后你将重定向到 **我的应用程序** 页：
 
 ![Microsoft 开发人员门户中，打开 Microsoft Edge 中](index/_static/MicrosoftDev.png)
 
@@ -80,9 +80,9 @@ ms.locfileid: "51708395"
 添加 Microsoft 帐户服务中的`ConfigureServices`中的方法*Startup.cs*文件：
 
 ```csharp
-services.AddIdentity<ApplicationUser, IdentityRole>()
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+services.AddDefaultIdentity<IdentityUser>()
+        .AddDefaultUI(UIFramework.Bootstrap4)
+        .AddEntityFrameworkStores<ApplicationDbContext>();
 
 services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
 {
@@ -119,7 +119,7 @@ app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
 
 运行你的应用程序，然后单击**登录**。 若要使用 Microsoft 登录的选项将显示：
 
-![Web 应用程序日志页中： 用户未经过身份验证](index/_static/DoneMicrosoft.png)
+![Web 应用程序日志页中：用户未经过身份验证](index/_static/DoneMicrosoft.png)
 
 当单击 Microsoft 时，将重定向的身份验证到 Microsoft。 （如果尚未登录），使用你的 Microsoft 帐户登录后您将会提示您允许应用访问你的信息：
 
@@ -129,7 +129,7 @@ app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
 
 现在已登录中使用 Microsoft 凭据：
 
-![Web 应用程序： 用户通过身份验证](index/_static/Done.png)
+![Web 应用程序：用户通过身份验证](index/_static/Done.png)
 
 [!INCLUDE[Forward request information when behind a proxy or load balancer section](includes/forwarded-headers-middleware.md)]
 
@@ -138,7 +138,7 @@ app.UseMicrosoftAccountAuthentication(new MicrosoftAccountOptions()
 * 如果 Microsoft 帐户提供程序将你重定向到登录错误页，请记下错误标题和说明查询字符串后面的参数直接`#`（井号标签） 的 Uri 中。
 
   错误消息似乎指出了使用 Microsoft 身份验证问题，尽管最常见的原因是你的应用程序 Uri 不匹配的任何**重定向 Uri**指定为**Web**平台.
-* **ASP.NET Core 2.x 仅：** 如果标识未通过调用配置`services.AddIdentity`中`ConfigureServices`，尝试进行身份验证将导致*ArgumentException： 必须提供 SignInScheme 选项*。 在本教程中使用的项目模板可确保，此操作。
+* **ASP.NET Core 仅限 2.x:** 如果不通过调用配置标识`services.AddIdentity`中`ConfigureServices`，尝试进行身份验证将导致*ArgumentException:必须提供 SignInScheme 选项*。 在本教程中使用的项目模板可确保，此操作。
 * 如果尚未通过应用初始迁移创建站点数据库，则会收到*处理请求时，数据库操作失败*错误。 点击**应用迁移**创建数据库，并刷新以忽略错误继续。
 
 ## <a name="next-steps"></a>后续步骤

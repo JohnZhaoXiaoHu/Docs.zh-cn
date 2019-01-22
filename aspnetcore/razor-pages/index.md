@@ -6,12 +6,12 @@ monikerRange: '>= aspnetcore-2.0'
 ms.author: riande
 ms.date: 05/12/2018
 uid: razor-pages/index
-ms.openlocfilehash: 7fc048e427fd49e2142160615a12989fd4f40303
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: cc881ff42d57ab1654f492a70006a995939e4844
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207610"
+ms.lasthandoff: 12/20/2018
+ms.locfileid: "53709543"
 ---
 # <a name="introduction-to-razor-pages-in-aspnet-core"></a>ASP.NET Core 中的 Razor 页面介绍
 
@@ -25,15 +25,15 @@ Razor 页面是 ASP.NET Core MVC 的一个新特性，它可以使基于页面�
 
 ## <a name="prerequisites"></a>系统必备
 
-[!INCLUDE [](~/includes/net-core-prereqs.md)]
+[!INCLUDE[](~/includes/net-core-prereqs-all-2.2.md)]
 
 <a name="rpvs17"></a>
 
-## <a name="creating-a-razor-pages-project"></a>创建 Razor 页面项目
+## <a name="create-a-razor-pages-project"></a>创建 Razor Pages 项目
 
 # <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-请参阅 [Razor 页面入门](xref:tutorials/razor-pages/razor-pages-start)，获取关于如何使用 Visual Studio 创建 Razor 页面项目的详细说明。
+请参阅 [Razor Pages 入门](xref:tutorials/razor-pages/razor-pages-start)，获取关于如何创建 Razor Pages 项目的详细说明。
 
 # <a name="visual-studio-for-mactabvisual-studio-mac"></a>[Visual Studio for Mac](#tab/visual-studio-mac)
 
@@ -52,20 +52,6 @@ Razor 页面是 ASP.NET Core MVC 的一个新特性，它可以使基于页面�
 在 Visual Studio for Mac 中打开生成的 .csproj 文件。
 
 # <a name="visual-studio-codetabvisual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
-
-::: moniker range=">= aspnetcore-2.1"
-
-在命令行中运行 `dotnet new webapp`。
-
-::: moniker-end
-
-::: moniker range="= aspnetcore-2.0"
-
-在命令行中运行 `dotnet new razor`。
-
-::: moniker-end
-
-# <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)
 
 ::: moniker range=">= aspnetcore-2.1"
 
@@ -117,7 +103,7 @@ Pages/Index2.cshtml.cs 页面模型：
 * 默认情况下，运行时在“Pages”文件夹中查找 Razor 页面文件。
 * URL 未包含页面时，`Index` 为默认页面。
 
-## <a name="writing-a-basic-form"></a>编写基本窗体
+## <a name="write-a-basic-form"></a>编写基本窗体
 
 由于 Razor 页面的设计，在构建应用时可轻松实施用于 Web 浏览器的常用模式。 [模型绑定](xref:mvc/models/model-binding)、[标记帮助程序](xref:mvc/views/tag-helpers/intro)和 HTML 帮助程序均只可用于 Razor 页面类中定义的属性。 请参考为 `Contact` 模型实现基本的“联系我们”窗体的页面：
 
@@ -173,10 +159,7 @@ Pages/Create.cshtml.cs 页面模型：
 
 默认情况下，Razor 页面只绑定带有非 GET 谓词的属性。 绑定属性可以减少需要编写的代码量。 绑定通过使用相同的属性显示窗体字段 (`<input asp-for="Customer.Name" />`) 来减少代码，并接受输入。
 
-> [!NOTE]
-> 出于安全原因，必须选择绑定 GET 请求数据以对模型属性进行分页。 请在将用户输入映射到属性前对其进行验证。 当处理依赖查询字符串或路由值的方案时，选择加入此行为非常有用。
->
-> 若要将属性绑定在 GET 请求上，请将 `[BindProperty]` 特性的 `SupportsGet` 属性设置为 `true`：`[BindProperty(SupportsGet = true)]`
+[!INCLUDE[](~/includes/bind-get.md)]
 
 主页 (Index.cshtml)：
 
@@ -246,7 +229,7 @@ Index.cshtml 文件还包含用于为每个客户联系人创建删除按钮的�
 
 ## <a name="manage-head-requests-with-the-onget-handler"></a>使用 OnGet 处理程序管理 HEAD 请求
 
-HEAD 请求可以检索特定资源的标头。 与 GET 请求不同，HEAD 请求不返回响应正文。 
+HEAD 请求可以检索特定资源的标头。 与 GET 请求不同，HEAD 请求不返回响应正文。
 
 通常，针对 HEAD 请求创建和调用 HEAD 处理程序： 
 
@@ -477,7 +460,7 @@ Pages/Customers/Index.cshtml.cs 页面模型将 `[TempData]` 属性应用到 `Me
 public string Message { get; set; }
 ```
 
-请参阅 [TempData](xref:fundamentals/app-state#tempdata) 了解详细信息。
+有关详细信息，请参阅 [TempData](xref:fundamentals/app-state#tempdata)。
 
 <a name="mhpp"></a>
 ## <a name="multiple-handlers-per-page"></a>针对一个页面的多个处理程序

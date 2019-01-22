@@ -4,15 +4,15 @@ author: Rick-Anderson
 description: 了解 ASP.NET Core 中的 Razor 页面如何使基于页面的编码方式比使用 MVC 更简单高效。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
-ms.custom: mvc
+ms.custom: mvc, seodec18
 ms.date: 10/25/2018
 uid: razor-pages/sdk
-ms.openlocfilehash: 1f38d768d872175e20f5cb0cb679bc3d52696eb9
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: 2df7dc4234207d3dbac8a4ff47751adc8fc6a192
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090175"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284425"
 ---
 # <a name="aspnet-core-razor-sdk"></a>ASP.NET Core Razor SDK
 
@@ -59,7 +59,7 @@ ms.locfileid: "50090175"
 
 ::: moniker-end
 
-### <a name="properties"></a>属性
+### <a name="properties"></a>Properties
 
 以下属性控制项目生成过程中 Razor 的 SDK 行为：
 

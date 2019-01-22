@@ -8,16 +8,18 @@ ms.date: 10/21/2013
 ms.assetid: 22929efd-68c9-4609-b76d-f8ba42fda01e
 msc.legacyurl: /signalr/overview/older-versions/working-with-groups
 msc.type: authoredcontent
-ms.openlocfilehash: 0e24dced2fe16a14430f1d3948c79bb7f7d73065
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: 5096e7a5eb8704762a21eeb88a128d92e75ede60
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41833263"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287483"
 ---
 <a name="working-with-groups-in-signalr-1x"></a>使用 SignalR 中的组 1.x
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom FitzMacken](https://github.com/tfitzmac)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本主题介绍如何将用户添加到组并将保留组成员身份信息。
 

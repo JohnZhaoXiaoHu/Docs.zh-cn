@@ -4,14 +4,14 @@ author: tdykstra
 description: 了解如何处理 ASP.NET Core 应用中的错误。
 ms.author: tdykstra
 ms.custom: mvc
-ms.date: 11/01/2018
+ms.date: 12/18/2018
 uid: fundamentals/error-handling
-ms.openlocfilehash: 89117d78486493747d649c3bb0d9cce9f97ef419
-ms.sourcegitcommit: 85f2939af7a167b9694e1d2093277ffc9a741b23
+ms.openlocfilehash: f4358cba81d2aa47a26f90a8d5f4e77310bcad00
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50968314"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637633"
 ---
 # <a name="handle-errors-in-aspnet-core"></a>处理 ASP.NET Core 中的错误
 
@@ -226,7 +226,7 @@ public class ErrorModel : PageModel
 
 仅当捕获的启动错误发生在主机地址/端口绑定之后，承载层才会为该错误显示错误页。 如果绑定因任何原因而失败，则承载层会记录关键异常，dotnet 进程崩溃，且在 [Kestrel](xref:fundamentals/servers/kestrel) 服务器上运行应用时，不会显示任何错误页。
 
-在 [IIS](/iis) 或 [IIS Express](/iis/extensions/introduction-to-iis-express/iis-express-overview) 上运行应用时，如果无法启动进程，[ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)将返回 502.5 进程失败。 要了解在通过 IIS 托管时如何排查启动问题，请参阅 <xref:host-and-deploy/iis/troubleshoot>。 要了解如何排查 Azure 应用服务的启动问题，请参阅 <xref:host-and-deploy/azure-apps/troubleshoot>。
+在 [IIS](/iis) 或 [IIS Express](/iis/extensions/introduction-to-iis-express/iis-express-overview) 上运行应用时，如果无法启动进程，[ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)将返回 502.5 进程失败。 要了解在通过 IIS 托管时如何排查启动问题，请参阅 <xref:host-and-deploy/iis/troubleshoot>。 要了解如何排查 Azure 应用服务的启动问题，请参阅 <xref:host-and-deploy/azure-apps/troubleshoot>。
 
 ## <a name="aspnet-core-mvc-error-handling"></a>ASP.NET Core MVC 错误处理
 

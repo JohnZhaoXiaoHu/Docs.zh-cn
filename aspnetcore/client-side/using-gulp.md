@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: H1Hack27Feb2017
 ms.date: 10/04/2018
 uid: client-side/using-gulp
-ms.openlocfilehash: 4f383be0498b5b861bd43cc0f0685b1e62c7571b
-ms.sourcegitcommit: 7890dfb5a8f8c07d813f166d3ab0c263f893d0c6
+ms.openlocfilehash: e280eabecbd427f3e1418b3d7a60e0ea3df46a5a
+ms.sourcegitcommit: e9b99854b0a8021dafabee0db5e1338067f250a9
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/04/2018
-ms.locfileid: "48795509"
+ms.lasthandoff: 11/28/2018
+ms.locfileid: "52450601"
 ---
 # <a name="use-gulp-in-aspnet-core"></a>在 ASP.NET Core 中使用 Gulp
 
@@ -59,7 +59,7 @@ paths.concatCssDest = paths.webroot + "css/site.min.css";
 
 | 模块名 | 描述 |
 | ----------- | ----------- |
-| gulp        | Gulp 流式处理生成系统。 有关详细信息，请参阅[gulp](https://www.npmjs.com/package/gulp)。 |
+| Gulp        | Gulp 流式处理生成系统。 有关详细信息，请参阅[gulp](https://www.npmjs.com/package/gulp)。 |
 | rimraf      | 节点删除模块。 有关详细信息，请参阅[rimraf](https://www.npmjs.com/package/rimraf)。 |
 | gulp concat | 连接基于操作系统的换行字符的文件的模块。 有关详细信息，请参阅[gulp concat](https://www.npmjs.com/package/gulp-concat)。 |
 | gulp-cssmin | 缩减 CSS 文件的模块。 有关详细信息，请参阅[gulp cssmin](https://www.npmjs.com/package/gulp-cssmin)。 |
@@ -187,7 +187,7 @@ gulp.task("default", gulp.series(["min"]));
 
     **任务运行程序资源管理器**将创建名为“clean”的新选项卡，并根据 *gulpfile.js* 中的定义执行 clean 任务。
 
-5.  右键单击“clean”任务，然后选择“绑定”>“生成之前” > **。
+5.  右键单击“clean”任务，然后选择“绑定”>“生成之前” > 。
 
     ![绑定 BeforeBuild 任务运行程序资源管理器](using-gulp/_static/05-TaskRunner-BeforeBuild.png)
 

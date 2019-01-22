@@ -5,14 +5,14 @@ description: 了解 ASP.NET Core 中的 Startup 类如何配置服务和应用�
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 04/20/2018
+ms.date: 12/10/2018
 uid: mvc/compatibility-version
-ms.openlocfilehash: bedeeba07dcca19176e779f3541c445e94efcd07
-ms.sourcegitcommit: 5a2456cbf429069dc48aaa2823cde14100e4c438
+ms.openlocfilehash: 63243d99c7cb74a7e594cd309a808455c6611fc0
+ms.sourcegitcommit: 68a3081dd175d6518d1bfa31b4712bd8a2dd3864
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/22/2018
-ms.locfileid: "41910072"
+ms.lasthandoff: 12/18/2018
+ms.locfileid: "53577846"
 ---
 # <a name="compatibility-version-for-aspnet-core-mvc"></a>ASP.NET Core MVC 的兼容性版本
 
@@ -20,11 +20,11 @@ ms.locfileid: "41910072"
 
 <xref:Microsoft.Extensions.DependencyInjection.MvcCoreMvcBuilderExtensions.SetCompatibilityVersion*> 方法允许应用选择加入或退出 ASP.NET Core MVC 2.1 或更高版本中引入的潜在中断行为变更。 这些潜在的中断行为变更通常取决于 MVC 子系统的行为方式以及运行时调用“代码”的方式。 通过选择加入，你将获取最新的行为以及 ASP.NET Core 的长期行为。
 
-以下代码将兼容模式设置为 ASP.NET Core 2.1：
+以下代码将兼容模式设置为 ASP.NET Core 2.2：
 
 [!code-csharp[Main](compatibility-version/samples/2.x/CompatibilityVersionSample/Startup.cs?name=snippet1)]
 
-建议使用最新版本 (`CompatibilityVersion.Version_2_1`) 来测试应用。 我们预计大多数应用不会使用最新版本进行中断行为变更。
+建议使用最新版本 (`CompatibilityVersion.Version_2_2`) 来测试应用。 我们预计大多数应用不会使用最新版本进行中断行为变更。
 
 调用 `SetCompatibilityVersion(CompatibilityVersion.Version_2_0)` 的应用会被阻止进行 ASP.NET Core 2.1 MVC 和更高的 2.x 版本中引入的潜在中断行为变更。 该阻止操作：
 
@@ -33,10 +33,10 @@ ms.locfileid: "41910072"
 
 未调用 `SetCompatibilityVersion` 的 ASP.NET Core 2.1 和更高 2.x 版本的应用的默认兼容性是 2.0 兼容性。 即，未调用 `SetCompatibilityVersion` 与调用 `SetCompatibilityVersion(CompatibilityVersion.Version_2_0)` 相同。
 
-以下代码将兼容模式设置为 ASP.NET Core 2.1（以下行为除外）：
+以下代码将兼容模式设置为 ASP.NET Core 2.2（以下行为除外）：
 
-* [AllowCombiningAuthorizeFilters](https://github.com/aspnet/Mvc/blob/master/src/Microsoft.AspNetCore.Mvc.Core/MvcOptions.cs)
-* [InputFormatterExceptionPolicy](https://github.com/aspnet/Mvc/blob/master/src/Microsoft.AspNetCore.Mvc.Core/MvcOptions.cs)
+* [AllowCombiningAuthorizeFilters](https://github.com/aspnet/AspNetCore/blob/master/src/Mvc/src/Microsoft.AspNetCore.Mvc.Core/MvcOptions.cs)
+* [InputFormatterExceptionPolicy](https://github.com/aspnet/AspNetCore/blob/master/src/Mvc/src/Microsoft.AspNetCore.Mvc.Core/MvcOptions.cs)
 
 [!code-csharp[Main](compatibility-version/samples/2.x/CompatibilityVersionSample/Startup2.cs?name=snippet1)]
 
@@ -45,6 +45,6 @@ ms.locfileid: "41910072"
 * 允许使用最新版本并选择退出特定的中断行为变更。
 * 请用些时间更新应用，以便其适用于最新更改。
 
-[MvcOptions](https://github.com/aspnet/Mvc/blob/master/src/Microsoft.AspNetCore.Mvc.Core/MvcOptions.cs) 类源注释充分地阐述了更改的内容以及为什么更改对大多数用户来说是一种改进。
+[MvcOptions](https://github.com/aspnet/AspNetCore/blob/master/src/Mvc/src/Microsoft.AspNetCore.Mvc.Core/MvcOptions.cs) 类源注释充分地阐述了更改的内容以及为什么更改对大多数用户来说是一种改进。
 
 将来会推出 [ASP.NET Core 3.0 版本](https://github.com/aspnet/Home/wiki/Roadmap)。 在 3.0 版本中，将删除兼容性开关支持的旧行为。 我们认为这些积极的变化几乎使所有用户受益。 现在通过引入这些更改，大多数应用可以立即受益，其他人员将有时间更新其应用。

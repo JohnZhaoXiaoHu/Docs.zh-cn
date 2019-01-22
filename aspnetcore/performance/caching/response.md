@@ -3,14 +3,14 @@ title: 响应缓存在 ASP.NET Core
 author: rick-anderson
 description: 了解如何使用缓存到较低带宽要求的响应，并增加的 ASP.NET Core 应用的性能。
 ms.author: riande
-ms.date: 09/20/2017
+ms.date: 01/07/2018
 uid: performance/caching/response
-ms.openlocfilehash: 99093cd281ffa8dddc574dc27254c0175e2651b3
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 5fbcaddff6e53d01a19ba8a7455c719feb614326
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207363"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098943"
 ---
 # <a name="response-caching-in-aspnet-core"></a>响应缓存在 ASP.NET Core
 
@@ -23,7 +23,7 @@ ms.locfileid: "50207363"
 
 响应缓存可减少客户端或代理到 web 服务器发出的请求数。 响应缓存还减少了工作的 web 服务器执行以生成响应。 响应缓存控制标头，指定要如何客户端、 代理和响应缓存中间件。
 
-添加时，web 服务器可以缓存响应[响应缓存中间件](xref:performance/caching/middleware)。
+[ResponseCache 属性](#responsecache-attribute)参与设置缓存标头，哪些客户端可能会接受缓存的响应时的响应。 [响应缓存中间件](xref:performance/caching/middleware)可用于在服务器上的缓存响应。 可以使用中间件`ResponseCache`特性来影响服务器端的缓存行为的属性。
 
 ## <a name="http-based-response-caching"></a>基于 HTTP 的响应缓存
 
@@ -35,9 +35,9 @@ ms.locfileid: "50207363"
 | --------------------------------------------------------------- | ------ |
 | [public](https://tools.ietf.org/html/rfc7234#section-5.2.2.5)   | 缓存可能会存储响应。 |
 | [private](https://tools.ietf.org/html/rfc7234#section-5.2.2.6)  | 响应不是由共享缓存存储。 专用缓存可能会存储和重用响应。 |
-| [max-age](https://tools.ietf.org/html/rfc7234#section-5.2.1.1)  | 客户端将不会接受其年龄大于指定的秒数的响应。 示例： `max-age=60` （60 秒）， `max-age=2592000` （1 个月） |
-| [no-cache](https://tools.ietf.org/html/rfc7234#section-5.2.1.4) | **在请求**： 缓存必须使用存储的响应来满足请求。 注意： 源服务器为客户端，将重新生成响应，并将中间件更新其缓存中存储的响应。<br><br>**响应**： 响应必须不应用于不带验证的源服务器上的后续请求。 |
-| [no-store](https://tools.ietf.org/html/rfc7234#section-5.2.1.5) | **在请求**： 缓存不得存储请求。<br><br>**响应**： 缓存不得存储任何响应的一部分。 |
+| [max-age](https://tools.ietf.org/html/rfc7234#section-5.2.1.1)  | 客户端将不会接受其年龄大于指定的秒数的响应。 示例：`max-age=60` （60 秒）， `max-age=2592000` （1 个月） |
+| [no-cache](https://tools.ietf.org/html/rfc7234#section-5.2.1.4) | **在请求**:缓存必须使用存储的响应来满足请求。 注意:源服务器重新生成响应的客户端和中间件更新其缓存中存储的响应。<br><br>**响应**:响应不必须用于不带验证的源服务器上的后续请求。 |
+| [no-store](https://tools.ietf.org/html/rfc7234#section-5.2.1.5) | **在请求**:缓存不得存储请求。<br><br>**响应**:缓存不得存储任何响应的一部分。 |
 
 下表中显示其他播放的角色中缓存的缓存标头。
 
@@ -54,7 +54,7 @@ ms.locfileid: "50207363"
 
 始终遵循客户端`Cache-Control`请求标头是有意义，如果您考虑 HTTP 缓存的目标。 在正式规范，缓存旨在减少的满足请求的客户端、 代理和服务器的网络延迟和网络开销。 它不一定是一种方法来控制源服务器上的负载。
 
-没有任何当前开发人员可以控制此缓存的行为使用时[响应缓存中间件](xref:performance/caching/middleware)因为中间件遵循正式缓存规范。 [未来的增强功能到中间件](https://github.com/aspnet/ResponseCaching/issues/96)将允许配置中间件，若要忽略的请求`Cache-Control`标头决定用于缓存的响应时。 使用中间件时，这将为您提供更好地控制负载在服务器上的机会。
+没有任何开发人员可以控制此缓存的行为使用时[响应缓存中间件](xref:performance/caching/middleware)因为中间件遵循正式缓存规范。 [计划的中间件的增强功能](https://github.com/aspnet/AspNetCore/issues/2612)是配置要忽略的请求的中间件的机会`Cache-Control`标头决定用于缓存的响应时。 计划内的增强功能提供更好地控制服务器负载的机会。
 
 ## <a name="other-caching-technology-in-aspnet-core"></a>在 ASP.NET Core 中其他缓存技术
 
@@ -68,7 +68,7 @@ ms.locfileid: "50207363"
 
 使用分布式的缓存在云或服务器场中托管应用时，将数据存储在内存中。 处理请求的服务器之间共享缓存。 客户端可以提交的请求，如果客户端的缓存的数据可由任何组中的服务器。 ASP.NET Core 提供 SQL Server 和分布式的 Redis 缓存。
 
-有关详细信息，请参阅 <xref:performance/caching/distributed> 。
+有关详细信息，请参阅 <xref:performance/caching/distributed>。
 
 ### <a name="cache-tag-helper"></a>缓存标记帮助程序
 
@@ -91,7 +91,7 @@ ms.locfileid: "50207363"
 
 [VaryByQueryKeys](/dotnet/api/microsoft.aspnetcore.mvc.responsecacheattribute.varybyquerykeys)存储的响应因查询密钥的指定列表的值。 时的单个值`*`是所有的响应请求查询字符串参数提供中间件会有所不同。 `VaryByQueryKeys` 需要 ASP.NET Core 1.1 或更高版本。
 
-必须启用响应缓存中间件设置`VaryByQueryKeys`属性; 否则，会引发运行时异常。 没有为相应的 HTTP 标头`VaryByQueryKeys`属性。 该属性是由响应缓存中间件处理的 HTTP 功能。 中间件来提供缓存的响应，查询字符串和查询字符串值必须匹配上一个请求。 例如，考虑请求和下表中所示的结果的序列。
+[响应缓存中间件](xref:performance/caching/middleware)必须能够设置`VaryByQueryKeys`属性; 否则，会引发运行时异常。 没有为相应的 HTTP 标头`VaryByQueryKeys`属性。 该属性是由响应缓存中间件处理的 HTTP 功能。 中间件来提供缓存的响应，查询字符串和查询字符串值必须匹配上一个请求。 例如，考虑请求和下表中所示的结果的序列。
 
 | 请求                          | 结果                   |
 | -------------------------------- | ------------------------ |

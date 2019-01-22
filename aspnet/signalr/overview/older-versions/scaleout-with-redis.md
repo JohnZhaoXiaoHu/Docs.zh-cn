@@ -8,16 +8,18 @@ ms.date: 05/01/2013
 ms.assetid: 6abecf80-8ffa-41ba-b0d9-1d9edbe7687b
 msc.legacyurl: /signalr/overview/older-versions/scaleout-with-redis
 msc.type: authoredcontent
-ms.openlocfilehash: 90f1f1429dcdf8f1015365e5aa337371c6307715
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 3f70536a4bda90a0298f6bb4f7ef47b8a257175b
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48910715"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287541"
 ---
 <a name="signalr-scaleout-with-redis-signalr-1x"></a>使用 Redis 的 SignalR 横向扩展 (SignalR 1.x)
 ====================
 通过[Mike Wasson](https://github.com/MikeWasson)， [Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 在本教程中，您将使用[Redis](http://redis.io/)若要部署在两个单独的 IIS 实例的 SignalR 应用程序间分发消息。
 

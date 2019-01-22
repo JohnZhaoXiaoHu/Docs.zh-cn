@@ -1,3 +1,13 @@
+---
+ms.openlocfilehash: a3ac1ac389892681e8c122d569e6325353ed6e88
+ms.sourcegitcommit: 42a8164b8aba21f322ffefacb92301bdfb4d3c2d
+ms.translationtype: HT
+ms.contentlocale: zh-CN
+ms.lasthandoff: 01/16/2019
+ms.locfileid: "54341675"
+---
+# [ASP.NET Core 文档](/aspnet/#pivot=core)
+
 # 概述
 ## [关于 ASP.NET Core](xref:index)
 ## [比较 ASP.NET Core 和 ASP.NET](xref:fundamentals/choose-between-aspnet-and-aspnetcore)
@@ -5,24 +15,25 @@
 
 # [入门](xref:getting-started)
 
+# 新增功能
+## [2.2 中的新变化](xref:aspnetcore-2.2)
+## [2.1 版中的新增功能](xref:aspnetcore-2.1)
+## [2.0 版中的新增功能](xref:aspnetcore-2.0)
+## [1.1 中的新增功能](xref:aspnetcore-1.1)
+
 # 教程
+## Web API 应用
+### [创建 Web API](xref:tutorials/first-web-api)
+### [使用 MongoDB 创建 Web API](xref:tutorials/first-mongo-app)
 ## Web 应用
-### Razor 页面
-#### [使用 Visual Studio](xref:tutorials/razor-pages/index)
-#### [使用 Visual Studio Code](xref:tutorials/razor-pages-vsc/index)
-#### [使用 Visual Studio for Mac](xref:tutorials/razor-pages-mac/index)
-### MVC
-#### [使用 Visual Studio](xref:tutorials/first-mvc-app/index)
-#### [使用 Visual Studio Code](xref:tutorials/first-mvc-app-xplat/index)
-#### [使用 Visual Studio for Mac](xref:tutorials/first-mvc-app-mac/index)
-## Web API
-### [使用 Visual Studio](xref:tutorials/first-web-api)
-### [使用 Visual Studio Code](xref:tutorials/web-api-vsc)
-### [使用 Visual Studio for Mac](xref:tutorials/first-web-api-mac)
-### [针对本机移动应用](xref:mobile/native-mobile-backend)
+### [Razor 页面](xref:tutorials/razor-pages/index)
+### [MVC](xref:tutorials/first-mvc-app/index)
+
 ## 实时 web 应用
 ### [JavaScript 和 SignalR](xref:tutorials/signalr)
 ### [TypeScript 和 SignalR](xref:tutorials/signalr-typescript-webpack)
+## [为本机移动应用创建后端服务](xref:mobile/native-mobile-backend)
+
 ## 数据访问
 ### [EF Core 和 Razor Pages](xref:data/ef-rp/index)
 ### [EF Core 和 MVC - 现有 DB](/ef/core/get-started/aspnetcore/existing-db)
@@ -34,7 +45,7 @@
 ## [应用启动](xref:fundamentals/startup)
 ## [依赖关系注入（服务）](xref:fundamentals/dependency-injection)
 ## [路由](xref:fundamentals/routing)
-## [多个环境](xref:fundamentals/environments)
+## [环境（开发、分阶段、生产）](xref:fundamentals/environments)
 ## [配置](xref:fundamentals/configuration/index)
 ## [选项](xref:fundamentals/configuration/options)
 ## [日志记录](xref:fundamentals/logging/index)
@@ -47,87 +58,42 @@
 ### [概述](xref:fundamentals/host/index)
 ### [Web 主机](xref:fundamentals/host/web-host)
 ### [通用主机](xref:fundamentals/host/generic-host)
-## 服务器
-### [概述](xref:fundamentals/servers/index)
-### [Kestrel](xref:fundamentals/servers/kestrel)
-### [ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)
-### [HTTP.sys](xref:fundamentals/servers/httpsys)
+## [服务器](xref:fundamentals/servers/index)
 ## [启动 HTTP 请求](xref:fundamentals/http-requests)
 
 # Web 应用
 ## Razor 页面
 ### [概述](xref:razor-pages/index)
-### 教程
-#### Razor Pages 和 Visual Studio
-##### [概述](xref:tutorials/razor-pages/index)
-##### [入门](xref:tutorials/razor-pages/razor-pages-start)
-##### [添加模型](xref:tutorials/razor-pages/model)
-##### [基架](xref:tutorials/razor-pages/page)
-##### [SQL Server](xref:tutorials/razor-pages/sql)
-##### [更新页面](xref:tutorials/razor-pages/da1)
-##### [添加搜索](xref:tutorials/razor-pages/search)
-##### [添加新字段](xref:tutorials/razor-pages/new-field)
-##### [添加验证](xref:tutorials/razor-pages/validation)
-#### Razor Pages 和 Visual Studio Code
-##### [概述](xref:tutorials/razor-pages-vsc/index)
-##### [Razor 页面入门](xref:tutorials/razor-pages-vsc/razor-pages-start)
-##### [添加模型](xref:tutorials/razor-pages-vsc/model)
-##### [已搭建基架的 Razor 页面](xref:tutorials/razor-pages-vsc/page)
-##### [使用 SQLite](xref:tutorials/razor-pages-vsc/sql)
-##### [更新页面](xref:tutorials/razor-pages-vsc/da1)
-##### [添加搜索](xref:tutorials/razor-pages-vsc/search)
-#### Razor Pages 和 Visual Studio for Mac
-##### [概述](xref:tutorials/razor-pages-mac/index)
-##### [Razor 页面入门](xref:tutorials/razor-pages-mac/razor-pages-start)
-##### [添加模型](xref:tutorials/razor-pages-mac/model)
-##### [已搭建基架的 Razor 页面](xref:tutorials/razor-pages-mac/page)
-##### [使用 SQLite](xref:tutorials/razor-pages-mac/sql)
-##### [更新页面](xref:tutorials/razor-pages-mac/da1)
-##### [添加搜索](xref:tutorials/razor-pages-mac/search)
+### [Razor Pages 教程](xref:tutorials/razor-pages/index)
+#### [入门](xref:tutorials/razor-pages/razor-pages-start)
+#### [添加模型](xref:tutorials/razor-pages/model)
+#### [基架](xref:tutorials/razor-pages/page)
+#### [使用 DB](xref:tutorials/razor-pages/sql)
+#### [更新页面](xref:tutorials/razor-pages/da1)
+#### [添加搜索](xref:tutorials/razor-pages/search)
+#### [添加新字段](xref:tutorials/razor-pages/new-field)
+#### [添加验证](xref:tutorials/razor-pages/validation)
+
+## MVC
+### [MVC 概述](xref:mvc/overview)
+### [MVC 教程](xref:tutorials/first-mvc-app/index)
+#### [入门](xref:tutorials/first-mvc-app/start-mvc)
+#### [添加控制器](xref:tutorials/first-mvc-app/adding-controller)
+#### [添加视图](xref:tutorials/first-mvc-app/adding-view)
+#### [添加模型](xref:tutorials/first-mvc-app/adding-model)
+#### [使用 DB](xref:tutorials/first-mvc-app/working-with-sql)
+#### [控制器操作和视图](xref:tutorials/first-mvc-app/controller-methods-views)
+#### [添加搜索](xref:tutorials/first-mvc-app/search)
+#### [添加新字段](xref:tutorials/first-mvc-app/new-field)
+#### [添加验证](xref:tutorials/first-mvc-app/validation)
+#### [检查 Details 和 Delete 方法](xref:tutorials/first-mvc-app/details)
+
 ### [筛选器](xref:razor-pages/filter)
-### [类库](xref:razor-pages/ui-class)
+### [Razor 类库](xref:razor-pages/ui-class)
 ### [路由和应用约定](xref:razor-pages/razor-pages-conventions)
 ### [上载文件](xref:razor-pages/upload-files)
 ### [Razor SDK](xref:razor-pages/sdk)
-## MVC
-### [概述](xref:mvc/overview)
-### 教程
-#### MVC 和 Visual Studio
-##### [概述](xref:tutorials/first-mvc-app/index)
-##### [入门](xref:tutorials/first-mvc-app/start-mvc)
-##### [添加控制器](xref:tutorials/first-mvc-app/adding-controller)
-##### [添加视图](xref:tutorials/first-mvc-app/adding-view)
-##### [添加模型](xref:tutorials/first-mvc-app/adding-model)
-##### [使用 SQL Server](xref:tutorials/first-mvc-app/working-with-sql)
-##### [控制器操作和视图](xref:tutorials/first-mvc-app/controller-methods-views)
-##### [添加搜索](xref:tutorials/first-mvc-app/search)
-##### [添加新字段](xref:tutorials/first-mvc-app/new-field)
-##### [添加验证](xref:tutorials/first-mvc-app/validation)
-##### [检查 Details 和 Delete 方法](xref:tutorials/first-mvc-app/details)
-#### MVC 和 Visual Studio Code
-##### [概述](xref:tutorials/first-mvc-app-xplat/index)
-##### [入门](xref:tutorials/first-mvc-app-xplat/start-mvc)
-##### [添加控制器](xref:tutorials/first-mvc-app-xplat/adding-controller)
-##### [添加视图](xref:tutorials/first-mvc-app-xplat/adding-view)
-##### [添加模型](xref:tutorials/first-mvc-app-xplat/adding-model)
-##### [使用 SQLite](xref:tutorials/first-mvc-app-xplat/working-with-sql)
-##### [控制器方法和视图](xref:tutorials/first-mvc-app-xplat/controller-methods-views)
-##### [添加搜索](xref:tutorials/first-mvc-app-xplat/search)
-##### [添加新字段](xref:tutorials/first-mvc-app-xplat/new-field)
-##### [添加验证](xref:tutorials/first-mvc-app-xplat/validation)
-##### [检查 Details 和 Delete 方法](xref:tutorials/first-mvc-app/details)
-#### MVC 和 Visual Studio for Mac
-##### [概述](xref:tutorials/first-mvc-app-mac/index)
-##### [入门](xref:tutorials/first-mvc-app-mac/start-mvc)
-##### [添加控制器](xref:tutorials/first-mvc-app-mac/adding-controller)
-##### [添加视图](xref:tutorials/first-mvc-app-mac/adding-view)
-##### [添加模型](xref:tutorials/first-mvc-app-mac/adding-model)
-##### [使用 SQLite](xref:tutorials/first-mvc-app-mac/working-with-sql)
-##### [控制器方法和视图](xref:tutorials/first-mvc-app-mac/controller-methods-views)
-##### [添加搜索](xref:tutorials/first-mvc-app-mac/search)
-##### [添加新字段](xref:tutorials/first-mvc-app-mac/new-field)
-##### [添加验证](xref:tutorials/first-mvc-app-mac/validation)
-##### [检查 Details 和 Delete 方法](xref:tutorials/first-mvc-app/details)
+
 ### [视图](xref:mvc/views/overview)
 ### [部分视图](xref:mvc/views/partial)
 ### [控制器](xref:mvc/controllers/actions)
@@ -171,13 +137,13 @@
 ### [自定义模型绑定](xref:mvc/advanced/custom-model-binding)
 ### [兼容性版本](xref:mvc/compatibility-version)
 
-# Web API
+# Web API 应用
 ## [概述](xref:web-api/index)
+
 ## 教程
-### [Web API 和 Visual Studio](xref:tutorials/first-web-api)
-### [使用 Visual Studio Code 创建 Web API](xref:tutorials/web-api-vsc)
-### [使用 Visual Studio for Mac 创建 Web API](xref:tutorials/first-web-api-mac)
-### [用于本机移动应用的 Web API](xref:mobile/native-mobile-backend)
+### [创建 Web API](xref:tutorials/first-web-api)
+### [使用 MongoDB 创建 Web API](xref:tutorials/first-mongo-app)
+
 ## Swagger/OpenAPI
 ### [概述](xref:tutorials/web-api-help-pages-using-swagger)
 ### [Swashbuckle 入门](xref:tutorials/get-started-with-swashbuckle)
@@ -185,15 +151,17 @@
 ## [操作返回类型](xref:web-api/action-return-types)
 ## [格式化响应数据](xref:web-api/advanced/formatting)
 ## [自定义格式化程序](xref:web-api/advanced/custom-formatters)
+
 ## [分析器](xref:web-api/advanced/analyzers)
 ## [约定](xref:web-api/advanced/conventions)
 
 # 实时应用
-## [概述](xref:signalr/introduction)
+## [SignalR 概述](xref:signalr/introduction)
 ## [支持的平台](xref:signalr/supported-platforms)
 ## 教程
 ### [JavaScript 和 SignalR](xref:tutorials/signalr)
 ### [TypeScript 和 SignalR](xref:tutorials/signalr-typescript-webpack)
+## [示例](https://github.com/aspnet/SignalR-samples)
 ## 服务器概念
 ### [中心](xref:signalr/hubs)
 ### [HubContext](xref:signalr/hubcontext)
@@ -207,7 +175,10 @@
 ### [Java API 参考](/java/api/com.microsoft.signalr?view=aspnet-signalr-java)
 ### [JavaScript 客户端](xref:signalr/javascript-client)
 ### [JavaScript API 参考](/javascript/api/?view=signalr-js-latest)
-### [WebPack 和 TypeScript](xref:tutorials/signalr-typescript-webpack)
+## 托管和缩放
+### [概述](xref:signalr/scale)
+### [Azure SignalR 服务](/azure/azure-signalr/signalr-overview)
+### [Redis 底板](xref:signalr/redis-backplane)
 ## [配置](xref:signalr/configuration)
 ## [身份验证和授权](xref:signalr/authn-and-authz)
 ## [安全注意事项](xref:signalr/security)
@@ -224,7 +195,9 @@
 ## [快照调试](/azure/application-insights/app-insights-snapshot-debugger)
 ## [Visual Studio 中的快照调试](/visualstudio/debugger/debug-live-azure-applications)
 ## [集成测试](xref:test/integration-tests)
+## [负载测试和压力测试](xref:test/loadtests)
 ## [疑难解答](xref:test/troubleshoot)
+## [日志记录](xref:fundamentals/logging/index)
 
 # 数据访问
 ## 教程
@@ -283,10 +256,12 @@
 ## 在 Azure 应用服务上托管
 ### [概述](xref:host-and-deploy/azure-apps/index)
 ### [使用 Visual Studio 进行发布](xref:tutorials/publish-to-azure-webapp-using-vs)
-### [使用 CLI 工具进行发布](/azure/app-service/app-service-web-get-started-dotnet)
+### [使用 CLI 工具进行发布](/azure/app-service/app-service-web-tutorial-dotnetcore-sqldb)
 ### [使用 Visual Studio 和 Git 进行发布](xref:host-and-deploy/azure-apps/azure-continuous-deployment)
 ### [使用 Azure Pipelines 连续部署](/azure/devops/pipelines/get-started-yaml)
-### [解决启动错误](xref:host-and-deploy/azure-apps/troubleshoot)
+### [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)
+### [疑难解答](xref:host-and-deploy/azure-apps/troubleshoot)
+### [错误引用](xref:host-and-deploy/azure-iis-errors-reference)
 ## DevOps 
 ### [概述](xref:azure/devops/index)
 ### [工具和下载](xref:azure/devops/tools-and-downloads)
@@ -296,10 +271,13 @@
 ### [后续步骤](xref:azure/devops/next-steps)
 ## 使用 IIS 在 Windows 上进行托管
 ### [概述](xref:host-and-deploy/iis/index)
-### [IIS 疑难解答](xref:host-and-deploy/iis/troubleshoot)
-### [ASP.NET Core 模块参考](xref:host-and-deploy/aspnet-core-module)
+### [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)
 ### [Visual Studio 中的 IIS 支持](xref:host-and-deploy/iis/development-time-iis-support)
 ### [IIS 模块](xref:host-and-deploy/iis/modules)
+### [疑难解答](xref:host-and-deploy/iis/troubleshoot)
+### [错误引用](xref:host-and-deploy/azure-iis-errors-reference)
+## [Kestrel](xref:fundamentals/servers/kestrel)
+## [HTTP.sys](xref:fundamentals/servers/httpsys)
 ## [在 Windows 服务中进行托管](xref:host-and-deploy/windows-service)
 ## [在 Linux 上使用 Nginx 进行托管](xref:host-and-deploy/linux-nginx)
 ## [在 Linux 上使用 Apache 进行托管](xref:host-and-deploy/linux-apache)
@@ -312,8 +290,7 @@
 ## [在 Web 场中托管](xref:host-and-deploy/web-farm)
 ## [Visual Studio 发布配置文件](xref:host-and-deploy/visual-studio-publish-profiles)
 ## [目录结构](xref:host-and-deploy/directory-structure)
-## [Azure 应用服务和 IIS 的错误参考](xref:host-and-deploy/azure-iis-errors-reference)
-
+## [运行状况检查](xref:host-and-deploy/health-checks)
 
 # 安全和标识
 ## [概述](xref:security/index)
@@ -408,6 +385,17 @@
 ## [在应用之间共享 Cookie](xref:security/cookie-sharing)
 ## [IP 安全列表](xref:security/ip-safelist)
 
+# 性能
+## [概述](xref:performance/performance-best-practices)
+##  响应缓存
+### [概述](xref:performance/caching/response)
+### [内存中缓存](xref:performance/caching/memory)
+### [分布式缓存](xref:performance/caching/distributed)
+### [响应缓存中间件](xref:performance/caching/middleware)
+## [响应压缩](xref:performance/response-compression)
+## [诊断工具](xref:performance/diagnostic-tools)
+## [负载测试和压力测试](xref:test/loadtests)
+
 # 其他主题
 ## [全球化和本地化](xref:fundamentals/localization)
 ## [使用 Orchard Core 的可移植对象本地化](xref:fundamentals/portable-object-localization)
@@ -418,20 +406,15 @@
 ## [更改令牌](xref:fundamentals/change-tokens)
 ## [.NET 的开放 Web 接口 (OWIN)](xref:fundamentals/owin)
 ## [使用托管服务的后台任务](xref:fundamentals/host/hosted-services)
-## [从外部程序集增强应用](xref:fundamentals/configuration/platform-specific-configuration)
+## [承载启动程序集](xref:fundamentals/configuration/platform-specific-configuration)
 ## [Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)
 ## [Microsoft.AspNetCore.All metapackage](xref:fundamentals/metapackage)
 ## [日志记录与 LoggerMessage](xref:fundamentals/logging/loggermessage)
 ## [使用文件观察程序](xref:tutorials/dotnet-watch)
-## 缓存响应
-### [概述](xref:performance/caching/index)
-### [内存中缓存](xref:performance/caching/memory)
-### [分布式缓存](xref:performance/caching/distributed)
-### [响应缓存](xref:performance/caching/response)
-### [响应缓存中间件](xref:performance/caching/middleware)
-## [响应压缩](xref:performance/response-compression)
 
 # 迁移
+## [2.2 至 3.0](xref:migration/22-to-30)
+## [2.1 至 2.2](xref:migration/21-to-22)
 ## [2.0 至 2.1](xref:migration/20_21)
 ## 1.x 至 2.0
 ### [概述](xref:migration/1x-to-2x/index)
@@ -445,12 +428,8 @@
 ### [ClaimsPrincipal.Current](xref:migration/claimsprincipal-current)
 ### [共成员身份到标识](xref:migration/proper-to-2x/membership-to-core-identity)
 ### [HTTP 模块到中间件](xref:migration/http-modules)
+## [日志记录（不是 ASP.NET Core）](xref:migration/logging-nonaspnetcore)
 
-# 新增功能
-## [2.1 版中的新增功能](xref:aspnetcore-2.1)
-## [2.0 版中的新增功能](xref:aspnetcore-2.0)
-## [1.1 中的新增功能](xref:aspnetcore-1.1)
-
-# [API 参考](/dotnet/api/?view=aspnetcore-2.0)
+# [API 参考](/dotnet/api/?view=aspnetcore-2.1)
 
 # [参与](https://github.com/aspnet/Docs/blob/master/CONTRIBUTING.md)

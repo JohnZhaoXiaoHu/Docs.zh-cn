@@ -5,12 +5,12 @@ description: 了解如何设置与 ASP.NET Core的 Azure Active Directory B2C �
 ms.date: 01/25/2018
 ms.custom: mvc
 uid: security/authentication/azure-ad-b2c
-ms.openlocfilehash: 73a66cea1533cc835796f673021bfa45c35f5935
-ms.sourcegitcommit: 4cd8dce371d63a66d780e4af1baab2bcf9d61b24
+ms.openlocfilehash: 2c544475ccd3eb76f2737fec1cf269ac86add372
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/06/2018
-ms.locfileid: "43893189"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098982"
 ---
 # <a name="cloud-authentication-with-azure-active-directory-b2c-in-aspnet-core"></a>Azure Active Directory B2C ASP.NET Core 中使用云身份验证
 
@@ -19,7 +19,7 @@ ms.locfileid: "43893189"
 [Azure Active Directory B2C](/azure/active-directory-b2c/active-directory-b2c-overview) (Azure AD B2C) 是云标识管理解决方案，适用于 web 和移动应用。 该服务提供用于在云中和本地托管的应用的身份验证。 身份验证类型包括个人帐户，社交网络帐户和联合企业帐户。 此外，Azure AD B2C 可以提供最小配置多重身份验证。
 
 > [!TIP]
-> Azure Active Directory (Azure AD) 和 Azure AD B2C 是单独的产品产品/服务。 Azure AD 租户表示组织，而 Azure AD B2C 租户表示与信赖方应用程序将使用的集合。 若要了解详细信息，请参阅[Azure AD B2C： 常见问题 (FAQ)](/azure/active-directory-b2c/active-directory-b2c-faqs)。
+> Azure Active Directory (Azure AD) 和 Azure AD B2C 是单独的产品产品/服务。 Azure AD 租户表示组织，而 Azure AD B2C 租户表示与信赖方应用程序将使用的集合。 若要了解详细信息，请参阅[Azure AD B2C:常见问题 (FAQ)](/azure/active-directory-b2c/active-directory-b2c-faqs)。
 
 在本教程中，学习如何：
 
@@ -46,7 +46,7 @@ ms.locfileid: "43893189"
 
 使用以下值：
 
-| 设置                       | “值”                     | 说明                                                                                                                                                                                              |
+| 设置                       | 值                     | 说明                                                                                                                                                                                              |
 |-------------------------------|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **名称**                      | *&lt;应用名称&gt;*        | 输入**名称**描述你的应用向使用者的应用。                                                                                                                                 |
 | **包括 web 应用 /web API** | 是                       |                                                                                                                                                                                                    |
@@ -80,7 +80,7 @@ Visual Studio Web 应用程序模板可以配置为使用 Azure AD B2C 租户进
 
 5. 完成窗体具有以下值：
     
-    | 设置                       | “值”                                                 |
+    | 设置                       | 值                                                 |
     |-------------------------------|-------------------------------------------------------|
     | **域名**               | *&lt;在 B2C 租户的域名&gt;*          |
     | **应用程序 ID**            | *&lt;粘贴剪贴板中的应用程序 ID&gt;* |
@@ -96,7 +96,7 @@ Visual Studio Web 应用程序模板可以配置为使用 Azure AD B2C 租户进
 返回到 B2C 应用程序属性仍然打开的浏览器窗口。 更改临时**回复 URL**从 Visual Studio 指定更早的值复制。 选择**保存**在窗口的顶部。
 
 > [!TIP]
-> 如果未复制回复 URL，在 web 项目属性中，使用调试选项卡中的 SSL 地址并追加**CallbackPath**值从*appsettings.json*。
+> 如果未复制回复 URL，在 web 项目属性中，使用调试选项卡中的 HTTPS 地址并追加**CallbackPath**值从*appsettings.json*。
 
 ## <a name="configure-policies"></a>配置策略
 

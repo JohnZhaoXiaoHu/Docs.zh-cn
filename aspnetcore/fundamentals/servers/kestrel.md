@@ -2,27 +2,30 @@
 title: ASP.NET Core 中的 Kestrel Web 服务器实现
 author: guardrex
 description: 了解跨平台 ASP.NET Core Web 服务器 Kestrel。
-monikerRange: '>= aspnetcore-2.1'
 ms.author: tdykstra
 ms.custom: mvc
-ms.date: 11/05/2018
+ms.date: 01/11/2019
 uid: fundamentals/servers/kestrel
-ms.openlocfilehash: a26726a824db31e07b881dbfa8dc2ef37d4d3492
-ms.sourcegitcommit: edb9d2d78c9a4d68b397e74ae2aff088b325a143
+ms.openlocfilehash: a85403468d64b35ac5b6754139f78a12ad3fc386
+ms.sourcegitcommit: ec71fd5a988f927ae301813aae5ff764feb3bb6a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51505760"
+ms.lasthandoff: 01/12/2019
+ms.locfileid: "54249524"
 ---
 # <a name="kestrel-web-server-implementation-in-aspnet-core"></a>ASP.NET Core 中的 Kestrel Web 服务器实现
 
 作者：[Tom Dykstra](https://github.com/tdykstra)、[Chris Ross](https://github.com/Tratcher) 和 [Stephen Halter](https://twitter.com/halter73)
 
+::: moniker range="<= aspnetcore-1.1"
+
 对于本主题的 1.1 版本，请下载 [ASP.NET Core（版本 1.1，PDF）](https://webpifeed.blob.core.windows.net/webpifeed/Partners/Kestrel_1.1.pdf)中的 Kestrel Web 服务器实现。
+
+::: moniker-end
 
 Kestrel 是一个跨平台的[适用于 ASP.NET Core 的 Web 服务器](xref:fundamentals/servers/index)。 Kestrel 是 Web 服务器，默认包括在 ASP.NET Core 项目模板中。
 
-Kestrel 支持以下功能：
+Kestrel 支持以下方案：
 
 ::: moniker range=">= aspnetcore-2.2"
 
@@ -71,25 +74,31 @@ macOS 的未来版本将支持 &dagger;HTTP/2。
 
 ## <a name="when-to-use-kestrel-with-a-reverse-proxy"></a>何时结合使用 Kestrel 和反向代理
 
-可以单独使用 Kestrel，也可以将其与反向代理服务器（如 IIS、Nginx 或 Apache）结合使用。 反向代理服务器接收到来自 Internet 的 HTTP 请求，并在进行一些初步处理后将这些请求转发到 Kestrel。
+可以单独使用 Kestrel，也可以将其与反向代理服务器（如 [Internet Information Services (IIS)](https://www.iis.net/)、[Nginx](http://nginx.org) 或 [Apache](https://httpd.apache.org/)）结合使用。 反向代理服务器接收来自网络的 HTTP 请求，并将这些请求转发到 Kestrel。
+
+Kestrel 用作边缘（面向 Internet）Web 服务器：
 
 ![Kestrel 直接与 Internet 通信，不使用反向代理服务器](kestrel/_static/kestrel-to-internet2.png)
 
+Kestrel 用于反向代理配置：
+
 ![Kestrel 通过反向代理服务器（如 IIS、Nginx 或 Apache）间接与 Internet 进行通信](kestrel/_static/kestrel-to-internet.png)
 
-使用或不使用反向代理服务器进行配置对 ASP.NET Core 2.0 或更高版本的应用来说都是有效且受支持的托管配置。
+无论配置是否使用反向代理服务器&mdash;&mdash;，都是从 Internet 接收请求的 ASP.NET Core 2.1 或更高版本应用的支持托管配置。
 
-具有共享在单个服务器上运行的相同 IP 和端口的多个应用时，需要一个反向代理方案。 Kestrel 不支持此方案，因为 Kestrel 不支持在多个进程之间共享相同的 IP 和端口。 如果将 Kestrel 配置为侦听某个端口，Kestrel 会处理该端口的所有流量（无视请求的主机标头）。 可以共享端口的反向代理能在唯一的 IP 和端口上将请求转发至 Kestrel。
+在没有反向代理服务器的情况下用作边缘服务器的 Kestrel 不支持在多个进程间共享相同的 IP 和端口。 如果将 Kestrel 配置为侦听某个端口，Kestrel 会处理该端口的所有流量（无视请求的 `Host` 标头）。 可以共享端口的反向代理能在唯一的 IP 和端口上将请求转发至 Kestrel。
 
-即使不需要反向代理服务器，使用反向代理服务器可能也是个不错的选择：
+即使不需要反向代理服务器，使用反向代理服务器可能也是个不错的选择。
 
-* 它可以限制所承载的应用中的公开的公共外围应用。
-* 它可以提供额外的配置和防护层。
-* 它可以更好地与现有基础结构集成。
-* 它可以简化负载均衡和 SSL 配置。 仅反向代理服务器需要 SSL 证书，并且该服务器可使用普通 HTTP 在内部网络上与应用服务器通信。
+反向代理：
+
+* 可以限制所承载的应用中的公开的公共外围应用。
+* 提供额外的配置和防护层。
+* 可以更好地与现有基础结构集成。
+* 简化了负载均和和安全通信 (HTTPS) 配置。 仅反向代理服务器需要 X.509 证书，并且该服务器可使用普通 HTTP 在内部网络上与应用服务器通信。
 
 > [!WARNING]
-> 如果在启用了主机筛选的情况下不使用反向代理，则必须启用[“主机筛选”](#host-filtering)。
+> 采用反向代理配置进行托管需要[主机筛选](#host-filtering)。
 
 ## <a name="how-to-use-kestrel-in-aspnet-core-apps"></a>如何在 ASP.NET Core 应用中使用 Kestrel
 
@@ -111,6 +120,26 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
         {
             // Set properties and call methods on options
         });
+```
+
+如果应用未调用 `CreateDefaultBuilder` 来设置主机，请在调用 `ConfigureKestrel` 之前先调用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel*>：
+
+```csharp
+public static void Main(string[] args)
+{
+    var host = new WebHostBuilder()
+        .UseContentRoot(Directory.GetCurrentDirectory())
+        .UseKestrel()
+        .UseIISIntegration()
+        .UseStartup<Startup>()
+        .ConfigureKestrel((context, options) =>
+        {
+            // Set properties and call methods on options
+        })
+        .Build();
+
+    host.Run();
+}
 ```
 
 ::: moniker-end
@@ -465,7 +494,7 @@ Kestrel 在 `http://localhost:5000` 和 `https://localhost:5001` 上进行侦听
 
 有关详细信息，请参阅[服务器 URL](xref:fundamentals/host/web-host#server-urls) 和[重写配置](xref:fundamentals/host/web-host#override-configuration)。
 
-采用这些方法提供的值可以是一个或多个 HTTP 和 HTTPS 终结点（如果默认证书可用，则为 HTTPS）。 将值配置为以分号分隔的列表（例如 `"Urls": "http://localhost:8000; http://localhost:8001"`）。
+采用这些方法提供的值可以是一个或多个 HTTP 和 HTTPS 终结点（如果默认证书可用，则为 HTTPS）。 将值配置为以分号分隔的列表（例如 `"Urls": "http://localhost:8000;http://localhost:8001"`）。
 
 *从配置中替换默认证书*
 
@@ -675,7 +704,7 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 
 ### <a name="bind-to-a-tcp-socket"></a>绑定到 TCP 套接字
 
-[Listen](/dotnet/api/microsoft.aspnetcore.server.kestrel.core.kestrelserveroptions.listen) 方法绑定至 TCP 套接字，并可通过选项 lambda 配置 SSL 证书：
+[Listen](/dotnet/api/microsoft.aspnetcore.server.kestrel.core.kestrelserveroptions.listen) 方法绑定至 TCP 套接字，且 options lambda 允许 X.509 证书配置：
 
 ::: moniker range=">= aspnetcore-2.2"
 
@@ -725,7 +754,7 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 
 ::: moniker-end
 
-该示例为带有 [ListenOptions](/dotnet/api/microsoft.aspnetcore.server.kestrel.core.listenoptions).的终结点配置 SSL。 可使用相同 API 为特定终结点配置其他 Kestrel 设置。
+示例代码使用 [ListenOptions](/dotnet/api/microsoft.aspnetcore.server.kestrel.core.listenoptions) 为终结点配置 HTTPS。 可使用相同 API 为特定终结点配置其他 Kestrel 设置。
 
 [!INCLUDE [How to make an X.509 cert](~/includes/make-x509-cert.md)]
 
@@ -780,12 +809,12 @@ Listening on the following addresses: http://127.0.0.1:48508
 
 若要将代码用于 Kestrel 以外的服务器，这些方法非常有用。 不过，请注意以下限制：
 
-* SSL 不能使用这些方法，除非 HTTPS 终结点配置中提供了默认证书（如本主题前面的部分所示，使用 `KestrelServerOptions` 配置或配置文件）。
+* HTTPS 无法与这些方法结合使用，除非在 HTTPS 终结点配置中提供了默认证书（例如，使用 `KestrelServerOptions` 配置或配置文件，如本主题前面的部分所示）。
 * 如果同时使用 `Listen` 和 `UseUrls` 方法，`Listen` 终结点将覆盖 `UseUrls` 终结点。
 
 ### <a name="iis-endpoint-configuration"></a>IIS 终结点配置
 
-使用 IIS 时，由 `Listen` 或 `UseUrls` 设置用于 IIS 覆盖绑定的 URL 绑定。 有关详细信息，请参阅 [ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)主题。
+使用 IIS 时，由 `Listen` 或 `UseUrls` 设置用于 IIS 覆盖绑定的 URL 绑定。 有关详细信息，请参阅 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)主题。
 
 ::: moniker range=">= aspnetcore-2.2"
 
@@ -809,7 +838,7 @@ HTTP/2 的 TLS 限制：
 * 最小的临时密钥交换大小：
   * 椭圆曲线 Diffie-Hellman (ECDHE) &lbrack;[RFC4492](https://www.ietf.org/rfc/rfc4492.txt)&rbrack; &ndash;最小 224 位
   * 有限字段 Diffie-Hellman (DHE) &lbrack;`TLS12`&rbrack; &ndash; 最小 2048 位
-* 密码套件未列入黑名单
+* 密码套件未列入阻止列表
 
 默认情况下，支持具有 P-256 椭圆曲线 &lbrack;`FIPS186`&rbrack; 的 `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256` &lbrack;`TLS-ECDHE`&rbrack;。
 
@@ -959,7 +988,7 @@ private class TlsFilterAdapter : IConnectionAdapter
 
 如果使用 `UseUrls`、`--urls` 命令行参数、`urls` 主机配置键或 `ASPNETCORE_URLS` 环境变量，URL 前缀可采用以下任意格式。
 
-仅 HTTP URL 前缀是有效的。 使用 `UseUrls` 配置 URL 绑定时，Kestrel 不支持 SSL。
+仅 HTTP URL 前缀是有效的。 使用 `UseUrls` 配置 URL 绑定时，Kestrel 不支持 HTTPS。
 
 * 包含端口号的 IPv4 地址
 
@@ -987,7 +1016,7 @@ private class TlsFilterAdapter : IConnectionAdapter
   主机名、`*`和 `+` 并不特殊。 没有识别为有效 IP 地址或 `localhost` 的任何内容都将绑定到所有 IPv4 和 IPv6 IP。 若要将不同主机名绑定到相同端口上的不同 ASP.NET Core 应用，请使用 [HTTP.sys](xref:fundamentals/servers/httpsys) 或 IIS、Nginx 或 Apache 等反向代理服务器。
 
   > [!WARNING]
-  > 如果在启用了主机筛选的情况下不使用反向代理，请启用[主机筛选](#host-filtering)。
+  > 采用反向代理配置进行托管需要[主机筛选](#host-filtering)。
 
 * 包含端口号的主机 `localhost` 名称或包含端口号的环回 IP
 
@@ -1001,7 +1030,7 @@ private class TlsFilterAdapter : IConnectionAdapter
 
 ## <a name="host-filtering"></a>主机筛选
 
-尽管 Kestrel 支持基于前缀的配置（例如 `http://example.com:5000`），但 Kestrel 在很大程度上会忽略主机名。 主机 `localhost` 是一个特殊情况，用于绑定至环回地址。 除了显式 IP 地址以外的所有主机都绑定至所有公共 IP 地址。 这些信息都不用于验证请求 `Host` 标头。
+尽管 Kestrel 支持基于前缀的配置（例如 `http://example.com:5000`），但 Kestrel 在很大程度上会忽略主机名。 主机 `localhost` 是一个特殊情况，用于绑定至环回地址。 除了显式 IP 地址以外的所有主机都绑定至所有公共 IP 地址。 不验证 `Host` 标头。
 
 解决方法是，使用主机筛选中间件。 主机筛选中间件由 [Microsoft.AspNetCore.HostFiltering](https://www.nuget.org/packages/Microsoft.AspNetCore.HostFiltering) 包提供，此包包含在 [Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)中（ASP.NET Core 2.1 或更高版本）。 该中间件由 [CreateDefaultBuilder](/dotnet/api/microsoft.aspnetcore.webhost.createdefaultbuilder) 添加，可调用 [AddHostFiltering](/dotnet/api/microsoft.aspnetcore.builder.hostfilteringservicesextensions.addhostfiltering)：
 
@@ -1018,13 +1047,14 @@ appsettings.json：
 ```
 
 > [!NOTE]
-> [转接头中间件](xref:host-and-deploy/proxy-load-balancer)同样提供 [ForwardedHeadersOptions.AllowedHosts](/dotnet/api/microsoft.aspnetcore.builder.forwardedheadersoptions.allowedhosts) 选项。 转接头中间件和主机筛选中间件具有适合不同方案的相似功能。 如果未保留主机标头，并且使用反向代理服务器或负载均衡器转接请求，则使用转接头中间件设置 `AllowedHosts` 比较合适。 将 Kestrel 用作面向公众的边缘服务器或直接转接主机标头时，使用主机筛选中间件设置 `AllowedHosts` 比较合适。
+> [转接头中间件](xref:host-and-deploy/proxy-load-balancer)同样提供 [ForwardedHeadersOptions.AllowedHosts](/dotnet/api/microsoft.aspnetcore.builder.forwardedheadersoptions.allowedhosts) 选项。 转接头中间件和主机筛选中间件具有适合不同方案的相似功能。 如果未保留 `Host` 标头，并且使用反向代理服务器或负载均衡器转接请求，则使用转接头中间件设置 `AllowedHosts` 比较合适。 将 Kestrel 用作面向公众的边缘服务器或直接转接 `Host` 标头时，使用主机筛选中间件设置 `AllowedHosts` 比较合适。
 >
-> 有关转接头中间件的详细信息，请参阅[配置 ASP.NET Core 以使用代理服务器和负载均衡器](xref:host-and-deploy/proxy-load-balancer)。
+> 有关转接头中间件的详细信息，请参阅 <xref:host-and-deploy/proxy-load-balancer>。
 
 ## <a name="additional-resources"></a>其他资源
 
-* [Enforce HTTPS](xref:security/enforcing-ssl)
+* <xref:test/troubleshoot>
+* <xref:security/enforcing-ssl>
+* <xref:host-and-deploy/proxy-load-balancer>
 * [Kestrel 源代码](https://github.com/aspnet/KestrelHttpServer)
 * [RFC 7230：消息语法和路由（5.4 节：主机）](https://tools.ietf.org/html/rfc7230#section-5.4)
-* [配置 ASP.NET Core 以使用代理服务器和负载均衡器](xref:host-and-deploy/proxy-load-balancer)

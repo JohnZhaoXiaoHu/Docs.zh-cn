@@ -8,16 +8,18 @@ ms.date: 06/05/2013
 ms.assetid: 347210ba-c452-4feb-886f-b51d89f58971
 msc.legacyurl: /signalr/overview/older-versions/troubleshooting
 msc.type: authoredcontent
-ms.openlocfilehash: df949347cecd9ac617a52ad798f37bebdb8524fa
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: 6c2a8e72959c9370ff46084ca135c2b2977f4f42
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41831676"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287678"
 ---
 <a name="signalr-troubleshooting-signalr-1x"></a>SignalR 疑难解答 (SignalR 1.x)
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档介绍使用 signalr 实现的常见故障排除问题。
 
@@ -53,7 +55,7 @@ SignalR 需要 JSON 分析器必须存在要序列化的服务器和客户端之
 
 ### <a name="mixing-hub-and-persistentconnection-syntax"></a>混合使用中心 PersistentConnection 语法
 
-SignalR 使用两个通信模型： 中心和 PersistentConnections。 调用这两种通信模型的语法中是不同的客户端代码。 如果在服务器代码中添加了一个中心，验证所有客户端代码中使用正确的中心语法。
+SignalR 使用两个通信模型：中心和 PersistentConnections。 调用这两种通信模型的语法中是不同的客户端代码。 如果在服务器代码中添加了一个中心，验证所有客户端代码中使用正确的中心语法。
 
 **在 JavaScript 客户端中创建 PersistentConnection 的 JavaScript 客户端代码**
 
@@ -172,7 +174,7 @@ SignalR 将自动使用 JSON 进行序列化您的方法参数-这不需要自�
 
 验证发送到你的方法的参数不包括非可序列化类型 （如文件句柄或数据库连接）。 如果你需要在不想要发送到客户端 （不管是安全或者序列化的原因），使用服务器端对象上使用成员`JSONIgnore`属性。
 
-### <a name="protocol-error-unknown-transport-error"></a>"协议错误： 未知的传输"错误
+### <a name="protocol-error-unknown-transport-error"></a>"协议错误：未知的传输"错误
 
 如果客户端不支持 SignalR 使用的传输，则可能出现此错误。 请参阅[传输和回退](../getting-started/introduction-to-signalr.md#transports)与 SignalR 可以在其上使用浏览器的信息。
 
@@ -184,11 +186,11 @@ SignalR 将自动使用 JSON 进行序列化您的方法参数-这不需要自�
 
 如果正在使用身份验证，并且客户端已注销，停止连接之前，可能会出现此错误。 解决方案是停止 SignalR 连接之前注销客户端。
 
-### <a name="uncaught-error-signalr-jquery-not-found-please-ensure-jquery-is-referenced-before-the-signalrjs-file-error"></a>"未捕获的错误： SignalR： 找不到 jQuery。 请确保前 SignalR.js 文件引用 jQuery"错误
+### <a name="uncaught-error-signalr-jquery-not-found-please-ensure-jquery-is-referenced-before-the-signalrjs-file-error"></a>"未捕获的错误：SignalR： 找不到 jQuery。 请确保前 SignalR.js 文件引用 jQuery"错误
 
 SignalR JavaScript 客户端需要 jQuery 来运行。 验证你对 jQuery 的引用正确，所用的路径有效，以及对 jQuery 的引用是对 SignalR 的引用之前。
 
-### <a name="uncaught-typeerror-cannot-read-property-ltpropertygt-of-undefined-error"></a>"未捕获的 TypeError： 无法读取属性&lt;属性&gt;未定义的"错误
+### <a name="uncaught-typeerror-cannot-read-property-ltpropertygt-of-undefined-error"></a>"未捕获的 TypeError:无法读取属性&lt;属性&gt;未定义的"错误
 
 防止不 jQuery 或引用正确的中心代理产生此错误。 验证引用与 jQuery 和中心代理正确，所用的路径有效，以及对 jQuery 的引用是对中心代理的引用之前。 集线器代理的默认引用应如下所示：
 

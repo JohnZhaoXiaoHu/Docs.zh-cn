@@ -8,16 +8,18 @@ ms.date: 04/17/2013
 ms.assetid: c334adc3-d6dc-44f3-9f06-f7634475aad3
 msc.legacyurl: /signalr/overview/older-versions/signalr-1x-hubs-api-guide-net-client
 msc.type: authoredcontent
-ms.openlocfilehash: 5889429645ea1c682ea43c4b17afb3745318e32d
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: 34356338f24788226351e8e22b47eaaf7ea03e61
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41830905"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287971"
 ---
 <a name="aspnet-signalr-hubs-api-guide---net-client-signalr-1x"></a>ASP.NET SignalR 中心 API 指南-.NET 客户端 (SignalR 1.x)
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档提供使用 SignalR.NET 客户端，例如 Windows 应用商店 (WinRT)、 WPF、 Silverlight 和控制台应用程序中的版本 2 的中心 API 的简介。
 > 
@@ -314,12 +316,12 @@ API 参考主题的链接将指向.NET 4.5 版本的 API。 如果使用的.NET 
 
 SignalR 提供了以下连接可以处理的生存期事件：
 
-- `Received`： 在连接上接收到任何数据时引发。 提供接收到的数据。
-- `ConnectionSlow`： 当客户端检测到慢速或频繁删除连接时引发。
-- `Reconnecting`： 基础传输开始重新连接时引发。
-- `Reconnected`： 当基础传输已重新连接时引发。
-- `StateChanged`： 连接状态更改时引发。 提供的旧状态和新的状态。 有关连接状态的值请参阅[ConnectionState 枚举](https://msdn.microsoft.com/library/microsoft.aspnet.signalr.client.connectionstate(v=vs.111).aspx)。
-- `Closed`： 当连接已断开连接时引发。
+- `Received`：在连接上接收到任何数据时引发。 提供接收到的数据。
+- `ConnectionSlow`：当客户端检测到慢速或频繁删除连接时引发。
+- `Reconnecting`：基础传输开始重新连接时引发。
+- `Reconnected`：当基础传输已重新连接时引发。
+- `StateChanged`：连接状态更改时引发。 提供的旧状态和新的状态。 有关连接状态的值请参阅[ConnectionState 枚举](https://msdn.microsoft.com/library/microsoft.aspnet.signalr.client.connectionstate(v=vs.111).aspx)。
+- `Closed`：当连接已断开连接时引发。
 
 例如，如果你想要显示的错误的不严重，但会导致间歇性连接问题的警告消息，如缓慢或频繁删除的连接，处理`ConnectionSlow`事件。
 

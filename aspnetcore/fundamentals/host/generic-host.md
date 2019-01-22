@@ -5,14 +5,14 @@ description: 了解有关 .NET 中负责应用启动和生存期管理的通用�
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/30/2018
+ms.date: 11/28/2018
 uid: fundamentals/host/generic-host
-ms.openlocfilehash: 9943c9dd2d6dd67a79186ee880b181a5915d06be
-ms.sourcegitcommit: edb9d2d78c9a4d68b397e74ae2aff088b325a143
+ms.openlocfilehash: 4d435984d8169b558ab026ef8541c90f7a2a96b9
+ms.sourcegitcommit: 0fc89b80bb1952852ecbcf3c5c156459b02a6ceb
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51505708"
+ms.lasthandoff: 11/29/2018
+ms.locfileid: "52618150"
 ---
 # <a name="net-generic-host"></a>.NET 通用主机
 
@@ -45,6 +45,28 @@ ms.locfileid: "51505708"
 
 [!code-csharp[](generic-host/samples-snapshot/2.x/GenericHostSample/Program.cs?name=snippet_HostBuilder)]
 
+## <a name="options"></a>选项
+
+<xref:Microsoft.Extensions.Hosting.HostOptions> 配置 <xref:Microsoft.Extensions.Hosting.IHost> 的选项。
+
+### <a name="shutdown-timeout"></a>关闭超时值
+
+<xref:Microsoft.Extensions.Hosting.HostOptions.ShutdownTimeout*> 设置 <xref:Microsoft.Extensions.Hosting.IHost.StopAsync*> 的超时值。 默认值为 5 秒。
+
+`Program.Main` 中的以下选项配置将默认值为 5 秒的关闭超时值增加至 20 秒：
+
+```csharp
+var host = new HostBuilder()
+    .ConfigureServices((hostContext, services) =>
+    {
+        services.Configure<HostOptions>(option =>
+        {
+            option.ShutdownTimeout = System.TimeSpan.FromSeconds(20);
+        });
+    })
+    .Build();
+```
+
 ## <a name="default-services"></a>默认服务
 
 在主机初始化期间注册以下服务：
@@ -75,7 +97,7 @@ ms.locfileid: "51505708"
 **类型**：string  
 **默认**：包含应用入口点的程序集的名称。  
 **设置使用**：`HostBuilderContext.HostingEnvironment.ApplicationName`  
-**环境变量**：`<PREFIX_>APPLICATIONNAME`（`<PREFIX_>` 是[用户定义的可选前缀](#configuration-builder)）
+**环境变量**：`<PREFIX_>APPLICATIONNAME`（`<PREFIX_>` 是[用户定义的可选前缀](#configurehostconfiguration)）
 
 ### <a name="content-root"></a>内容根
 
@@ -85,7 +107,7 @@ ms.locfileid: "51505708"
 **类型**：string  
 **默认值**：默认为应用程序集所在的文件夹。  
 **设置使用**：`UseContentRoot`  
-**环境变量**：`<PREFIX_>CONTENTROOT`（`<PREFIX_>` 是[用户定义的可选前缀](#configuration-builder)）
+**环境变量**：`<PREFIX_>CONTENTROOT`（`<PREFIX_>` 是[用户定义的可选前缀](#configurehostconfiguration)）
 
 如果路径不存在，主机将无法启动。
 
@@ -99,7 +121,7 @@ ms.locfileid: "51505708"
 **类型**：string  
 **默认值**：生产  
 **设置使用**：`UseEnvironment`  
-**环境变量**：`<PREFIX_>ENVIRONMENT`（`<PREFIX_>` 是[用户定义的可选前缀](#configuration-builder)）
+**环境变量**：`<PREFIX_>ENVIRONMENT`（`<PREFIX_>` 是[用户定义的可选前缀](#configurehostconfiguration)）
 
 环境可以设置为任何值。 框架定义的值包括 `Development``Staging` 和 `Production`。 值不区分大小写。
 

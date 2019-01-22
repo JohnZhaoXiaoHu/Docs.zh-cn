@@ -1,17 +1,18 @@
 ---
-title: 添加、 下载和删除标识到 ASP.NET Core 项目中的自定义用户数据
+title: 添加、 下载和删除标识到 ASP.NET Core 项目中的用户数据
 author: rick-anderson
 description: 了解如何在 ASP.NET Core 项目中添加到标识的自定义用户数据。 删除每个 GDPR 的数据。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.date: 6/16/2018
+ms.custom: seodec18
 uid: security/authentication/add-user-data
-ms.openlocfilehash: bc9d46f74a4bc270ffe5cbed16085e0a8043b35c
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 5465117e5db880e8298e6c2075a27699e4081894
+ms.sourcegitcommit: 49faca2644590fc081d86db46ea5e29edfc28b7b
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50206817"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53121096"
 ---
 # <a name="add-download-and-delete-custom-user-data-to-identity-in-an-aspnet-core-project"></a>添加、 下载和删除标识到 ASP.NET Core 项目中的自定义用户数据
 
@@ -59,8 +60,8 @@ dotnet new webapp -o WebApp1
   * 选择要重写的以下文件：
     * **帐户/注册**
     * **帐户/管理/索引**
-  * 选择**+** 按钮以创建一个新**数据上下文类**。 接受的类型 (**WebApp1.Models.WebApp1Context**如果项目命名为**WebApp1**)。
-  * 选择**+** 按钮以创建一个新**User 类**。 接受的类型 (**WebApp1User**如果项目命名为**WebApp1**) >**添加**。
+  * 选择 **+** 按钮以创建一个新**数据上下文类**。 接受的类型 (**WebApp1.Models.WebApp1Context**如果项目命名为**WebApp1**)。
+  * 选择 **+** 按钮以创建一个新**User 类**。 接受的类型 (**WebApp1User**如果项目命名为**WebApp1**) >**添加**。
 * 选择**添加**。
 
 # <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)

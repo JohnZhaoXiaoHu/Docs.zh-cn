@@ -5,12 +5,12 @@ description: 将标识与 ASP.NET Core 应用配合使用。 了解如何设置�
 ms.author: riande
 ms.date: 08/08/2018
 uid: security/authentication/identity
-ms.openlocfilehash: 099ebd398238173079e5e659171f31ee5b1f7452
-ms.sourcegitcommit: 85f2939af7a167b9694e1d2093277ffc9a741b23
+ms.openlocfilehash: 03f89114b516a37ee1d06934f2e549b4d56ff099
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/02/2018
-ms.locfileid: "50968327"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098764"
 ---
 # <a name="introduction-to-identity-on-aspnet-core"></a>ASP.NET Core 上的标识简介
 
@@ -29,13 +29,13 @@ ASP.NET Core 标识是一个成员身份系统，将登录功能添加到 ASP.NE
 <a name="adi"></a>
 ## <a name="adddefaultidentity-and-addidentity"></a>AddDefaultIdentity 和 AddIdentity
 
-[AddDefaultIdentity](/dotnet/api/microsoft.extensions.dependencyinjection.identityservicecollectionuiextensions.adddefaultidentity?view=aspnetcore-2.1#Microsoft_Extensions_DependencyInjection_IdentityServiceCollectionUIExtensions_AddDefaultIdentity__1_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Action_Microsoft_AspNetCore_Identity_IdentityOptions__) ASP 中引入了。Core 2.1。 调用`AddDefaultIdentity`类似于调用以下：
+[AddDefaultIdentity](/dotnet/api/microsoft.extensions.dependencyinjection.identityservicecollectionuiextensions.adddefaultidentity?view=aspnetcore-2.1#Microsoft_Extensions_DependencyInjection_IdentityServiceCollectionUIExtensions_AddDefaultIdentity__1_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Action_Microsoft_AspNetCore_Identity_IdentityOptions__) ASP.NET Core 2.1 中引入了。 调用`AddDefaultIdentity`类似于调用以下：
 
 * [AddIdentity](/dotnet/api/microsoft.extensions.dependencyinjection.identityservicecollectionextensions.addidentity?view=aspnetcore-2.1#Microsoft_Extensions_DependencyInjection_IdentityServiceCollectionExtensions_AddIdentity__2_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Action_Microsoft_AspNetCore_Identity_IdentityOptions__)
 * [AddDefaultUI](/dotnet/api/microsoft.aspnetcore.identity.identitybuilderuiextensions.adddefaultui?view=aspnetcore-2.1#Microsoft_AspNetCore_Identity_IdentityBuilderUIExtensions_AddDefaultUI_Microsoft_AspNetCore_Identity_IdentityBuilder_)
 * [AddDefaultTokenProviders](/dotnet/api/microsoft.aspnetcore.identity.identitybuilderextensions.adddefaulttokenproviders?view=aspnetcore-2.1#Microsoft_AspNetCore_Identity_IdentityBuilderExtensions_AddDefaultTokenProviders_Microsoft_AspNetCore_Identity_IdentityBuilder_)
 
-请参阅[AddDefaultIdentity 源](https://github.com/aspnet/Identity/blob/2634637fd535b229762b5e4a49cdd128f4d8f12e/src/UI/IdentityServiceCollectionUIExtensions.cs#L47-L64)有关详细信息。
+请参阅[AddDefaultIdentity 源](https://github.com/aspnet/AspNetCore/blob/release/2.2/src/Identity/UI/src/IdentityServiceCollectionUIExtensions.cs#L47-L63)有关详细信息。
 
 ::: moniker-end
 
@@ -166,7 +166,7 @@ PowerShell 使用分号作为命令分隔符。 使用 PowerShell 时，转义�
 
    [!code-csharp[](identity/sample/src/ASPNETv2.1-IdentityDemo/Login.cshtml.cs?name=snippet&highlight=10-11)]
 
-   基`Controller`类公开`User`，可以从控制器方法访问的属性。 例如，可以枚举`User.Claims`和做出授权决定。 有关详细信息，请参阅 <xref:security/authorization/introduction> 。
+   基`Controller`类公开`User`，可以从控制器方法访问的属性。 例如，可以枚举`User.Claims`和做出授权决定。 有关详细信息，请参阅 <xref:security/authorization/introduction>。
 
 ::: moniker-end
 

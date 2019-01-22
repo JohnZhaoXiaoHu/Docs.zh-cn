@@ -1,0 +1,1 @@
+[查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/first-mvc-app/start-mvc/sample)（[如何下载](xref:index#how-to-download-a-sample)）。

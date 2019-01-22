@@ -4,14 +4,14 @@ author: rick-anderson
 description: 了解生成 ASP.NET Core 应用的基础概念。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/25/2018
+ms.date: 01/06/2019
 uid: fundamentals/index
-ms.openlocfilehash: ab140051648c1640b3c4f382bfd8201c5c0c2039
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: a56beebd796448705c7b84f47699e9739f451419
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207467"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099229"
 ---
 # <a name="aspnet-core-fundamentals"></a>ASP.NET Core 基础知识
 
@@ -26,7 +26,7 @@ ASP.NET Core 应用是一个控制台应用，它在其 `Program.Main` 方法中
 * 加载 [.NET Core 运行时](https://github.com/dotnet/coreclr)。
 * 使用第一个命令行参数作为包含入口点 (`Main`) 的托管二进制文件的路径，并开始执行代码。
 
-`Main` 方法调用 [WebHost.CreateDefaultBuilder](xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder*)，后者按照[生成器模式](https://wikipedia.org/wiki/Builder_pattern)来创建 Web 主机。 生成器提供定义 Web 服务器（例如，<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel*>）和启动类 (<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.UseStartup*>) 的方法。 在前面的例子中，自动分配了 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器。 ASP.NET Core 的 Web 主机尝试在 IIS 上运行（如果可用）。 对于其他 Web 服务器（如 [HTTP.sys](xref:fundamentals/servers/httpsys)），可通过调用相应的扩展方法来使用。 在下一节对 `UseStartup` 进行了更深入的介绍。
+`Main` 方法调用 [WebHost.CreateDefaultBuilder](xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder*)，后者按照[生成器模式](https://wikipedia.org/wiki/Builder_pattern)来创建 Web 主机。 生成器包含定义 Web 服务器（例如，<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel*>）和启动类 (<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.UseStartup*>) 的方法。 在前面的例子中，自动分配了 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器。 ASP.NET Core 的 Web 主机尝试在 [Internet Information Services (IIS)](https://www.iis.net/)（若有）上运行。 对于其他 Web 服务器（如 [HTTP.sys](xref:fundamentals/servers/httpsys)），可通过调用相应的扩展方法来使用。 [启动](#startup)部分进一步介绍了 `UseStartup`。
 
 <xref:Microsoft.AspNetCore.Hosting.IWebHostBuilder> 是 `WebHost.CreateDefaultBuilder` 调用的返回类型，它提供了许多可选方法。 其中的一些方法包括用于在 HTTP.sys 中托管应用的 `UseHttpSys`，以及用于指定根内容目录的 <xref:Microsoft.Extensions.Hosting.HostingHostBuilderExtensions.UseContentRoot*>。 <xref:Microsoft.AspNetCore.Hosting.IWebHostBuilder.Build*> 和 <xref:Microsoft.AspNetCore.Hosting.WebHostExtensions.Run*> 方法生成 <xref:Microsoft.AspNetCore.Hosting.IWebHost> 对象，该对象托管应用并开始侦听 HTTP 请求。
 
@@ -41,7 +41,7 @@ ASP.NET Core 应用是一个控制台应用，它在其 `Program.Main` 方法中
 * 加载 [.NET Core 运行时](https://github.com/dotnet/coreclr)。
 * 使用第一个命令行参数作为包含入口点 (`Main`) 的托管二进制文件的路径，并开始执行代码。
 
-`Main` 方法使用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilder>，后者按照[生成器模式](https://wikipedia.org/wiki/Builder_pattern)来创建 Web 主机。 生成器提供定义 Web 服务器（例如，<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel*>）和启动类 (<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.UseStartup*>) 的方法。 在前面的示例中，使用了 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器。 对于其他 Web 服务器（如 [WebListener](xref:fundamentals/servers/weblistener)），可通过调用相应的扩展方法来使用。 在下一节对 `UseStartup` 进行了更深入的介绍。
+`Main` 方法使用 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilder>，后者按照[生成器模式](https://wikipedia.org/wiki/Builder_pattern)来创建 Web 主机。 生成器提供定义 Web 服务器（例如，<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderKestrelExtensions.UseKestrel*>）和启动类 (<xref:Microsoft.AspNetCore.Hosting.WebHostBuilderExtensions.UseStartup*>) 的方法。 在前面的示例中，使用了 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器。 对于其他 Web 服务器（如 [HTTP.sys](xref:fundamentals/servers/httpsys)），可通过调用相应的扩展方法来使用。 [启动](#startup)部分进一步介绍了 `UseStartup`。
 
 `WebHostBuilder` 提供了许多可选方法，其中包括用于在 IIS 和 IIS Express 中进行托管的 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilderIISExtensions.UseIISIntegration*>，以及用于指定根内容目录的 <xref:Microsoft.Extensions.Hosting.HostingHostBuilderExtensions.UseContentRoot*>。 <xref:Microsoft.AspNetCore.Hosting.IWebHostBuilder.Build*> 和 <xref:Microsoft.AspNetCore.Hosting.WebHostExtensions.Run*> 方法生成 <xref:Microsoft.AspNetCore.Hosting.IWebHost> 对象，该对象托管应用并开始侦听 HTTP 请求。
 
@@ -63,7 +63,7 @@ ASP.NET Core 应用是一个控制台应用，它在其 `Program.Main` 方法中
 
 ::: moniker-end
 
-`Startup` 类用于定义请求处理管道和配置应用所需的任何服务。 `Startup` 必须是公共类，并包含以下方法：
+`Startup` 类用于在其中配置应用所需的任何服务和定义请求处理管道。 `Startup` 类必须是公共类，通常包含以下方法。 `Startup.ConfigureServices` 是可选的。
 
 ::: moniker range=">= aspnetcore-2.0"
 
@@ -131,7 +131,50 @@ ASP.NET Core 应用可配置和启动一个*主机*，负责应用启动和生�
 
 ## <a name="servers"></a>服务器
 
-ASP.NET Core 托管模型不直接侦听请求。 托管模型依赖 HTTP 服务器实现将请求转发到应用。 转发的请求被打包为一组可通过接口进行访问的功能对象。 ASP.NET Core 包含托管的跨平台 Web 服务器，名为 [Kestrel](xref:fundamentals/servers/kestrel)。 Kestrel 通常在生产 Web 服务器（如反向代理配置中的 [IIS](https://www.iis.net/) 或 [Nginx](http://nginx.org)）后台运行。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+ASP.NET Core 托管模型不直接侦听请求。 托管模型依赖 HTTP 服务器实现将请求转发到应用。
+
+::: moniker range=">= aspnetcore-2.2"
+
+# <a name="windowstabwindows"></a>[Windows](#tab/windows)
+
+ASP.NET Core 提供以下服务器实现：
+
+* [Kestrel](xref:fundamentals/servers/kestrel) 服务器是跨平台托管 Web 服务器。 Kestrel 通常使用 [IIS](https://www.iis.net/) 在反向代理配置中运行。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+* IIS HTTP 服务器 (`IISHttpServer`) 是 IIS 的[进程内服务器](xref:fundamentals/servers/index#in-process-hosting-model)。
+* [HTTP.sys](xref:fundamentals/servers/httpsys) 服务器是 Windows 上适用于 ASP.NET Core 的 Web 服务器。
+
+# <a name="macostabmacos"></a>[macOS](#tab/macos)
+
+ASP.NET Core 使用 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器实现。 Kestrel 是跨平台托管 Web 服务器。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+
+# <a name="linuxtablinux"></a>[Linux](#tab/linux)
+
+ASP.NET Core 使用 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器实现。 Kestrel 是跨平台托管 Web 服务器。 Kestrel 通常使用 [Nginx](http://nginx.org) 或 [Apache](https://httpd.apache.org/) 在反向代理配置中运行。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+
+---
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-2.2"
+
+# <a name="windowstabwindows"></a>[Windows](#tab/windows)
+
+ASP.NET Core 提供以下服务器实现：
+
+* [Kestrel](xref:fundamentals/servers/kestrel) 服务器是跨平台托管 Web 服务器。 Kestrel 通常使用 [IIS](https://www.iis.net/) 在反向代理配置中运行。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+* [HTTP.sys](xref:fundamentals/servers/httpsys) 服务器是 Windows 上适用于 ASP.NET Core 的 Web 服务器。
+
+# <a name="macostabmacos"></a>[macOS](#tab/macos)
+
+ASP.NET Core 使用 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器实现。 Kestrel 是跨平台托管 Web 服务器。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+
+# <a name="linuxtablinux"></a>[Linux](#tab/linux)
+
+ASP.NET Core 使用 [Kestrel](xref:fundamentals/servers/kestrel) Web 服务器实现。 Kestrel 是跨平台托管 Web 服务器。 Kestrel 通常使用 [Nginx](http://nginx.org) 或 [Apache](https://httpd.apache.org/) 在反向代理配置中运行。 在 ASP.NET Core 2.0 或更高版本中，Kestrel 也可作为面向公众的边缘服务器运行，直接向 Internet 公开。
+
+---
+
+::: moniker-end
 
 有关更多信息，请参见<xref:fundamentals/servers/index>。
 

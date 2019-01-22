@@ -8,16 +8,18 @@ ms.date: 01/05/2015
 ms.assetid: a610c796-c131-473c-baef-2e6c568cb2a2
 msc.legacyurl: /signalr/overview/security/hub-authorization
 msc.type: authoredcontent
-ms.openlocfilehash: 886373f6c0949f9dc0d3f95edf1d052c6c05490b
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: d957d31e0c5453d0d4a48958fa4b25d61407f207
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48910962"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287619"
 ---
 <a name="authentication-and-authorization-for-signalr-hubs"></a>身份验证和 SignalR 集线器的授权
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom FitzMacken](https://github.com/tfitzmac)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本主题介绍如何限制哪些用户或角色可以访问中心的方法。
 >

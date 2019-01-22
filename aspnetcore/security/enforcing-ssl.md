@@ -4,14 +4,14 @@ author: rick-anderson
 description: 了解如何在 ASP.NET Core web 应用中需要 HTTPS/TLS。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/18/2018
+ms.date: 12/01/2018
 uid: security/enforcing-ssl
-ms.openlocfilehash: d287d30203fbf367203afe65e05478806fafab34
-ms.sourcegitcommit: 408921a932448f66cb46fd53c307a864f5323fe5
+ms.openlocfilehash: 0c3add9c8860a47932cda3a8b07c83dc774bf1f1
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/12/2018
-ms.locfileid: "51570043"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098969"
 ---
 # <a name="enforce-https-in-aspnet-core"></a>强制实施 HTTPS 在 ASP.NET Core
 
@@ -69,19 +69,19 @@ ms.locfileid: "51570043"
 
   **密钥**: `https_port`  
   **类型**：string  
-  **默认**： 未设置默认值。  
+  **默认**:未设置默认值。  
   **设置使用**：`UseSetting`  
-  **环境变量**: `<PREFIX_>HTTPS_PORT` (前缀`ASPNETCORE_`使用时[Web 主机](xref:fundamentals/host/web-host)。)
+  **环境变量**:`<PREFIX_>HTTPS_PORT` (该前缀`ASPNETCORE_`使用时[Web 主机](xref:fundamentals/host/web-host)。)
 
   配置时<xref:Microsoft.AspNetCore.Hosting.IWebHostBuilder>在`Program`:
 
   [!code-csharp[](enforcing-ssl/sample-snapshot/Program.cs?name=snippet_Program&highlight=10)]
-* 指示具有安全方案使用的端口`ASPNETCORE_URLS`环境变量。 将服务器配置为环境变量。 中间件间接发现通过 HTTPS 端口<xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>。 (Does**不**反向代理部署中工作。)
+* 指示具有安全方案使用的端口`ASPNETCORE_URLS`环境变量。 将服务器配置为环境变量。 中间件间接发现通过 HTTPS 端口<xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>。 反向代理部署这种方法不起作用。
 * 在开发中，在中设置 HTTPS URL *launchsettings.json*。 使用 IIS Express 时，请启用 HTTPS。
-* 配置 HTTPS URL 终结点的面向公众 edge 部署[Kestrel](xref:fundamentals/servers/kestrel)或[HTTP.sys](xref:fundamentals/servers/httpsys)。 仅**一个 HTTPS 端口**应用使用。 中间件发现通过端口<xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>。
+* 配置 HTTPS URL 终结点的面向公众 edge 部署[Kestrel](xref:fundamentals/servers/kestrel)服务器或[HTTP.sys](xref:fundamentals/servers/httpsys)服务器。 仅**一个 HTTPS 端口**应用使用。 中间件发现通过端口<xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>。
 
 > [!NOTE]
-> 当应用程序运行时在反向代理 （例如，IIS，IIS Express），后面`IServerAddressesFeature`不可用。 必须手动配置端口。 如果端口未设置，请求不会重定向。
+> 当应用在反向代理配置中，运行时<xref:Microsoft.AspNetCore.Hosting.Server.Features.IServerAddressesFeature>不可用。 设置使用一种其他方法在本部分中所述的端口。
 
 当 Kestrel 或 HTTP.sys 用作面向公众的边缘服务器时，必须配置 Kestrel 或 HTTP.sys，若要在其上同时侦听：
 
@@ -98,7 +98,7 @@ ms.locfileid: "51570043"
 
 如果反向代理配置中将请求转发，则使用[转发头中间件](xref:host-and-deploy/proxy-load-balancer)调用前 HTTPS 重定向中间件。 转发头中间件更新`Request.Scheme`，并使用`X-Forwarded-Proto`标头。 中间件允许重定向 Uri 和其他安全策略才能正常工作。 转发头中间件不使用时后, 端应用程序可能不接收正确的方案和最终会在重定向循环。 常见的最终用户错误消息是已发生过多的重定向。
 
-部署到 Azure 应用服务时，请按照中的指导[教程： 将现有的自定义 SSL 证书绑定到 Azure Web 应用](/azure/app-service/app-service-web-tutorial-custom-ssl)。
+部署到 Azure 应用服务时，请按照中的指导[教程：将现有自定义 SSL 证书绑定到 Azure Web 应用](/azure/app-service/app-service-web-tutorial-custom-ssl)。
 
 ### <a name="options"></a>选项
 
@@ -192,9 +192,9 @@ ASP.NET Core 2.1 或更高版本实现与 HSTS`UseHsts`扩展方法。 下面的
 
 `UseHsts` 不包括以下环回主机：
 
-* `localhost` : IPv4 环回地址。
-* `127.0.0.1` : IPv4 环回地址。
-* `[::1]` : IPv6 环回地址。
+* `localhost`：IPv4 环回地址。
+* `127.0.0.1`：IPv4 环回地址。
+* `[::1]`：IPv6 环回地址。
 
 ::: moniker-end
 
@@ -260,7 +260,7 @@ dotnet dev-certs https --help
 ## <a name="additional-information"></a>其他信息
 
 * <xref:host-and-deploy/proxy-load-balancer>
-* [使用 Apache 在 Linux 上托管 ASP.NET Core: SSL 配置](xref:host-and-deploy/linux-apache#ssl-configuration)
-* [使用 Nginx 在 Linux 上托管 ASP.NET Core: SSL 配置](xref:host-and-deploy/linux-nginx#configure-ssl)
+* [使用 Apache 在 Linux 上托管 ASP.NET Core:HTTPS 配置](xref:host-and-deploy/linux-apache#https-configuration)
+* [使用 Nginx 在 Linux 上托管 ASP.NET Core:HTTPS 配置](xref:host-and-deploy/linux-nginx#https-configuration)
 * [如何在 IIS 上设置 SSL](/iis/manage/configuring-security/how-to-set-up-ssl-on-iis)
 * [OWASP HSTS 浏览器支持](https://www.owasp.org/index.php/HTTP_Strict_Transport_Security_Cheat_Sheet#Browser_Support)

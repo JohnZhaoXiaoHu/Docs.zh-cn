@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: ed562717-8591-4936-8e10-c7e63dcb570a
 msc.legacyurl: /signalr/overview/security/introduction-to-security
 msc.type: authoredcontent
-ms.openlocfilehash: 6336d9608f41c367c46d5b9552141546bc782b7d
-ms.sourcegitcommit: 12a8bdb8e83ca9c23c06f3bc6507c9e1a60ea7e5
+ms.openlocfilehash: 4386e08d966d32abb0510be7f0393888d85258ac
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/18/2018
-ms.locfileid: "49401863"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287920"
 ---
 <a name="introduction-to-signalr-security"></a>SignalR 安全性简介
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom FitzMacken](https://github.com/tfitzmac)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文介绍开发 SignalR 应用程序时必须考虑的安全问题。
 >
@@ -186,7 +188,7 @@ SSL 协议使用加密来保护客户端和服务器之间的数据传输。 如
 
 有关 JavaScript 代理文件的详细信息，请参阅[生成的代理和它为您完成](../guide-to-the-api/hubs-api-guide-javascript-client.md#genproxy)。 <a id="exceptions"></a>
 
-### <a name="exceptions"></a>异常
+### <a name="exceptions"></a>Exceptions
 
 应避免将异常对象传递到客户端，因为对象可能会公开给客户端的敏感信息。 相反，在显示的相关错误消息的客户端上调用方法。
 

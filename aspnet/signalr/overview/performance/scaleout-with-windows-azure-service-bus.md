@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: ce1305f9-30fd-49e3-bf38-d0a78dfb06c3
 msc.legacyurl: /signalr/overview/performance/scaleout-with-windows-azure-service-bus
 msc.type: authoredcontent
-ms.openlocfilehash: 3adc8768eb7271de32180ba98f67864b22283510
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 5cdb9b5eb6d3f5ebd5c96e4b0d89926c18bddadd
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48910793"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287606"
 ---
 <a name="signalr-scaleout-with-azure-service-bus"></a>使用 Azure 服务总线的 SignalR 横向扩展
 ====================
 通过[Mike Wasson](https://github.com/MikeWasson)， [Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 在本教程中，你将部署到 Windows Azure Web 角色，使用服务总线底板来将消息分散到每个角色实例的 SignalR 应用程序。 (还可以使用与服务总线底板[Azure 应用服务中的 web 应用](https://docs.microsoft.com/azure/app-service-web/)。)
 
@@ -49,13 +51,13 @@ ms.locfileid: "48910793"
 
     [!code-csharp[Main](scaleout-with-windows-azure-service-bus/samples/sample1.cs)]
 
-此代码使用的默认值配置底板[TopicCount](https://msdn.microsoft.com/library/microsoft.aspnet.signalr.servicebusscaleoutconfiguration.topiccount(v=vs.118).aspx)并[MaxQueueLength](https://msdn.microsoft.com/library/microsoft.aspnet.signalr.messaging.scaleoutconfiguration.maxqueuelength(v=vs.118).aspx)。 有关更改这些值的信息，请参阅[SignalR 性能： 横向扩展指标](signalr-performance.md#scaleout_metrics)。
+此代码使用的默认值配置底板[TopicCount](https://msdn.microsoft.com/library/microsoft.aspnet.signalr.servicebusscaleoutconfiguration.topiccount(v=vs.118).aspx)并[MaxQueueLength](https://msdn.microsoft.com/library/microsoft.aspnet.signalr.messaging.scaleoutconfiguration.maxqueuelength(v=vs.118).aspx)。 有关更改这些值的信息，请参阅[SignalR 性能：横向扩展指标](signalr-performance.md#scaleout_metrics)。
 
 对于每个应用程序，为"YourAppName"选择一个不同的值。 跨多个应用程序不使用相同的值。
 
 ## <a name="create-the-azure-services"></a>创建 Azure 服务
 
-创建云服务，如中所述[如何创建和部署云服务](https://docs.microsoft.com/azure/cloud-services/cloud-services-how-to-create-deploy)。 按照部分中的步骤"如何： 创建云服务使用快速创建"。 对于本教程，您不需要上传的证书。
+创建云服务，如中所述[如何创建和部署云服务](https://docs.microsoft.com/azure/cloud-services/cloud-services-how-to-create-deploy)。 按照部分中的步骤"如何：创建云服务使用快速创建"。 对于本教程，您不需要上传的证书。
 
 ![](scaleout-with-windows-azure-service-bus/_static/image2.png)
 
@@ -87,8 +89,8 @@ ms.locfileid: "48910793"
 
 项目向导将创建两个项目：
 
-- ChatService： 此项目是 Windows Azure 应用程序。 它定义的 Azure 角色和其他配置选项。
-- SignalRChat： 此项目是 ASP.NET MVC 5 项目。
+- ChatService:此项目是 Windows Azure 应用程序。 它定义的 Azure 角色和其他配置选项。
+- SignalRChat:此项目是 ASP.NET MVC 5 项目。
 
 ## <a name="create-the-signalr-chat-application"></a>创建 SignalR 聊天应用程序
 

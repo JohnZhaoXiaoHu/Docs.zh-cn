@@ -3,21 +3,21 @@ title: 在 ASP.NET Core Facebook 外部登录安装程序
 author: rick-anderson
 description: 本教程演示的集成到现有的 ASP.NET Core 应用程序的 Facebook 帐户用户身份验证。
 ms.author: riande
-ms.custom: mvc
-ms.date: 11/11/2018
+ms.custom: mvc, seodec18
+ms.date: 12/18/2018
 uid: security/authentication/facebook-logins
-ms.openlocfilehash: e8ae16538b5d6844af7d983071fad629ebbe6217
-ms.sourcegitcommit: 09bcda59a58019fdf47b2db5259fe87acf19dd38
+ms.openlocfilehash: 66f895c7c8dcc00d991c0ea57535f2ed56431a77
+ms.sourcegitcommit: 3e94d192b2ed9409fe72e3735e158b333354964c
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/15/2018
-ms.locfileid: "51708499"
+ms.lasthandoff: 12/21/2018
+ms.locfileid: "53735773"
 ---
 # <a name="facebook-external-login-setup-in-aspnet-core"></a>在 ASP.NET Core Facebook 外部登录安装程序
 
 作者：[Valeriy Novytskyy](https://github.com/01binary) 和 [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-本教程演示如何使用户可以使用示例 ASP.NET Core 2.0 项目上创建其 Facebook 帐户登录[上一页](xref:security/authentication/social/index)。 Facebook 身份验证要求[Microsoft.AspNetCore.Authentication.Facebook](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Facebook) NuGet 包。 我们先按照创建 Facebook 应用程序 ID[官方步骤](https://developers.facebook.com)。
+本教程演示如何使用户可以使用示例 ASP.NET Core 2.0 项目上创建其 Facebook 帐户登录[上一页](xref:security/authentication/social/index)。 我们先按照创建 Facebook 应用程序 ID[官方步骤](https://developers.facebook.com)。
 
 ## <a name="create-the-app-in-facebook"></a>在 Facebook 中创建应用
 
@@ -74,9 +74,9 @@ dotnet user-secrets set Authentication:Facebook:AppSecret <app-secret>
 将 Facebook 服务中的添加`ConfigureServices`中的方法*Startup.cs*文件：
 
 ```csharp
-services.AddIdentity<ApplicationUser, IdentityRole>()
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+services.AddDefaultIdentity<IdentityUser>()
+        .AddDefaultUI(UIFramework.Bootstrap4)
+        .AddEntityFrameworkStores<ApplicationDbContext>();
 
 services.AddAuthentication().AddFacebook(facebookOptions =>
 {
@@ -121,7 +121,7 @@ app.UseFacebookAuthentication(new FacebookOptions()
 
 运行你的应用程序，然后单击**登录**。 请参阅使用 Facebook 登录的选项。
 
-![Web 应用程序： 用户未经过身份验证](index/_static/DoneFacebook.png)
+![Web 应用程序：用户未经过身份验证](index/_static/DoneFacebook.png)
 
 当您单击**Facebook**，你将重定向到 Facebook 进行身份验证：
 
@@ -129,22 +129,24 @@ app.UseFacebookAuthentication(new FacebookOptions()
 
 Facebook 身份验证请求的默认公共配置文件和电子邮件地址：
 
-![Facebook 身份验证页面](index/_static/FBLoginDone.png)
+![Facebook 身份验证页许可屏幕](index/_static/FBLoginDone.png)
 
 输入你的 Facebook 凭据后你重定向回你的站点，你可以设置你的电子邮件。
 
 现在已在使用 Facebook 凭据登录：
 
-![Web 应用程序： 用户通过身份验证](index/_static/Done.png)
+![Web 应用程序：用户通过身份验证](index/_static/Done.png)
 
 [!INCLUDE[Forward request information when behind a proxy or load balancer section](includes/forwarded-headers-middleware.md)]
 
 ## <a name="troubleshooting"></a>疑难解答
 
-* **ASP.NET Core 2.x 仅：** 如果标识未通过调用配置`services.AddIdentity`中`ConfigureServices`，尝试进行身份验证将导致*ArgumentException： 必须提供 SignInScheme 选项*。 在本教程中使用的项目模板可确保，此操作。
+* **ASP.NET Core 仅限 2.x:** 如果不通过调用配置标识`services.AddIdentity`中`ConfigureServices`，尝试进行身份验证将导致*ArgumentException:必须提供 SignInScheme 选项*。 在本教程中使用的项目模板可确保，此操作。
 * 如果尚未通过应用初始迁移创建站点数据库，则获取*处理请求时，数据库操作失败*错误。 点击**应用迁移**创建数据库，并刷新以忽略错误继续。
 
 ## <a name="next-steps"></a>后续步骤
+
+* 添加[Microsoft.AspNetCore.Authentication.Facebook](https://www.nuget.org/packages/Microsoft.AspNetCore.Authentication.Facebook)到 Facebook 身份验证的高级方案的项目的 NuGet 包。 此包不需要将 Facebook 外部登录功能与您的应用程序集成。 
 
 * 本文介绍了您如何可以使用 Facebook 进行验证。 可以遵循类似的方法来使用上列出其他提供程序进行身份验证[上一页](xref:security/authentication/social/index)。
 

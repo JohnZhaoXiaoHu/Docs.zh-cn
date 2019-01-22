@@ -2,17 +2,16 @@
 title: ASP.NET Core SignalR 入门
 author: tdykstra
 description: 在本教程中，创建使用 ASP.NET Core SignalR 的聊天应用。
-monikerRange: '>= aspnetcore-2.1'
 ms.author: tdykstra
 ms.custom: mvc
-ms.date: 08/31/2018
+ms.date: 11/30/2018
 uid: tutorials/signalr
-ms.openlocfilehash: 7d9f3a3f8aa7a5e47169da66e6fa2d6a28de3853
-ms.sourcegitcommit: 2d3e5422d530203efdaf2014d1d7df31f88d08d0
+ms.openlocfilehash: 36296513726f7e098a536afc22fcbfb2cafe946d
+ms.sourcegitcommit: e1cc4c1ef6c9e07918a609d5ad7fadcb6abe3e12
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "51021243"
+ms.lasthandoff: 01/03/2019
+ms.locfileid: "53997274"
 ---
 # <a name="tutorial-get-started-with-aspnet-core-signalr"></a>教程：ASP.NET Core SignalR 入门
 
@@ -31,25 +30,7 @@ ms.locfileid: "51021243"
 
 [查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/signalr/sample)（[如何下载](xref:index#how-to-download-a-sample)）。
 
-## <a name="prerequisites"></a>系统必备
-
-# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
-
-* 已安装“ASP.NET 和 Web 开发”工作负载的 [Visual Studio 2017 版本 15.8 或更高版本](https://www.visualstudio.com/downloads/)
-* [.NET Core SDK 2.1 或更高版本](https://www.microsoft.com/net/download/all)
-
-# <a name="visual-studio-codetabvisual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
-
-* [Visual Studio Code](https://code.visualstudio.com/download)
-* [.NET Core SDK 2.1 或更高版本](https://www.microsoft.com/net/download/all)
-* [用于 Visual Studio Code 的 C#](https://marketplace.visualstudio.com/items?itemName=ms-vscode.csharp)
-
-# <a name="visual-studio-for-mactabvisual-studio-mac"></a>[Visual Studio for Mac](#tab/visual-studio-mac)
-
-* [Visual Studio for Mac 7.5.4 版或更高版本](https://www.visualstudio.com/downloads/)
-* [.NET Core SDK 2.1 或更高版本](https://www.microsoft.com/net/download/all)（包含在 Visual Studio 安装中）
-
----
+[!INCLUDE [|Prerequisites](~/includes/net-core-prereqs-all-2.2.md)]
 
 ## <a name="create-a-web-project"></a>创建 Web 项目
 
@@ -63,7 +44,7 @@ ms.locfileid: "51021243"
 
 * 选择“Web 应用”，以创建使用 Razor Pages 的项目。
 
-* 选择 .NET Core 的目标框架，选择 ASP.NET Core 2.1，然后单击“确定”。
+* 选择“.NET Core”目标框架，选择“ASP.NET Core 2.2”，然后单击“确定”。
 
   ![Visual Studio 中的“新建项目”对话框](signalr/_static/signalr-new-project-choose-type.png)
 
@@ -182,7 +163,7 @@ ms.locfileid: "51021243"
 
   `ChatHub` 类继承自 SignalR `Hub` 类。 `Hub` 类管理连接、组和消息。
 
-  任何连接客户端都可以调用 `SendMessage` 方法。 该方法将接收到的消息发送到所有客户端。 SignalR 代码是异步模式，可提供最大的可伸缩性。
+  可通过已连接客户端调用 `SendMessage`，以向所有客户端发送消息。 本教程后面部分将显示调用该方法的 JavaScript 客户端代码。 SignalR 代码是异步模式，可提供最大的可伸缩性。
 
 ## <a name="configure-signalr"></a>配置 SignalR
 
@@ -227,7 +208,7 @@ ms.locfileid: "51021243"
 * 在集成终端中，运行以下命令：
 
   ```console
-  dotnet run -p SignalRChat
+  dotnet run -p SignalRChat.csproj
   ```
   
 # <a name="visual-studio-for-mactabvisual-studio-mac"></a>[Visual Studio for Mac](#tab/visual-studio-mac)
@@ -238,7 +219,7 @@ ms.locfileid: "51021243"
 
 * 从地址栏复制 URL，打开另一个浏览器实例或选项卡，并在地址栏中粘贴该 URL。
 
-* 选择任一浏览器，输入名称和消息，然后选择“发送”按钮。
+* 选择任一浏览器，输入名称和消息，然后选择“发送消息”按钮。
 
   两个页面上立即显示名称和消息。
 

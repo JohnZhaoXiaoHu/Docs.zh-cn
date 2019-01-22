@@ -1,25 +1,25 @@
 ---
-title: 中的 web Api 与 Azure Active Directory B2C 中 ASP.NET Core 云身份验证
+title: 中的 web Api 使用 Azure Active Directory B2C 在 ASP.NET Core 中的身份验证
 author: camsoper
 description: 了解如何设置与 ASP.NET Core Web API 的 Azure Active Directory B2C 身份验证。 经过身份验证的 web API 使用 Postman 进行测试。
 ms.author: casoper
 ms.date: 09/21/2018
-ms.custom: mvc
+ms.custom: mvc, seodec18
 uid: security/authentication/azure-ad-b2c-webapi
-ms.openlocfilehash: a7a109909d66b1016e78eedc8b802068143c65e3
-ms.sourcegitcommit: 6e6002de467cd135a69e5518d4ba9422d693132a
+ms.openlocfilehash: 6d0365b103572d6059ce61c54b9b3406da9e5bd4
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/16/2018
-ms.locfileid: "49348541"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098696"
 ---
-# <a name="cloud-authentication-in-web-apis-with-azure-active-directory-b2c-in-aspnet-core"></a>中的 web Api 与 Azure Active Directory B2C 中 ASP.NET Core 云身份验证
+# <a name="authentication-in-web-apis-with-azure-active-directory-b2c-in-aspnet-core"></a>中的 web Api 使用 Azure Active Directory B2C 在 ASP.NET Core 中的身份验证
 
 作者：[Cam Soper](https://twitter.com/camsoper)
 
 [Azure Active Directory B2C](/azure/active-directory-b2c/active-directory-b2c-overview) (Azure AD B2C) 是云标识管理解决方案，适用于 web 和移动应用。 该服务提供用于在云中和本地托管的应用的身份验证。 身份验证类型包括个人帐户，社交网络帐户和联合企业帐户。 Azure AD B2C 还提供了最小配置多重身份验证。
 
-Azure Active Directory (Azure AD) 和 Azure AD B2C 是单独的产品产品/服务。 Azure AD 租户表示组织，而 Azure AD B2C 租户表示与信赖方应用程序将使用的集合。 若要了解详细信息，请参阅[Azure AD B2C： 常见问题 (FAQ)](/azure/active-directory-b2c/active-directory-b2c-faqs)。
+Azure Active Directory (Azure AD) 和 Azure AD B2C 是单独的产品产品/服务。 Azure AD 租户表示组织，而 Azure AD B2C 租户表示与信赖方应用程序将使用的集合。 若要了解详细信息，请参阅[Azure AD B2C:常见问题 (FAQ)](/azure/active-directory-b2c/active-directory-b2c-faqs)。
 
 由于 web Api 有没有用户界面，因此它们无法将用户重定向到安全令牌服务等 Azure AD B2C。 相反，API 是具有已验证了用户与 Azure AD B2C 将调用应用程序中传递的持有者令牌。 API 会验证该令牌而无需直接用户交互。
 
@@ -54,7 +54,7 @@ Azure Active Directory (Azure AD) 和 Azure AD B2C 是单独的产品产品/服�
 
 使用以下值：
 
-| 设置                       | “值”               | 说明                                                                                  |
+| 设置                       | 值               | 说明                                                                                  |
 |-------------------------------|---------------------|----------------------------------------------------------------------------------------|
 | **名称**                      | *{API 名称}*        | 输入**名称**描述你的应用向使用者的应用。                     |
 | **包括 web 应用 /web API** | 是                 |                                                                                        |
@@ -83,7 +83,7 @@ Visual Studio Web 应用程序模板可以配置为使用 Azure AD B2C 租户进
 
 5. 完成窗体具有以下值：
 
-    | 设置                       | “值”                                                 |
+    | 设置                       | 值                                                 |
     |-------------------------------|-------------------------------------------------------|
     | **域名**               | *{域在 B2C 租户名称}*                |
     | **应用程序 ID**            | *{粘贴剪贴板中的应用程序 ID}*       |
@@ -110,7 +110,7 @@ Postman 模拟 web 应用从 Azure AD B2C 租户中获取令牌，因为它必�
 
 使用以下值：
 
-| 设置                       | “值”                            | 说明                           |
+| 设置                       | 值                            | 说明                           |
 |-------------------------------|----------------------------------|---------------------------------|
 | **名称**                      | Postman                          |                                 |
 | **包括 web 应用 /web API** | 是                              |                                 |
@@ -157,8 +157,8 @@ Postman 模拟 web 应用从 Azure AD B2C 租户中获取令牌，因为它必�
     ![401 未授权的响应](./azure-ad-b2c-webapi/postman-401-status.png)
 
 > [!IMPORTANT]
-> 如果收到"无法获取任何响应"错误，可能需要禁用中的 SSL 证书验证[Postman 设置](https://learning.getpostman.com/docs/postman/launching_postman/settings)。 
- 
+> 如果收到"无法获取任何响应"的错误，可能需要禁用中的 SSL 证书验证[Postman 设置](https://learning.getpostman.com/docs/postman/launching_postman/settings)。
+
 ### <a name="obtain-a-bearer-token"></a>获取持有者令牌
 
 若要向 web API 发出的经过身份验证的请求，持有者令牌是必需的。 Postman 可轻松地登录到 Azure AD B2C 租户并获取的令牌。
@@ -170,19 +170,19 @@ Postman 模拟 web 应用从 Azure AD B2C 租户中获取令牌，因为它必�
 2. 完成**获取新访问令牌**，如下所示的对话框：
 
 
-   |                设置                 |                                             “值”                                             |                                                                                                                                    说明                                                                                                                                     |
+   |                设置                 |                                             值                                             |                                                                                                                                    说明                                                                                                                                     |
    |----------------------------------------|-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
    |      <strong>令牌名称</strong>       |                                          *{令牌名称}*                                       |                                                                                                                   输入令牌的描述性名称。                                                                                                                    |
    |      <strong>授权类型</strong>       |                                           隐式                                            |                                                                                                                                                                                                                                                                              |
    |     <strong>回调 URL</strong>      |                                 `https://getpostman.com/postman`                              |                                                                                                                                                                                                                                                                              |
-   |       <strong>身份验证 URL</strong>        | `https://login.microsoftonline.com/{tenant domain name}/oauth2/v2.0/authorize?p=B2C_1_SiUpIn` |  替换 *{租户名称}* 与租户的域名。 **重要**： 此 URL 必须具有相同域名中找到的内容作为`AzureAdB2C.Instance`在 web API 的*appsettings.json*文件。 请参阅备注&dagger;。                                                  |
+   |       <strong>身份验证 URL</strong>        | `https://login.microsoftonline.com/{tenant domain name}/oauth2/v2.0/authorize?p=B2C_1_SiUpIn` |  替换 *{租户名称}* 与租户的域名。 **重要**:此 URL 必须具有相同域名中找到的内容作为`AzureAdB2C.Instance`中 web API 的*appsettings.json*文件。 请参阅备注&dagger;。                                                  |
    |       <strong>客户端 ID</strong>       |                *{输入 Postman 应用<b>应用程序 ID</b>}*                              |                                                                                                                                                                                                                                                                              |
    |         <strong>范围</strong>         |         `https://{tenant domain name}/{api}/user_impersonation openid offline_access`       | 替换 *{租户名称}* 与租户的域名。 替换 *{api}* 替换应用程序 ID URI 在 web API 时提供首次注册 (在这种情况下， `api`)。 Url 模式是： `https://{tenant}.onmicrosoft.com/{api-id-uri}/{scope name}`。         |
    |         <strong>状态</strong>         |                                      *{留}*                                          |                                                                                                                                                                                                                                                                              |
    | <strong>客户端身份验证</strong> |                                在正文中发送客户端凭据                                |                                                                                                                                                                                                                                                                              |
 
     > [!NOTE]
-    > &dagger; 在 Azure Active Directory B2C 门户中的策略设置对话框将显示两个可能的 Url： 一个采用格式`https://login.microsoftonline.com/`{租户名称} / {附加路径信息} 和其他格式`https://{tenant name}.b2clogin.com/`{租户名称} / {其他路径信息}。 它具有**关键**域中在中找到`AzureAdB2C.Instance`中 web API 的*appsettings.json*文件与在 web 应用中使用*appsettings.json*文件。 这是用于表示在 Postman 中的身份验证 URL 字段的同一个域。 请注意，Visual Studio 将使用比在门户中显示的内容稍有不同的 URL 格式。 只要域匹配，适用于 URL。
+    > &dagger; 在 Azure Active Directory B2C 门户中的策略设置对话框将显示两个可能的 Url:一个采用格式`https://login.microsoftonline.com/`{租户名称} / {附加路径信息} 和其他格式`https://{tenant name}.b2clogin.com/`{租户名称} / {附加路径信息}。 它具有**关键**域中在中找到`AzureAdB2C.Instance`中 web API 的*appsettings.json*文件与在 web 应用中使用*appsettings.json*文件。 这是用于表示在 Postman 中的身份验证 URL 字段的同一个域。 请注意，Visual Studio 将使用比在门户中显示的内容稍有不同的 URL 格式。 只要域匹配，适用于 URL。
 
 3. 选择**请求令牌**按钮。
 

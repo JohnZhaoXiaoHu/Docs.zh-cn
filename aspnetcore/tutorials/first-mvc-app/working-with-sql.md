@@ -1,44 +1,52 @@
 ---
-title: 在 ASP.NET Core MVC 应用中使用 SQL Server LocalDB
+title: 在 ASP.NET Core MVC 应用中使用 SQL
 author: rick-anderson
-description: 了解如何在简单的 ASP.NET Core MVC 应用中使用 SQL Server LocalDB。
+description: 了解如何在 ASP.NET Core MVC 应用中使用 SQL Server LocalDB 或 SQLite。
 ms.author: riande
 ms.date: 03/07/2017
 uid: tutorials/first-mvc-app/working-with-sql
-ms.openlocfilehash: fadd7be793b1ff6e863b549271acd5b6b2cc9305
-ms.sourcegitcommit: b2723654af4969a24545f09ebe32004cb5e84a96
+ms.openlocfilehash: 3757b972694a41cb87beb8ebee818cd498be6764
+ms.sourcegitcommit: 4e87712029de2aceb1cf2c52e9e3dda8195a5b8e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/18/2018
-ms.locfileid: "46011844"
+ms.lasthandoff: 12/14/2018
+ms.locfileid: "53382025"
 ---
-# <a name="work-with-sql-server-localdb-in-aspnet-core"></a>在 ASP.NET Core 中使用 SQL Server LocalDB
+# <a name="work-with-sql-in-aspnet-core"></a>在 ASP.NET Core 中使用 SQL
 
 作者：[Rick Anderson](https://twitter.com/RickAndMSFT)
 
 `MvcMovieContext` 对象处理连接到数据库并将 `Movie` 对象映射到数据库记录的任务。 在 Startup.cs 文件的 `ConfigureServices` 方法中向[依赖关系注入](xref:fundamentals/dependency-injection)容器注册数据库上下文：
 
-::: moniker range=">= aspnetcore-2.1"
+<!-- VS -------------------------->
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie21/Startup.cs?name=ConfigureServices&highlight=13-99)]
-
-::: moniker-end
-
-::: moniker range="<= aspnetcore-2.0"
-
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Startup.cs?name=ConfigureServices&highlight=6-7)]
-
-::: moniker-end
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Startup.cs?name=snippet_ConfigureServices&highlight=13-99)]
 
 ASP.NET Core [配置](xref:fundamentals/configuration/index)系统会读取 `ConnectionString`。 为了进行本地开发，它会从 appsettings.json 文件获取连接字符串：
 
 [!code-json[](start-mvc/sample/MvcMovie/appsettings.json?highlight=2&range=8-10)]
 
+<!-- Code -------------------------->
+# <a name="visual-studio-code--visual-studio-for-mactabvisual-studio-codevisual-studio-mac"></a>[Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Startup.cs?name=snippet_UseSqlite&highlight=11-12)]
+
+ASP.NET Core [配置](xref:fundamentals/configuration/index)系统会读取 `ConnectionString`。 为了进行本地开发，它会从 appsettings.json 文件获取连接字符串：
+
+[!code-json[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/appsettingsSQLite.json?highlight=2&range=8-10)]
+
+---  
+<!-- End of VS tabs -->
+
 将应用部署到测试或生产服务器时，可使用环境变量或另一种方法将连接字符串设置为实际的 SQL Server。 有关详细信息，请参阅[配置](xref:fundamentals/configuration/index)。
+
+<!-- VS -------------------------->
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
 
 ## <a name="sql-server-express-localdb"></a>SQL Server Express LocalDB
 
-LocalDB 是轻型版的 SQL Server Express 数据库引擎，以程序开发为目标。 LocalDB 作为按需启动并在用户模式下运行的轻量级数据库没有复杂的配置。 默认情况下，LocalDB 数据库在 C:/Users/\<user\> 目录中创建“\*.mdf”文件。
+LocalDB 是轻型版的 SQL Server Express 数据库引擎，以程序开发为目标。 LocalDB 作为按需启动并在用户模式下运行的轻量级数据库没有复杂的配置。 默认情况下，LocalDB 数据库在 C:/Users/{user} 目录中创建 .mdf 文件。
 
 * 从“视图”菜单中，打开“SQL Server 对象资源管理器”(SSOX)。
 
@@ -58,11 +66,18 @@ LocalDB 是轻型版的 SQL Server Express 数据库引擎，以程序开发为�
 
   ![显示表数据的打开的 Movie 表](working-with-sql/_static/vd22.png)
 
+# <a name="visual-studio-code--visual-studio-for-mactabvisual-studio-codevisual-studio-mac"></a>[Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+
+[!INCLUDE[](~/includes/rp/sqlite.md)]
+
+---  
+<!-- End of VS tabs -->
+
 ## <a name="seed-the-database"></a>设定数据库种子
 
 在 Models 文件夹中创建一个名为 `SeedData` 的新类。 将生成的代码替换为以下代码：
 
-[!code-csharp[](start-mvc/sample/MvcMovie/Models/SeedData.cs?name=snippet_1)]
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Models/SeedData.cs?name=snippet_1)]
 
 如果 DB 中没有任何电影，则会返回种子初始值设定项，并且不会添加任何电影。
 
@@ -78,31 +93,12 @@ if (context.Movie.Any())
 
 将 Program.cs 的内容替换为以下代码：
 
-::: moniker range=">= aspnetcore-2.1"
-
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie21/Program.cs)]
-
-::: moniker-end
-
-::: moniker range="<= aspnetcore-2.0"
-
-# <a name="aspnet-core-2xtabaspnetcore2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x/)
-
-将种子初始值设定项添加 Program.cs 文件中的 `Main` 方法：
-
-[!code-csharp[](start-mvc/sample/MvcMovie/Program.cs?highlight=6,14-32)]
-
-# <a name="aspnet-core-1xtabaspnetcore1x"></a>[ASP.NET Core 1.x](#tab/aspnetcore1x/)
-
-将种子初始值设定项添加到 Startup.cs 文件中的 `Configure` 方法末尾：
-
-[!code-csharp[](start-mvc/sample/MvcMovie/Startup.cs?highlight=9&name=snippet_seed)]
-
----
-
-::: moniker-end
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Program.cs)]
 
 测试应用
+
+<!-- VS -------------------------->
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
 
 * 删除 DB 中的所有记录。 可以使用浏览器中的删除链接，也可从 SSOX 执行此操作。
 * 强制应用初始化（调用 `Startup` 类中的方法），使种子方法能够正常运行。 若要强制进行初始化，必须先停止 IIS Express，然后再重新启动它。 可以使用以下任一方法来执行此操作：
@@ -115,6 +111,14 @@ if (context.Movie.Any())
 
     * 如果是在非调试模式下运行 VS 的，请按 F5 以在调试模式下运行
     * 如果是在调试模式下运行 VS 的，请停止调试程序并按 F5
+
+<!-- Code -------------------------->
+# <a name="visual-studio-code--visual-studio-for-mactabvisual-studio-codevisual-studio-mac"></a>[Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+
+删除 DB 中的所有记录（使种子方法运行）。 停止并启动应用以设定数据库种子。
+
+---  
+<!-- End of VS tabs -->
 
 应用将显示设定为种子的数据。
 

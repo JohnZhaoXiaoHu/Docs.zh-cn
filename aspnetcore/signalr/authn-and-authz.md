@@ -7,12 +7,12 @@ ms.author: anurse
 ms.custom: mvc
 ms.date: 06/29/2018
 uid: signalr/authn-and-authz
-ms.openlocfilehash: aa1721ba1802e1bfba04d57378085a136c100deb
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: 6624b2b4361eb0a5bb6e45108878ee6fe5ecb443
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50252901"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284406"
 ---
 # <a name="authentication-and-authorization-in-aspnet-core-signalr"></a>身份验证和授权在 ASP.NET Core SignalR
 
@@ -22,7 +22,7 @@ ms.locfileid: "50252901"
 
 ## <a name="authenticate-users-connecting-to-a-signalr-hub"></a>连接到的 SignalR hub 的用户进行身份验证
 
-可与 SignalR [ASP.NET Core 身份验证](xref:security/authentication/identity)若要将用户与每个连接相关联。 在中心，可以从访问身份验证数据[ `HubConnectionContext.User` ](/dotnet/api/microsoft.aspnetcore.signalr.hubconnectioncontext.user)属性。 身份验证允许中心与用户关联的所有连接上调用方法 (请参阅[SignalR 中管理用户和组](xref:signalr/groups)有关详细信息)。 多个连接可能包含单个用户相关联。
+可将 SignalR 与 [ASP.NET Core 身份验证](xref:security/authentication/identity) 结合使用，将用户与每个连接相关联。 在中心，可以从 [ `HubConnectionContext.User` ](/dotnet/api/microsoft.aspnetcore.signalr.hubconnectioncontext.user)属性访问身份验证数据。 中心可借助身份验证在所有与用户关联的连接上调用方法（请参阅[在 SignalR 中管理用户和组](xref:signalr/groups)，了解相关详细信息）。 单个用户可能与多个链接相关联。
 
 ### <a name="cookie-authentication"></a>Cookie 身份验证
 
@@ -141,3 +141,7 @@ public class ChatHub: Hub
     }
 }
 ```
+
+## <a name="additional-resources"></a>其他资源
+
+* [在 ASP.NET Core 中的持有者令牌身份验证](https://blogs.msdn.microsoft.com/webdev/2016/10/27/bearer-token-authentication-in-asp-net-core/)

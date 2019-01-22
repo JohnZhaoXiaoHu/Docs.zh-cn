@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: 7e781fc1-1c1f-45a8-bc1d-338e96dbe9c9
 msc.legacyurl: /signalr/overview/performance/scaleout-in-signalr
 msc.type: authoredcontent
-ms.openlocfilehash: 78d917ae3a12edb9f117742d1a35d2accb073f01
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 50f9e5bc2713af7fe41473339e360099a92d4c5d
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911674"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53286982"
 ---
 <a name="introduction-to-scaleout-in-signalr"></a>SignalR 的横向扩展简介
 ====================
 通过[Mike Wasson](https://github.com/MikeWasson)， [Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > ## <a name="software-versions-used-in-this-topic"></a>本主题中使用的软件版本
 >
@@ -78,9 +80,9 @@ SignalR 目前提供三个背板：
 
 使用基架，最大消息吞吐量低于客户端直接与单个服务器节点进行通信时，它是。 这是因为底板将转发到每个节点，每条消息，因此底板可能成为瓶颈。 此限制是否是一个问题取决于应用程序。 例如，下面是一些典型的 SignalR 方案：
 
-- [服务器广播](../getting-started/tutorial-server-broadcast-with-signalr.md)（例如，股票行情）： 背板适合此方案中，因为服务器控制发送消息的速率。
-- [客户端到客户端](../getting-started/tutorial-getting-started-with-signalr.md)（如聊天）： 在此方案中，基架可能如果成为瓶颈的消息数会随着客户端的数量; 即，如果消息的速率增长按比例更多客户端将加入。
-- [高频率实时功能](../getting-started/tutorial-high-frequency-realtime-with-signalr.md)（例如，实时游戏）： 底板不建议用于此方案。
+- [服务器广播](../getting-started/tutorial-server-broadcast-with-signalr.md)（例如，股票行情）：背板适合此方案中，因为服务器控制发送消息的速率。
+- [客户端到客户端](../getting-started/tutorial-getting-started-with-signalr.md)（如聊天）：在此方案中，基架可能如果成为瓶颈的消息数会随着客户端; 的数量也就是说，如果消息的速率增长按比例更多客户端加入。
+- [高频率实时功能](../getting-started/tutorial-high-frequency-realtime-with-signalr.md)（例如，实时游戏）：基架不建议用于此方案。
 
 ## <a name="enabling-tracing-for-signalr-scaleout"></a>为的 SignalR 横向扩展启用跟踪
 

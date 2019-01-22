@@ -3,14 +3,14 @@ title: 将身份验证和标识迁移到 ASP.NET Core 2.0
 author: scottaddie
 description: 本文概述了迁移 ASP.NET Core 1.x 身份验证和标识为 ASP.NET Core 2.0 的最常见步骤。
 ms.author: scaddie
-ms.date: 10/26/2017
+ms.date: 12/18/2018
 uid: migration/1x-to-2x/identity-2x
-ms.openlocfilehash: 6d457d42ad29ca579ba74e3b097d143bd6531b72
-ms.sourcegitcommit: d53e0cc71542b92de867bcce51575b054886f529
+ms.openlocfilehash: d28b4af483c7ec9d6cff6db3e2f1693e765d4202
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41833286"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637607"
 ---
 # <a name="migrate-authentication-and-identity-to-aspnet-core-20"></a>将身份验证和标识迁移到 ASP.NET Core 2.0
 
@@ -283,7 +283,7 @@ services.AddAuthentication(options =>
 
 上面所述的第一种变化形式是不受 2.0 更改的影响。
 
-2.0 更改的情况下，会影响上面所述的第二个变体。 例如，你可能会将以允许匿名用户到应用程序在 IIS 或[HTTP.sys](xref:fundamentals/servers/weblistener)层在控制器级别但授权用户。 在此方案中，将默认方案设置为`IISDefaults.AuthenticationScheme`中`ConfigureServices`方法*Startup.cs*:
+2.0 更改的情况下，会影响上面所述的第二个变体。 例如，你可能会将以允许匿名用户到你的应用在 IIS 或[HTTP.sys](xref:fundamentals/servers/httpsys)层在控制器级别但授权用户。 在此方案中，将默认方案设置为`IISDefaults.AuthenticationScheme`在`Startup.ConfigureServices`方法：
 
 ```csharp
 services.AddAuthentication(IISDefaults.AuthenticationScheme);

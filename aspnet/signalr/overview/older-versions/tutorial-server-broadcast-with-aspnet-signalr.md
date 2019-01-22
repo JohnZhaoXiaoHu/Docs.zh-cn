@@ -1,6 +1,6 @@
 ---
 uid: signalr/overview/older-versions/tutorial-server-broadcast-with-aspnet-signalr
-title: 教程： 服务器广播使用 ASP.NET SignalR 1.x |Microsoft Docs
+title: 教程：服务器广播使用 ASP.NET SignalR 1.x |Microsoft Docs
 author: pfletcher
 description: 本教程演示如何创建使用 ASP.NET SignalR 来提供服务器广播的功能的 web 应用程序。 服务器广播方法，communic...
 ms.author: riande
@@ -8,16 +8,18 @@ ms.date: 04/10/2013
 ms.assetid: ab7b2554-956a-4f6d-b2a0-4ae0c62e8580
 msc.legacyurl: /signalr/overview/older-versions/tutorial-server-broadcast-with-aspnet-signalr
 msc.type: authoredcontent
-ms.openlocfilehash: 7d604af11ade848358e291d1df25f2f8df850132
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: d5c09f6493c4dedb4fc2ecbf9055dd014ede71f2
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911976"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53288042"
 ---
-<a name="tutorial-server-broadcast-with-aspnet-signalr-1x"></a>教程： 服务器广播使用 ASP.NET SignalR 1.x
+<a name="tutorial-server-broadcast-with-aspnet-signalr-1x"></a>教程：服务器广播使用 ASP.NET SignalR 1.x
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本教程演示如何创建使用 ASP.NET SignalR 来提供服务器广播的功能的 web 应用程序。 服务器广播意味着发送到客户端的通信由服务器启动。 这种情况要求不同的编程方式对等方案，例如聊天应用程序，在其中发送到客户端的通信都是由一个或多个客户端。
 > 

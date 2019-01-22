@@ -8,12 +8,12 @@ ms.date: 03/28/2008
 ms.assetid: 54d9df99-1161-4899-b4e8-2679c85915e7
 msc.legacyurl: /web-forms/overview/older-versions-getting-started/aspnet-ajax/understanding-partial-page-updates-with-asp-net-ajax
 msc.type: authoredcontent
-ms.openlocfilehash: 2e0b1e1d4cbb282e7fd4b27e0a93ba1b9702edea
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: 4883046aa16d5e67b7f0c92e15c897ef1a933b67
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41834687"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098930"
 ---
 <a name="understanding-partial-page-updates-with-aspnet-ajax"></a>使用 ASP.NET AJAX 的了解部分页面更新
 ====================
@@ -46,18 +46,18 @@ Microsoft 的 ASP.NET 技术带来了面向对象和事件驱动的编程模型�
 
 集成部分页面呈现的功能进行少量的更改到您的项目集成到 ASP.NET。
 
-## <a name="walkthrough-integrating-partial-rendering-into-an-existing-project"></a>演练： 将部分呈现集成到现有项目
+## <a name="walkthrough-integrating-partial-rendering-into-an-existing-project"></a>演练：将部分呈现集成到现有项目
 
 
 1. 在 Microsoft Visual Studio 2008 中，通过转到创建新的 ASP.NET 网站项目<em>文件</em> <em>- &gt;新建</em> <em>- &gt;网站</em>并从对话框中选择 ASP.NET Web 站点。 您可以命名它您希望的任何内容，您可以将它安装到文件系统或到 Internet 信息服务 (IIS)。
 2. 将显示与使用基本的 ASP.NET 标记的空默认页 (服务器端窗体和`@Page`指令)。 删除名为标签`Label1`和一个按钮调用`Button1`拖到窗体元素在页面。 可以设置它们的 text 属性为希望的任何内容。
 3. 在设计视图中，双击`Button1`以生成代码隐藏事件处理程序。 在此事件处理程序中，设置`Label1.Text`到单击了按钮 ！ .
 
-**列表 1: default.aspx 之前启用了部分呈现的标记**
+**列表 1:Default.aspx 之前启用了部分呈现的标记**
 
 [!code-aspx[Main](understanding-partial-page-updates-with-asp-net-ajax/samples/sample1.aspx)]
 
-**列表 2： 代码隐藏文件 default.aspx.cs 中 （剪裁）**
+**列表 2:代码隐藏文件 default.aspx.cs 中 （剪裁）**
 
 [!code-csharp[Main](understanding-partial-page-updates-with-asp-net-ajax/samples/sample2.cs)]
 
@@ -85,13 +85,13 @@ Microsoft 的 ASP.NET 技术带来了面向对象和事件驱动的编程模型�
 1. 中的任意位置`<form>`元素中，通过双击包括 ScriptManager 控件`ScriptManager`工具箱中的项。
 2. 编辑`<asp:ScriptManager>`标记，以便它包含属性`EnablePartialRendering= true`。
 
-**代码清单 3： 使用部分呈现启用 default.aspx 的标记**
+**代码清单 3:使用部分呈现启用 default.aspx 的标记**
 
 [!code-aspx[Main](understanding-partial-page-updates-with-asp-net-ajax/samples/sample3.aspx)]
 
 1. 打开 web.config 文件。 请注意，Visual Studio 会自动添加了对 System.Web.Extensions.dll 的编译引用。
 
-1. What's New in Visual Studio 2008： 附带 ASP.NET 网站项目模板会自动在 web.config 包括对 ASP.NET AJAX Extensions 中，所有必需的引用并包括可配置信息的注释的节取消注释以启用其他功能。 Visual Studio 2005 在已安装 ASP.NET 2.0 AJAX Extensions 有类似的模板。 但是，在 Visual Studio 2008 中，AJAX Extensions 将选择退出默认情况下 （即，它们引用的默认值，但可以删除作为引用）。
+1. 什么是 Visual Studio 2008 中的新增功能：提供与 ASP.NET 网站项目模板自动包括对 ASP.NET AJAX Extensions 中，所有必需的引用，包括 web.config 的注释可以取消注释，若要启用额外的配置信息的部分功能。 Visual Studio 2005 在已安装 ASP.NET 2.0 AJAX Extensions 有类似的模板。 但是，在 Visual Studio 2008 中，AJAX Extensions 将选择退出默认情况下 （即，它们引用的默认值，但可以删除作为引用）。
 
 
 [![](understanding-partial-page-updates-with-asp-net-ajax/_static/image8.png)](understanding-partial-page-updates-with-asp-net-ajax/_static/image7.png)
@@ -131,7 +131,7 @@ Visual Studio 2008 似乎未附带了一个支持 ASP.NET AJAX 的 web 站点的
 | IsInAsyncPostback | Bool | 获取页面当前是否处于异步回发请求。 |
 | ProfileService | ProfileService-Manager | 获取有关将发送到客户端的 ASP.NET 分析服务代理的详细信息。 |
 | 脚本 | Collection&lt;Script-Reference&gt; | 获取将发送到客户端的脚本引用的集合。 |
-| 服务 | Collection&lt;Service-Reference&gt; | 获取将发送到客户端的 Web 服务代理引用的集合。 |
+| Services | Collection&lt;Service-Reference&gt; | 获取将发送到客户端的 Web 服务代理引用的集合。 |
 | SupportsPartialRendering | Bool | 获取是否当前客户端支持部分呈现。 如果此属性返回**false**，则所有页面请求都将标准的回发。 |
 
 公共代码的方法：
@@ -153,7 +153,7 @@ Visual Studio 2008 似乎未附带了一个支持 ASP.NET AJAX 的 web 站点的
 
 ScriptManager 控件是 ASP.NET AJAX Extensions 的基本核心。 它提供对脚本库 （包括大量客户端脚本类型系统） 的访问、 支持部分呈现和为其他 ASP.NET 服务 （如身份验证和分析，但也有其他 Web 服务） 提供广泛支持。 ScriptManager 控件还提供了全球化和本地化支持的客户端脚本。
 
-## <a name="providing-alterative-and-supplemental-scripts"></a>提供种替代和补充脚本
+## <a name="providing-alternative-and-supplemental-scripts"></a>提供替代和补充脚本
 
 Microsoft ASP.NET 2.0 AJAX Extensions 中这两个调试包含整个脚本代码，并作为资源嵌入在被引用程序集中发布版本，而开发人员可以随意将 ScriptManager 重定向到自定义的脚本文件，以及注册其他必要的脚本。
 
@@ -169,7 +169,7 @@ Microsoft ASP.NET 2.0 AJAX Extensions 中这两个调试包含整个脚本代码
 
 客户端的自定义项，也可以而不是使用默认警告框;例如，你可能想要显示自定义`<div>`元素而不是默认浏览器模式对话框。 在这种情况下，你可以处理客户端脚本中的错误：
 
-**列表 5： 客户端脚本，以显示自定义错误**
+**列表 5:客户端脚本，以显示自定义错误**
 
 [!code-html[Main](understanding-partial-page-updates-with-asp-net-ajax/samples/sample4.html)]
 
@@ -198,7 +198,7 @@ ScriptManager 控件提供了广泛支持本地化的脚本字符串和用户界
 | IsInPartialRendering | bool | 获取是否 UpdatePanel 当前请求的支持部分呈现。 |
 | ContentTemplate | ITemplate | 获取更新请求的标记模板。 |
 | ContentTemplateContainer | 控件 | 获取更新请求以编程方式的模板。 |
-| 触发器 | UpdatePanel- TriggerCollection | 获取与当前的 UpdatePanel 的触发器的列表。 |
+| Triggers | UpdatePanel- TriggerCollection | 获取与当前的 UpdatePanel 的触发器的列表。 |
 
 公共代码的方法：
 
@@ -315,4 +315,4 @@ UpdateProgress 控件允许用户知道她或他不会被忽略，并且页面�
 Scott Cate 自 1997 年以来一直致力于 Microsoft Web 技术和 myKB.com 总裁 ([www.myKB.com](http://www.myKB.com)) 专门负责编写 ASP.NET 基于侧重于知识库软件解决方案的应用程序。 可以通过电子邮件联系 Scott [ scott.cate@myKB.com ](mailto:scott.cate@myKB.com)或他的博客[ScottCate.com](http://ScottCate.com)
 
 > [!div class="step-by-step"]
-> [下一篇](understanding-asp-net-ajax-updatepanel-triggers.md)
+> [下一页](understanding-asp-net-ajax-updatepanel-triggers.md)

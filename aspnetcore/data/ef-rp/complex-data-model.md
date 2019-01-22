@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 10/24/2018
 uid: data/ef-rp/complex-data-model
-ms.openlocfilehash: 9a0d5a8e722487ccf7e08aadb39f838a0963451d
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: 930a6f2b860c71b6f499cff53e0d909a130f7948
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090959"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637893"
 ---
 # <a name="razor-pages-with-ef-core-in-aspnet-core---data-model---5-of-8"></a>ASP.NET Core 中的 Razor 页面和 EF Core - 数据模型 - 第 5 个教程（共 8 个）
 
@@ -384,7 +384,7 @@ public Instructor Administrator { get; set; }
 public ICollection<Course> Courses { get; set; }
 ```
 
-注意：按照约定，EF Core 能针对不可为 NULL 的 FK 和多对多关系启用级联删除。 级联删除可能导致形成循环级联删除规则。 循环级联删除规则会在添加迁移时引发异常。
+注意:按照约定，EF Core 能针对不可为 NULL 的 FK 和多对多关系启用级联删除。 级联删除可能导致形成循环级联删除规则。 循环级联删除规则会在添加迁移时引发异常。
 
 例如，如果未将 `Department.InstructorID` 属性定义为可以为 NULL：
 
@@ -444,7 +444,7 @@ public Student Student { get; set; }
 
 `Instructor` 和 `Course` 实体具有使用纯联接表的多对多关系。
 
-注意：EF 6.x 支持多对多关系的隐式联接表，但 EF Core 不支持。 有关详细信息，请参阅 [EF Core 2.0 中的多对多关系](https://blog.oneunicorn.com/2017/09/25/many-to-many-relationships-in-ef-core-2-0-part-1-the-basics/)。
+注意:EF 6.x 支持多对多关系的隐式联接表，但 EF Core 不支持。 有关详细信息，请参阅 [EF Core 2.0 中的多对多关系](https://blog.oneunicorn.com/2017/09/25/many-to-many-relationships-in-ef-core-2-0-part-1-the-basics/)。
 
 ## <a name="the-courseassignment-entity"></a>CourseAssignment 实体
 
@@ -538,10 +538,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
 [!code-csharp[](intro/samples/cu21/Data/DbInitializer.cs?name=snippet_Final)]
 
-前面的代码为新实体提供种子数据。 大多数此类代码会创建新实体对象并加载示例数据。 示例数据用于测试。 前面的代码将创建以下多对多关系：
-
-* `Enrollments`
-* `CourseAssignment`
+前面的代码为新实体提供种子数据。 大多数此类代码会创建新实体对象并加载示例数据。 示例数据用于测试。 有关如何对多对多联接表进行种子设定的示例，请参阅 `Enrollments` 和 `CourseAssignments`。
 
 ## <a name="add-a-migration"></a>添加迁移
 
@@ -581,7 +578,7 @@ database "ContosoUniversity", table "dbo.Department", column 'DepartmentID'.
 现已有一个数据库，需要考虑如何将未来的更改应用到其中。 本教程演示两种方法：
 
 * [删除并重新创建数据库](#drop)
-* [将迁移应用到现有数据库](#applyexisting)。 虽然此方法更复杂且耗时，但在实际应用和生产环境中为首选方法。 **注意**：这是本教程的一个可选部分。 你可以执行删除和重新创建的相关步骤并跳过此部分。 如果希望执行本部分中的步骤，请勿执行删除和重新创建步骤。 
+* [将迁移应用到现有数据库](#applyexisting)。 虽然此方法更复杂且耗时，但在实际应用和生产环境中为首选方法。 **说明**：这是本教程的一个可选部分。 你可以执行删除和重新创建的相关步骤并跳过此部分。 如果希望执行本部分中的步骤，请勿执行删除和重新创建步骤。 
 
 <a name="drop"></a>
 

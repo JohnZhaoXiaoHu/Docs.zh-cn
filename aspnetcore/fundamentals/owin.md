@@ -4,14 +4,14 @@ author: ardalis
 description: 了解 ASP.NET Core 如何支持 .NET 的开放 Web 接口 (OWIN)，将 Web 应用与 Web 服务器分离。
 ms.author: riande
 ms.custom: H1Hack27Feb2017
-ms.date: 10/14/2016
+ms.date: 12/18/2018
 uid: fundamentals/owin
-ms.openlocfilehash: eb5cf92a6dcc3ddb9e2f56cd72a710b66f7fae06
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 51982c7ebc4f66c2b0b73bf425d9ecbd0bf37826
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50206882"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637789"
 ---
 # <a name="open-web-interface-for-net-owin-with-aspnet-core"></a>ASP.NET Core 中 .NET 的开放 Web 接口 (OWIN)
 
@@ -162,7 +162,7 @@ namespace NowinSample
 }
 ```
 
-了解有关 ASP.NET [服务器](servers/index.md)的更多信息。
+了解有关 [ASP.NET Core 服务器](xref:fundamentals/servers/index)的更多信息。
 
 ## <a name="run-aspnet-core-on-an-owin-based-server-and-use-its-websockets-support"></a>在基于 OWIN 的服务器上运行 ASP.NET Core 并使用其 WebSocket 支持
 
@@ -234,7 +234,7 @@ OWIN 依赖于 `IDictionary<string,object>` 对象，以在整个 HTTP请求/响
 
 ### <a name="request-data-owin-v100"></a>请求数据 (OWIN v1.0.0)
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | owin.RequestScheme | `String` |  |
 | owin.RequestMethod  | `String` | |    
@@ -247,13 +247,13 @@ OWIN 依赖于 `IDictionary<string,object>` 对象，以在整个 HTTP请求/响
 
 ### <a name="request-data-owin-v110"></a>请求数据 (OWIN v1.1.0)
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | owin.RequestId | `String` | Optional |
 
 ### <a name="response-data-owin-v100"></a>响应数据 (OWIN v1.0.0)
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | owin.ResponseStatusCode | `int` | Optional |
 | owin.ResponseReasonPhrase | `String` | Optional |
@@ -263,7 +263,7 @@ OWIN 依赖于 `IDictionary<string,object>` 对象，以在整个 HTTP请求/响
 
 ### <a name="other-data-owin-v100"></a>其他数据 (OWIN v1.0.0)
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | owin.CallCancelled | `CancellationToken` |  |
 | owin.Version  | `String` | |   
@@ -271,7 +271,7 @@ OWIN 依赖于 `IDictionary<string,object>` 对象，以在整个 HTTP请求/响
 
 ### <a name="common-keys"></a>常用键
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | ssl.ClientCertificate | `X509Certificate` |  |
 | ssl.LoadClientCertAsync  | `Func<Task>` | |    
@@ -285,14 +285,14 @@ OWIN 依赖于 `IDictionary<string,object>` 对象，以在整个 HTTP请求/响
 
 ### <a name="sendfiles-v030"></a>SendFiles v0.3.0
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | sendfile.SendAsync | 请参阅[委托签名](http://owin.org/spec/extensions/owin-SendFile-Extension-v0.3.0.htm) | 每请求 |
 
 
 ### <a name="opaque-v030"></a>Opaque v0.3.0
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | opaque.Version | `String` |  |
 | opaque.Upgrade | `OpaqueUpgrade` | 请参阅[委托签名](http://owin.org/spec/extensions/owin-SendFile-Extension-v0.3.0.htm) |
@@ -302,7 +302,7 @@ OWIN 依赖于 `IDictionary<string,object>` 对象，以在整个 HTTP请求/响
 
 ### <a name="websocket-v030"></a>WebSocket v0.3.0
 
-| 键               | 值（类型） | 描述 |
+| 键               | 值（类型） | 说明 |
 | ----------------- | ------------ | ----------- |
 | websocket.Version | `String` |  |
 | websocket.Accept | `WebSocketAccept` | 请参阅[委托签名](http://owin.org/spec/extensions/owin-SendFile-Extension-v0.3.0.htm) |

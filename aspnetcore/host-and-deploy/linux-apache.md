@@ -4,29 +4,29 @@ description: 了解如何在 CentOS 上将 Apache 设置为反向代理服务器
 author: spboyer
 ms.author: spboyer
 ms.custom: mvc
-ms.date: 10/23/2018
+ms.date: 12/20/2018
 uid: host-and-deploy/linux-apache
-ms.openlocfilehash: 1d303fbde2a398b4628d3390aea80957a59f711b
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: 217dc840748ef33173ae6a8c001aee558864ec59
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50253131"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099404"
 ---
 # <a name="host-aspnet-core-on-linux-with-apache"></a>使用 Apache 在 Linux 上托管 ASP.NET Core
 
 作者：[Shayne Boyer](https://github.com/spboyer)
 
-使用本指南，了解如何在 [CentOS 7](https://www.centos.org/) 上将 [Apache](https://httpd.apache.org/) 设置为反向代理服务器，以将 HTTP 流量重定向到在 [Kestrel](xref:fundamentals/servers/kestrel) 上运行的 ASP.NET Core Web 应用。 [mod_proxy extension](http://httpd.apache.org/docs/2.4/mod/mod_proxy.html) 和相关模块可创建服务器的反向代理。
+使用本指南，了解如何在 [CentOS 7](https://www.centos.org/) 上将 [Apache](https://httpd.apache.org/) 设置为反向代理服务器，以将 HTTP 流量重定向到在 [Kestrel](xref:fundamentals/servers/kestrel) 服务器上运行的 ASP.NET Core Web 应用。 [mod_proxy extension](http://httpd.apache.org/docs/2.4/mod/mod_proxy.html) 和相关模块可创建服务器的反向代理。
 
 ## <a name="prerequisites"></a>系统必备
 
-1. 运行 CentOS 7 的服务器，使用具有 sudo 特权的标准用户帐户。
-1. 在服务器上安装 .NET Core 运行时。
+* 运行 CentOS 7 的服务器，使用具有 sudo 特权的标准用户帐户。
+* 在服务器上安装 .NET Core 运行时。
    1. 访问 [.NET Core“所有下载”页](https://www.microsoft.com/net/download/all)。
    1. 从“运行时”下的列表中选择最新的非预览运行时。
    1. 选择并执行适用于 CentOS/Oracle 的说明。
-1. 一个现有 ASP.NET Core 应用。
+* 一个现有 ASP.NET Core 应用。
 
 ## <a name="publish-and-copy-over-the-app"></a>通过应用发布和复制
 
@@ -160,7 +160,7 @@ Apache 的配置文件位于 `/etc/httpd/conf.d/` 目录内。 除了 `/etc/http
 </VirtualHost>
 ```
 
-`VirtualHost` 块可以在服务器上的一个或多个文件中多次出现。 在前面的配置文件中，Apache 接受端口 80 上的公共流量。 正在向域 `www.example.com` 提供服务，`*.example.com` 别名解析为同一网站。 有关详细信息，请参阅[基于名称的虚拟主机支持](https://httpd.apache.org/docs/current/vhosts/name-based.html)。 请求会通过代理从根位置转到 127.0.0.1 处的服务器的端口 5000。 对于双向通信，需要 `ProxyPass` 和 `ProxyPassReverse`。 要更改 Kestrel 的 IP/端口，请参阅 [Kestrel：终结点配置](xref:fundamentals/servers/kestrel#endpoint-configuration)。
+`VirtualHost` 块可以在服务器上的一个或多个文件中多次出现。 在前面的配置文件中，Apache 接受端口 80 上的公共流量。 正在向域 `www.example.com` 提供服务，`*.example.com` 别名解析为同一网站。 有关详细信息，请参阅[基于名称的虚拟主机支持](https://httpd.apache.org/docs/current/vhosts/name-based.html)。 请求会通过代理从根位置转到 127.0.0.1 处的服务器的端口 5000。 对于双向通信，需要 `ProxyPass` 和 `ProxyPassReverse`。 若要更改 Kestrel 的 IP/端口，请参阅 [Kestrel：终结点配置](xref:fundamentals/servers/kestrel#endpoint-configuration)。
 
 > [!WARNING]
 > 未能指定 VirtualHost 块中的正确 [ServerName 指令](https://httpd.apache.org/docs/current/mod/core.html#servername)会公开应用的安全漏洞。 如果可控制整个父域（区别于易受攻击的 `*.com`），则子域通配符绑定（例如，`*.example.com`）不具有此安全风险。 有关详细信息，请参阅 [rfc7230 第 5.4 条](https://tools.ietf.org/html/rfc7230#section-5.4)。
@@ -180,9 +180,9 @@ sudo systemctl restart httpd
 sudo systemctl enable httpd
 ```
 
-## <a name="monitoring-the-app"></a>监视应用
+## <a name="monitor-the-app"></a>监视应用
 
-Apache 现在已设置为将对 `http://localhost:80` 发起的请求转发到运行在 `http://127.0.0.1:5000` 处的 Kestrel 上的 ASP.NET Core 应用。  但是，未将 Apache 设置为管理 Kestrel 进程。 使用 systemd，并创建服务文件以启动和监视基础 Web 应用。 systemd 是一个 init 系统，可以提供用于启动、停止和管理进程的许多强大的功能。 
+Apache 现在已设置为将对 `http://localhost:80` 发起的请求转发到运行在 `http://127.0.0.1:5000` 处的 Kestrel 上的 ASP.NET Core 应用。 但是，未将 Apache 设置为管理 Kestrel 进程。 使用 systemd，并创建服务文件以启动和监视基础 Web 应用。 systemd 是一个 init 系统，可以提供用于启动、停止和管理进程的许多强大的功能。
 
 ### <a name="create-the-service-file"></a>创建服务文件
 
@@ -259,7 +259,7 @@ Connection: Keep-Alive
 Transfer-Encoding: chunked
 ```
 
-### <a name="viewing-logs"></a>查看日志
+### <a name="view-logs"></a>查看日志
 
 由于使用 Kestrel 的 Web 应用是通过 systemd 进行管理的，因此事件和进程将记录到集中日志。 但是，此日志包含由 systemd 管理的所有服务和进程的条目。 若要查看特定于 `kestrel-helloapp.service` 的项，请使用以下命令：
 
@@ -288,7 +288,7 @@ sudo journalctl -fu kestrel-helloapp.service --since "2016-10-18" --until "2016-
 * <xref:security/data-protection/implementation/key-storage-providers>
 * <xref:security/data-protection/implementation/key-encryption-at-rest>
 
-## <a name="securing-the-app"></a>保护应用
+## <a name="secure-the-app"></a>保护应用
 
 ### <a name="configure-firewall"></a>配置防火墙
 
@@ -324,15 +324,15 @@ icmp-blocks:
 rich rules: 
 ```
 
-### <a name="ssl-configuration"></a>SSL 配置
+### <a name="https-configuration"></a>HTTPS 配置
 
-若要配置 Apache 用于 SSL，需使用 mod_ssl 模块。 安装了 httpd 模块时，也会安装了 mod_ssl 模块。 如果未安装，请使用 `yum` 将其添加到配置。
+若要为 Apache 配置 HTTPS，请使用 mod_ssl 模块。 安装了 httpd 模块时，也会安装了 mod_ssl 模块。 如果未安装，请使用 `yum` 将其添加到配置。
 
 ```bash
 sudo yum install mod_ssl
 ```
 
-若要强制使用 SSL，请安装 `mod_rewrite` 模块以启用 URL 重写：
+若要强制使用 HTTPS，请安装 `mod_rewrite` 模块以启用 URL 重写：
 
 ```bash
 sudo yum install mod_rewrite
@@ -471,6 +471,7 @@ sudo yum install mod_proxy_balancer
 ```bash
 sudo nano /etc/httpd/conf.d/ratelimit.conf
 ```
+
 示例文件将根位置下的带宽限制为 600 KB/秒：
 
 ```
@@ -482,7 +483,15 @@ sudo nano /etc/httpd/conf.d/ratelimit.conf
 </IfModule>
 ```
 
+### <a name="long-request-header-fields"></a>较长的请求标头字段
+
+如果应用需要的请求标头字段超过代理服务器的默认设置允许的长度（通常为 8,190 字节），请调整 [LimitRequestFieldSize](https://httpd.apache.org/docs/2.4/mod/core.html#LimitRequestFieldSize) 指令的值。 要应用的值依赖应用场景。 有关详细信息，请参见服务器文档。
+
+> [!WARNING]
+> 除非必要，否则不要提高 `LimitRequestFieldSize` 的默认值。 提高该值将增加缓冲区溢出的风险和恶意用户的拒绝服务 (DoS) 攻击风险。
+
 ## <a name="additional-resources"></a>其他资源
 
 * [Linux 上 .NET Core 的先决条件](/dotnet/core/linux-prerequisites)
-* [配置 ASP.NET Core 以使用代理服务器和负载均衡器](xref:host-and-deploy/proxy-load-balancer)
+* <xref:test/troubleshoot>
+* <xref:host-and-deploy/proxy-load-balancer>

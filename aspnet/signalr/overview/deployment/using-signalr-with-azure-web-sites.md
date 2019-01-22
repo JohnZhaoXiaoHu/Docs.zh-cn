@@ -8,16 +8,18 @@ ms.date: 07/01/2015
 ms.assetid: 2a7517a0-b88c-4162-ade3-9bf6ca7062fd
 msc.legacyurl: /signalr/overview/deployment/using-signalr-with-azure-web-sites
 msc.type: authoredcontent
-ms.openlocfilehash: c5ede2891ef18b622ed269723603dea3b67a135d
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: da69e1aba1b56d69ad8e710cddd2b492168f1255
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48912600"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287749"
 ---
 <a name="using-signalr-with-web-apps-in-azure-app-service"></a>在 Azure 应用服务中的 Web 应用中使用 SignalR
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档介绍如何配置运行在 Microsoft Azure 的 SignalR 应用程序。
 >
@@ -98,7 +100,7 @@ Websocket 需要显式启用 web 应用程序中使用 SignalR 应用程序; 中
 
 在配置页上，在**Websocket**设置中，选择**上**。
 
-![Websocket 设置： 上](using-signalr-with-azure-web-sites/_static/image10.png)
+![Websocket 的设置：On](using-signalr-with-azure-web-sites/_static/image10.png)
 
 在配置页的底部，选择**保存**以保存所做的更改。
 

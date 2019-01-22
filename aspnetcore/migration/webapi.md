@@ -4,14 +4,14 @@ author: ardalis
 description: 了解如何将 web API 实现从 ASP.NET 4.x Web API 迁移到 ASP.NET Core MVC。
 ms.author: scaddie
 ms.custom: mvc
-ms.date: 10/01/2018
+ms.date: 12/10/2018
 uid: migration/webapi
-ms.openlocfilehash: f5d886a7c3182b5cd372762ade67c2e748051049
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 9806c502f8f5244740f9f9614657a40cfaa03314
+ms.sourcegitcommit: 1872d2e6f299093c78a6795a486929ffb0bbffff
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207272"
+ms.lasthandoff: 12/11/2018
+ms.locfileid: "53216828"
 ---
 # <a name="migrate-from-aspnet-web-api-to-aspnet-core"></a>将从 ASP.NET Web API 迁移到 ASP.NET Core
 
@@ -23,8 +23,7 @@ ASP.NET 4.x Web API 是到达范围广泛的客户端，包括浏览器和移动
 
 ## <a name="prerequisites"></a>系统必备
 
-* [.NET Core 2.1 SDK 或更高版本](https://www.microsoft.com/net/download/all)
-* 已安装“ASP.NET 和 Web 开发”工作负载的 [Visual Studio 2017](https://www.visualstudio.com/downloads/) 15.7.3 版或更高版本
+[!INCLUDE [net-core-prereqs-vs-2.2](../includes/net-core-prereqs-vs-2.2.md)]
 
 ## <a name="review-aspnet-4x-web-api-project"></a>检查 ASP.NET 4.x Web API 项目
 
@@ -34,15 +33,15 @@ ASP.NET 4.x Web API 是到达范围广泛的客户端，包括浏览器和移动
 
 [!code-csharp[](webapi/sample/ProductsApp/Global.asax.cs?highlight=14)]
 
-`WebApiConfig` 在中定义*App_Start*文件夹。 它具有一个静态`Register`方法：
+`WebApiConfig`类位于*App_Start*文件夹并且具有静态`Register`方法：
 
-[!code-csharp[](webapi/sample/ProductsApp/App_Start/WebApiConfig.cs?highlight=15-20)]
+[!code-csharp[](webapi/sample/ProductsApp/App_Start/WebApiConfig.cs)]
 
 此类配置[的属性路由](/aspnet/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2)，但它实际上未使用项目中。 它还可以配置 ASP.NET Web API 使用的路由表。 在这种情况下，ASP.NET 4.x Web API 需要 Url 以匹配格式`/api/{controller}/{id}`，使用`{id}`可选的。
 
-*ProductsApp*项目包括一个控制器。 在控制器继承`ApiController`和公开两个方法：
+*ProductsApp*项目包括一个控制器。 在控制器继承`ApiController`和包含两个操作：
 
-[!code-csharp[](webapi/sample/ProductsApp/Controllers/ProductsController.cs?highlight=19,24)]
+[!code-csharp[](webapi/sample/ProductsApp/Controllers/ProductsController.cs?highlight=28,33)]
 
 `Product`使用模型`ProductsController`是一个简单的类：
 
@@ -70,7 +69,7 @@ ASP.NET 4.x Web API 是到达范围广泛的客户端，包括浏览器和移动
 
 ## <a name="migrate-models-and-controllers"></a>迁移模型和控制器
 
-通过复制*ProductApp*项目的控制器和它所使用的模型。 请执行这些步骤：
+通过复制*ProductApp*项目的控制器和它所使用的模型。 请执行以下步骤：
 
 1. 复制*Controllers/ProductsController.cs*从原始到新项目。
 1. 复制整个*模型*从原始项目到新的文件夹。
@@ -88,6 +87,12 @@ ASP.NET 4.x Web API 是到达范围广泛的客户端，包括浏览器和移动
 1. 删除 `using System.Web.Http;`。
 1. 更改`GetProduct`操作的返回类型从`IHttpActionResult`到`ActionResult<Product>`。
 
+简化`GetProduct`操作的`return`与以下语句：
+
+```csharp
+return product;
+```
+
 ## <a name="configure-routing"></a>配置路由
 
 配置路由，如下所示：
@@ -102,11 +107,19 @@ ASP.NET 4.x Web API 是到达范围广泛的客户端，包括浏览器和移动
     在前面[[Route]](xref:Microsoft.AspNetCore.Mvc.RouteAttribute)属性所配置控制器的属性路由模式。 [[ApiController]](xref:Microsoft.AspNetCore.Mvc.ApiControllerAttribute)特性使此控制器中的路由所必需的所有操作的属性。
 
     属性路由支持令牌，如`[controller]`和`[action]`。 在运行时，每个令牌是分别替换为控制器或操作的名称，已向其应用了该属性。 令牌减少的项目中的魔幻字符串。 路由保持与相应的控制器同步，并将应用时自动重命名重构操作，还请确保令牌。
+1. 将项目的兼容性模式设置为 ASP.NET Core 2.2:
+
+    [!code-csharp[](webapi/sample/ProductsCore/Startup.cs?name=snippet_ConfigureServices&highlight=4)]
+
+    上述更改：
+
+    * 使用所需`[ApiController]`在控制器级别属性。
+    * 选择启用可能出现的中断 ASP.NET Core 2.2 中引入的行为。
 1. 启用 HTTP Get 请求到`ProductController`操作：
     * 将应用[[HttpGet]](xref:Microsoft.AspNetCore.Mvc.HttpGetAttribute)属性为`GetAllProducts`操作。
     * 将应用`[HttpGet("{id}")]`属性为`GetProduct`操作。
 
-这些更改和删除未使用之后`using`语句， *ProductsController.cs*文件如下所示：
+上述更改和删除未使用之后`using`语句， *ProductsController.cs*文件如下所示：
 
 [!code-csharp[](webapi/sample/ProductsCore/Controllers/ProductsController.cs)]
 
@@ -147,3 +160,4 @@ ASP.NET 4.x Web API 是到达范围广泛的客户端，包括浏览器和移动
 
 * <xref:web-api/index>
 * <xref:web-api/action-return-types>
+* <xref:mvc/compatibility-version>

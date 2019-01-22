@@ -8,12 +8,12 @@ ms.date: 05/28/2015
 ms.assetid: 7e85c70e-1a88-4408-8b3d-29611c7713ed
 msc.legacyurl: /web-pages/overview/getting-started/introducing-aspnet-web-pages-2/publishing
 msc.type: authoredcontent
-ms.openlocfilehash: fe196e5db8fd1cecbe84b2eb970939303f9313d1
-ms.sourcegitcommit: 2d3e5422d530203efdaf2014d1d7df31f88d08d0
+ms.openlocfilehash: bd6611a03ee4940f5d4176ce23464f313b9ec884
+ms.sourcegitcommit: eef99d14d96dc8c3c1bb0e2c4cb14da152f8a952
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "51021451"
+ms.lasthandoff: 12/07/2018
+ms.locfileid: "53022500"
 ---
 <a name="introducing-aspnet-web-pages---publishing-a-site-by-using-webmatrix"></a>ASP.NET 网页简介-通过使用 WebMatrix 发布站点
 ====================
@@ -50,7 +50,7 @@ ms.locfileid: "51021451"
 <a id="defaultpage"></a>
 ## <a name="setting-up-the-default-page"></a>设置默认页
 
-当用户导航到你的网站的基址时，向用户显示你的站点的默认页。 例如，当 Default.htm 作为该站点的默认页设置为 www.contoso.com ，然后导航到<strong>www.contoso.com</strong>导航到相同<strong>www.contoso.com/Default.htm</strong>。
+当用户导航到你的网站的基址时，向用户显示你的站点的默认页。 例如，当*Default.htm*设置为在站点的默认页面`www.contoso.com`，然后导航到`www.contoso.com`导航到相同`www.contoso.com/Default.htm`。
 
 目前，您的网站使用**Default.cshtml**与默认页面。 此页是相当不错的默认页面，但在本教程中未添加任何内容到该页面以便它将显示空白页。 打开 Default.cshtml 并将内容替换为以下代码。
 

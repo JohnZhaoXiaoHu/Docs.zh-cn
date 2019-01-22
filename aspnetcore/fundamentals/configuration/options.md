@@ -4,69 +4,80 @@ author: guardrex
 description: 了解如何使用选项模式来表示 ASP.NET Core 应用中的相关设置组。
 ms.author: riande
 ms.custom: mvc
-ms.date: 11/09/2018
+ms.date: 12/29/2018
 uid: fundamentals/configuration/options
-ms.openlocfilehash: 99aa5028a8704c7e9e3010415137e2560213a2ad
-ms.sourcegitcommit: edb9d2d78c9a4d68b397e74ae2aff088b325a143
+ms.openlocfilehash: 20365a078327d76693a40fa79a4a594e29e0901c
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51505787"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099242"
 ---
 # <a name="options-pattern-in-aspnet-core"></a>ASP.NET Core 中的选项模式
 
 作者：[Luke Latham](https://github.com/guardrex)
 
+::: moniker range="<= aspnetcore-1.1"
+
+对于本主题的 1.1 版本，请下载 [ASP.NET Core（版本 1.1，PDF）中的选项模式](https://webpifeed.blob.core.windows.net/webpifeed/Partners/Options_1.1.pdf)。
+
+::: moniker-end
+
 选项模式使用类来表示相关设置的组。 当[配置设置](xref:fundamentals/configuration/index)由方案隔离到单独的类时，应用遵循两个重要软件工程原则：
 
-* [接口分离原则 (ISP)](http://deviq.com/interface-segregation-principle/)：依赖于配置设置的方案（类）仅依赖于其使用的配置设置。
-* [关注点分离](http://deviq.com/separation-of-concerns/)：应用的不同部件的设置不彼此依赖或相互耦合。
+* [接口分离原则 (ISP) 或封装](/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#encapsulation) &ndash; 依赖于配置设置的方案（类）仅依赖于其使用的配置设置。
+* [关注点分离](/dotnet/standard/modern-web-apps-azure-architecture/architectural-principles#separation-of-concerns) &ndash; 应用的不同部件的设置不彼此依赖或相互耦合。
 
-[查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)（[如何下载](xref:index#how-to-download-a-sample)）跟随示例应用可更轻松地理解本文。
+选项还提供验证配置数据的机制。 有关详细信息，请参阅[选项验证](#options-validation)部分。
+
+[查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/samples)（[如何下载](xref:index#how-to-download-a-sample)）
 
 ## <a name="prerequisites"></a>系统必备
 
-::: moniker range=">= aspnetcore-2.1"
-
 引用 [Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)或将包引用添加到 [Microsoft.Extensions.Options.ConfigurationExtensions](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions/) 包。
 
-::: moniker-end
+## <a name="options-interfaces"></a>选项接口
 
-::: moniker range="= aspnetcore-2.0"
+<xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 用于检索选项并管理 `TOptions` 实例的选项通知。 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 支持以下方案：
 
-引用 [Microsoft.AspNetCore.All 元包](xref:fundamentals/metapackage)或将包引用添加到 [Microsoft.Extensions.Options.ConfigurationExtensions](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions/) 包。
+* 更改通知
+* [命名选项](#named-options-support-with-iconfigurenamedoptions)
+* [可重载配置](#reload-configuration-data-with-ioptionssnapshot)
+* 选择性选项失效 (<xref:Microsoft.Extensions.Options.IOptionsMonitorCache`1>)
 
-::: moniker-end
+[后期配置](#options-post-configuration)方案允许你在进行所有 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 配置后设置或更改选项。
 
-::: moniker range="< aspnetcore-2.0"
+<xref:Microsoft.Extensions.Options.IOptionsFactory`1> 负责新建选项实例。 它具有单个 <xref:Microsoft.Extensions.Options.IOptionsFactory`1.Create*> 方法。 默认实现采用所有已注册 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 和 <xref:Microsoft.Extensions.Options.IPostConfigureOptions`1> 并首先运行所有配置，然后才进行后期配置。 它区分 <xref:Microsoft.Extensions.Options.IConfigureNamedOptions`1> 和 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 且仅调用适当的接口。
 
-将包引用添加到 [Microsoft.Extensions.Options.ConfigurationExtensions](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions/) 包。
+<xref:Microsoft.Extensions.Options.IOptionsMonitorCache`1> 由 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 用于缓存 `TOptions` 实例。 <xref:Microsoft.Extensions.Options.IOptionsMonitorCache`1> 可使监视器中的选项实例无效，以便重新计算值 (<xref:Microsoft.Extensions.Options.IOptionsMonitorCache`1.TryRemove*>)。 可以通过 <xref:Microsoft.Extensions.Options.IOptionsMonitorCache`1.TryAdd*> 手动引入值。 在应按需重新创建所有命名实例时使用 <xref:Microsoft.Extensions.Options.IOptionsMonitorCache`1.Clear*> 方法。
 
-::: moniker-end
+<xref:Microsoft.Extensions.Options.IOptionsSnapshot`1> 在每次请求时应重新计算选项的方案中有用。 有关详细信息，请参阅[通过 IOptionsSnapshot 重新加载配置数据](#reload-configuration-data-with-ioptionssnapshot)部分。
 
-## <a name="basic-options-configuration"></a>基本选项配置
+<xref:Microsoft.Extensions.Options.IOptions`1> 可用于支持选项。 但是，<xref:Microsoft.Extensions.Options.IOptions`1> 不支持前面的 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 方案。 你可以在已使用 <xref:Microsoft.Extensions.Options.IOptions`1> 接口的现有框架和库中继续使用 <xref:Microsoft.Extensions.Options.IOptions`1>，并且不需要 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 提供的方案。
 
-基本选项配置已作为示例 &num;1 在[示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)中进行了演示。
+## <a name="general-options-configuration"></a>常规选项配置
+
+常规选项配置已作为示例 &num;1 在示例应用中进行了演示。
 
 选项类必须为包含公共无参数构造函数的非抽象类。 以下类 `MyOptions` 具有两种属性：`Option1` 和 `Option2`。 设置默认值为可选，但以下示例中的类构造函数设置了 `Option1` 的默认值。 `Option2` 具有通过直接初始化属性设置的默认值 (Models/MyOptions.cs)：
 
-[!code-csharp[](options/sample/Models/MyOptions.cs?name=snippet1)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Models/MyOptions.cs?name=snippet1)]
 
-`MyOptions` 类通过 [Configure&lt;TOptions&gt;(IServiceCollection, IConfiguration)](/dotnet/api/microsoft.extensions.dependencyinjection.optionsconfigurationservicecollectionextensions.configure#Microsoft_Extensions_DependencyInjection_OptionsConfigurationServiceCollectionExtensions_Configure__1_Microsoft_Extensions_DependencyInjection_IServiceCollection_Microsoft_Extensions_Configuration_IConfiguration_) 添加到服务容器并绑定到配置：
+`MyOptions` 类已通过 <xref:Microsoft.Extensions.DependencyInjection.OptionsConfigurationServiceCollectionExtensions.Configure*> 添加到服务容器并绑定到配置：
 
-[!code-csharp[](options/sample/Startup.cs?name=snippet_Example1)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Startup.cs?name=snippet_Example1)]
 
-以下页面模型通过 [IOptions&lt;TOptions&gt;](/dotnet/api/Microsoft.Extensions.Options.IOptions-1) 使用[构造函数依赖关系注入](xref:mvc/controllers/dependency-injection)来访问设置 (Pages/Index.cshtml.cs)：
+以下页面模型通过 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 使用[构造函数依赖关系注入](xref:mvc/controllers/dependency-injection)来访问设置 (Pages/Index.cshtml.cs)：
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?range=9)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?range=9)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet2&highlight=2,8)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet2&highlight=2,8)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet_Example1)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet_Example1)]
 
 示例的 appsettings.json 文件指定 `option1` 和 `option2` 的值：
 
-[!code-json[](options/sample/appsettings.json?highlight=2-3)]
+[!code-json[](options/samples/2.x/OptionsSample/appsettings.json?highlight=2-3)]
 
 运行应用时，页面模型的 `OnGet` 方法返回显示选项类值的字符串：
 
@@ -75,7 +86,7 @@ option1 = value1_from_json, option2 = -1
 ```
 
 > [!NOTE]
-> 使用自定义 [ConfigurationBuilder](/dotnet/api/system.configuration.configurationbuilder) 从设置文件加载选项配置时，请确认基路径设置正确：
+> 使用自定义 <xref:System.Configuration.ConfigurationBuilder> 从设置文件加载选项配置时，请确认基路径设置正确：
 >
 > ```csharp
 > var configBuilder = new ConfigurationBuilder()
@@ -86,31 +97,31 @@ option1 = value1_from_json, option2 = -1
 > services.Configure<MyOptions>(config);
 > ```
 >
-> 通过 [CreateDefaultBuilder](/dotnet/api/microsoft.aspnetcore.webhost.createdefaultbuilder) 从设置文件加载选项配置时，不需要显式设置基路径。
+> 通过 <xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder*> 从设置文件加载选项配置时，不需要显式设置基路径。
 
 ## <a name="configure-simple-options-with-a-delegate"></a>通过委托配置简单选项
 
-通过委托配置简单选项已作为示例 &num;2 在[示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)中进行了演示。
+通过委托配置简单选项已作为示例 &num;2 在示例应用中进行了演示。
 
 使用委托设置选项值。 此示例应用使用 `MyOptionsWithDelegateConfig` 类 (Models/MyOptionsWithDelegateConfig.cs)：
 
-[!code-csharp[](options/sample/Models/MyOptionsWithDelegateConfig.cs?name=snippet1)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Models/MyOptionsWithDelegateConfig.cs?name=snippet1)]
 
-在以下代码中，已向服务容器添加第二个 `IConfigureOptions<TOptions>` 服务。 它通过 `MyOptionsWithDelegateConfig` 使用委托来配置绑定：
+在以下代码中，已向服务容器添加第二个 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 服务。 它通过 `MyOptionsWithDelegateConfig` 使用委托来配置绑定：
 
-[!code-csharp[](options/sample/Startup.cs?name=snippet_Example2)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Startup.cs?name=snippet_Example2)]
 
 Index.cshtml.cs:
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?range=10)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?range=10)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet2&highlight=3,9)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet2&highlight=3,9)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet_Example2)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet_Example2)]
 
-可添加多个配置提供程序。 配置提供程序在 NuGet 包中可用。 按照注册这些提供程序的顺序对其进行应用。
+可添加多个配置提供程序。 配置提供程序可从 NuGet 包中获取，并按照注册的顺序应用。 有关更多信息，请参见<xref:fundamentals/configuration/index>。
 
-每次调用 [Configure&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.iconfigureoptions-1.configure) 都将添加 `IConfigureOptions<TOptions>` 服务到服务容器。 在前面的示例中，`Option1` 和 `Option2` 的值同时在 appsettings.json 中指定，但 `Option1` 和 `Option2` 的值被配置的委托替代。
+每次调用 <xref:Microsoft.Extensions.Options.IConfigureOptions`1.Configure*> 都会将 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 服务添加到服务容器。 在前面的示例中，`Option1` 和 `Option2` 的值同时在 appsettings.json 中指定，但 `Option1` 和 `Option2` 的值被配置的委托替代。
 
 当启用多个配置服务时，指定的最后一个配置源优于其他源，由其设置配置值。 运行应用时，页面模型的 `OnGet` 方法返回显示选项类值的字符串：
 
@@ -120,33 +131,33 @@ delegate_option1 = value1_configured_by_delgate, delegate_option2 = 500
 
 ## <a name="suboptions-configuration"></a>子选项配置
 
-子选项配置已作为示例 &num;3 在[示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)中进行了演示。
+子选项配置已作为示例 &num;3 在示例应用中进行了演示。
 
 应用应创建适用于应用中特定方案组（类）的选项类。 需要配置值的部分应用应仅有权访问其使用的配置值。
 
 将选项绑定到配置时，选项类型中的每个属性都将绑定到窗体 `property[:sub-property:]` 的配置键。 例如，`MyOptions.Option1` 属性将绑定到从 appsettings.json 中的 `option1` 属性读取的键 `Option1`。
 
-在以下代码中，已向服务容器添加第三个 `IConfigureOptions<TOptions>` 服务。 它将 `MySubOptions` 绑定到 appsettings.json 文件的 `subsection` 部分：
+在以下代码中，已向服务容器添加第三个 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 服务。 它将 `MySubOptions` 绑定到 appsettings.json 文件的 `subsection` 部分：
 
-[!code-csharp[](options/sample/Startup.cs?name=snippet_Example3)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Startup.cs?name=snippet_Example3)]
 
 `GetSection` 扩展方法需要 [Microsoft.Extensions.Options.ConfigurationExtensions](https://www.nuget.org/packages/Microsoft.Extensions.Options.ConfigurationExtensions/) NuGet 包。 如果应用使用 [Microsoft.AspNetCore.App metapackage 元包](xref:fundamentals/metapackage-app)（ASP.NET Core 2.1 或更高版本），将自动包含此包。
 
 示例的 appsettings.json 文件定义具有 `suboption1` 和 `suboption2` 的键的 `subsection` 成员：
 
-[!code-json[](options/sample/appsettings.json?highlight=4-7)]
+[!code-json[](options/samples/2.x/OptionsSample/appsettings.json?highlight=4-7)]
 
 `MySubOptions` 类将属性 `SubOption1` 和 `SubOption2` 定义为保留选项值 (Models/MySubOptions.cs)：
 
-[!code-csharp[](options/sample/Models/MySubOptions.cs?name=snippet1)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Models/MySubOptions.cs?name=snippet1)]
 
 页面模型的 `OnGet` 方法返回包含选项值的字符串 (Pages/Index.cshtml.cs)：
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?range=11)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?range=11)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet2&highlight=4,10)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet2&highlight=4,10)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet_Example3)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet_Example3)]
 
 运行应用时，`OnGet` 方法返回显示子选项类值的字符串：
 
@@ -156,55 +167,39 @@ subOption1 = subvalue1_from_json, subOption2 = 200
 
 ## <a name="options-provided-by-a-view-model-or-with-direct-view-injection"></a>视图模型或通过直接视图注入提供的选项
 
-视图模型或通过直接视图注入提供的选项已作为示例 &num;4 在[示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)中进行了演示。
+视图模型或通过直接视图注入提供的选项已作为示例 &num;4 在示例应用中进行了演示。
 
-可在视图模型中或通过将 `IOptions<TOptions>` 直接注入到视图 (Pages/Index.cshtml.cs) 来提供选项：
+可在视图模型中或通过将 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 直接注入到视图 (Pages/Index.cshtml.cs) 来提供选项：
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?range=9)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?range=9)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet2&highlight=2,8)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet2&highlight=2,8)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet_Example4)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet_Example4)]
 
-对于直接注入，通过 `@inject` 指令注入 `IOptions<MyOptions>`：
+示例应用演示如何使用 `@inject` 指令注入 `IOptionsMonitor<MyOptions>`：
 
-[!code-cshtml[](options/sample/Pages/Index.cshtml?range=1-10&highlight=5)]
+[!code-cshtml[](options/samples/2.x/OptionsSample/Pages/Index.cshtml?range=1-10&highlight=4)]
 
 当应用运行时，选项值显示在呈现的页面中：
 
 ![选项值 Option1：value1_from_json 和 Option2：-1 从模型中加载并注入视图。](options/_static/view.png)
 
-::: moniker range=">= aspnetcore-1.1"
-
 ## <a name="reload-configuration-data-with-ioptionssnapshot"></a>通过 IOptionsSnapshot 重新加载配置数据
 
-通过 `IOptionsSnapshot` 重新加载配置数据已作为示例 &num;5 在[示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)中进行了演示。
+通过 <xref:Microsoft.Extensions.Options.IOptionsSnapshot`1> 重新加载配置数据已作为示例 &num;5 在示例应用中进行了演示。
 
-[IOptionsSnapshot](/dotnet/api/microsoft.extensions.options.ioptionssnapshot-1) 支持包含最小处理开销的重新加载选项。
-
-::: moniker-end
-
-::: moniker range=">= aspnetcore-2.0"
+<xref:Microsoft.Extensions.Options.IOptionsSnapshot`1> 支持包含最小处理开销的重新加载选项。
 
 针对请求生存期访问和缓存选项时，每个请求只能计算一次选项。
 
-::: moniker-end
+以下示例演示如何在更改 appsettings.json (Pages/Index.cshtml.cs) 后创建新的 <xref:Microsoft.Extensions.Options.IOptionsSnapshot`1>。 在更改文件和重新加载配置之前，针对服务器的多个请求返回 appsettings.json 文件提供的常数值。
 
-::: moniker range="< aspnetcore-2.0"
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?range=12)]
 
-`IOptionsSnapshot` 是 [IOptionsMonitor&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.ioptionsmonitor-1) 的快照，每当监视器随数据源变化而触发更改时自动更新。
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet2&highlight=5,11)]
 
-::: moniker-end
-
-::: moniker range=">= aspnetcore-1.1"
-
-以下示例演示如何在更改 appsettings.json (Pages/Index.cshtml.cs) 后创建新的 `IOptionsSnapshot`。 在更改文件和重新加载配置之前，针对服务器的多个请求返回 appsettings.json 文件提供的常数值。
-
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?range=12)]
-
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet2&highlight=5,11)]
-
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet_Example5)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet_Example5)]
 
 下图显示从 appsettings.json 文件加载的初始 `option1` 和 `option2` 值：
 
@@ -218,25 +213,21 @@ snapshot option1 = value1_from_json, snapshot option2 = -1
 snapshot option1 = value1_from_json UPDATED, snapshot option2 = 200
 ```
 
-::: moniker-end
-
-::: moniker range=">= aspnetcore-2.0"
-
 ## <a name="named-options-support-with-iconfigurenamedoptions"></a>包含 IConfigureNamedOptions 的命名选项支持
 
-包含 [IConfigureNamedOptions](/dotnet/api/microsoft.extensions.options.iconfigurenamedoptions-1) 的命名选项支持已作为示例 &num;6 在[示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/fundamentals/configuration/options/sample)中进行了演示。
+包含 <xref:Microsoft.Extensions.Options.IConfigureNamedOptions`1> 的命名选项支持已作为示例 &num;6 在示例应用中进行了演示。
 
-命名选项支持允许应用在命名选项配置之间进行区分。 在示例应用中，通过 [OptionsServiceCollectionExtensions.Configure&lt;TOptions&gt;(IServiceCollection, String, Action&lt;TOptions&gt;)](/dotnet/api/microsoft.extensions.dependencyinjection.optionsservicecollectionextensions.configure) 声明命名的选项，其反过来又调用扩展方法 [ConfigureNamedOptions&lt;TOptions&gt;.Configure](/dotnet/api/microsoft.extensions.options.configurenamedoptions-1.configure) 方法：
+命名选项支持允许应用在命名选项配置之间进行区分。 在示例应用中，命名选项通过 [OptionsServiceCollectionExtensions.Configure](xref:Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions.Configure*) 进行声明，其调用扩展方法 [ConfigureNamedOptions\<TOptions>.Configure](xref:Microsoft.Extensions.Options.ConfigureNamedOptions`1.Configure*)：
 
-[!code-csharp[](options/sample/Startup.cs?name=snippet_Example6)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Startup.cs?name=snippet_Example6)]
 
-示例应用通过 [IOptionsSnapshot&lt;TOptions&gt;.Get](/dotnet/api/microsoft.extensions.options.ioptionssnapshot-1.get) (Pages/Index.cshtml.cs) 访问命名选项：
+示例应用通过 <xref:Microsoft.Extensions.Options.IOptionsSnapshot`1.Get*> (Pages/Index.cshtml.cs) 访问命名选项：
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?range=13-14)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?range=13-14)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet2&highlight=6,12-13)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet2&highlight=6,12-13)]
 
-[!code-csharp[](options/sample/Pages/Index.cshtml.cs?name=snippet_Example6)]
+[!code-csharp[](options/samples/2.x/OptionsSample/Pages/Index.cshtml.cs?name=snippet_Example6)]
 
 运行示例应用，将返回命名选项：
 
@@ -252,7 +243,7 @@ named_options_2: option1 = named_options_2_value1_from_action, option2 = 5
 
 ## <a name="configure-all-options-with-the-configureall-method"></a>使用 ConfigureAll 方法配置所有选项
 
-通过 [OptionsServiceCollectionExtensions.ConfigureAll](/dotnet/api/microsoft.extensions.dependencyinjection.optionsservicecollectionextensions.configureall) 方法配置所有选项实例。 以下代码将针对包含公共值的所有配置实例配置 `Option1`。 将以下代码手动添加到 `ConfigureServices` 方法：
+使用 <xref:Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions.ConfigureAll*> 方法配置所有选项实例。 以下代码将针对包含公共值的所有配置实例配置 `Option1`。 将以下代码手动添加到 `Startup.ConfigureServices` 方法：
 
 ```csharp
 services.ConfigureAll<MyOptions>(myOptions => 
@@ -269,11 +260,7 @@ named_options_2: option1 = ConfigureAll replacement value, option2 = 5
 ```
 
 > [!NOTE]
-> 所有选项都是命名实例。 现有 `IConfigureOption` 实例将被视为面向为 `string.Empty` 的 `Options.DefaultName` 实例。 `IConfigureNamedOptions` 还可实现 `IConfigureOptions`。 [IOptionsFactory&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.ioptionsfactory-1)（[引用源](https://github.com/aspnet/Options/blob/release/2.0/src/Microsoft.Extensions.Options/IOptionsFactory.cs)）的默认实现具有适当使用每个选项的逻辑。 `null` 命名选项用于面向所有命名实例而不是某一特定命名实例（[ConfigureAll](/dotnet/api/microsoft.extensions.dependencyinjection.optionsservicecollectionextensions.configureall) 和 [PostConfigureAll](/dotnet/api/microsoft.extensions.dependencyinjection.optionsservicecollectionextensions.postconfigureall) 使用此约定）。
-
-::: moniker-end
-
-::: moniker range=">= aspnetcore-2.1"
+> 所有选项都是命名实例。 现有 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 实例将被视为面向为 `string.Empty` 的 `Options.DefaultName` 实例。 <xref:Microsoft.Extensions.Options.IConfigureNamedOptions`1> 还可实现 <xref:Microsoft.Extensions.Options.IConfigureOptions`1>。 <xref:Microsoft.Extensions.Options.IOptionsFactory`1> 的默认实现具有适当地使用每个实例的逻辑。 `null` 命名选项用于面向所有命名实例而不是某一特定命名实例（<xref:Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions.ConfigureAll*> 和 <xref:Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions.PostConfigureAll*> 使用此约定）。
 
 ## <a name="optionsbuilder-api"></a>OptionsBuilder API
 
@@ -282,12 +269,12 @@ named_options_2: option1 = ConfigureAll replacement value, option2 = 5
 ```csharp
 // Options.DefaultName = "" is used.
 services.AddOptions<MyOptions>().Configure(o => o.Property = "default");
-    
+
 services.AddOptions<MyOptions>("optionalName")
     .Configure(o => o.Property = "named");
 ```
 
-## <a name="configurelttoptions-tdep1--tdep4gt-method"></a>配置 TOptions、TDep1、...TDep4 方法&lt;&gt;
+## <a name="configurelttoptions-tdep1--tdep4gt-method"></a>配置 &lt;TOptions、TDep1、...TDep4&gt; 方法
 
 使用 DI 中的服务，通过以样本方式实现 `IConfigure[Named]Options` 来配置选项的方法非常详细。 `OptionsBuilder<TOptions>` 上 `ConfigureOptions` 的重载允许使用最多五个服务来配置选项：
 
@@ -299,8 +286,6 @@ services.AddOptions<MyOptions>("optionalName")
 ```
 
 重载会注册临时通用 <xref:Microsoft.Extensions.Options.IConfigureNamedOptions`1>，它具有接受指定的通用服务类型的构造函数。 
-
-::: moniker-end
 
 ::: moniker range=">= aspnetcore-2.2"
 
@@ -314,7 +299,7 @@ services.AddOptions<MyOptions>("optionalOptionsName")
     .Configure(o => { }) // Configure the options
     .Validate(o => YourValidationShouldReturnTrueIfValid(o), 
         "custom error");
-        
+
 // Consumption
 var monitor = services.BuildServiceProvider()
     .GetService<IOptionsMonitor<MyOptions>>();
@@ -322,7 +307,7 @@ var monitor = services.BuildServiceProvider()
 try
 {
     var options = monitor.Get("optionalOptionsName");
-} 
+}
 catch (OptionsValidationException e) 
 {
    // e.OptionsName returns "optionalOptionsName"
@@ -342,7 +327,7 @@ catch (OptionsValidationException e)
 `Validate` 方法接受 `Func<TOptions, bool>`。 若要完全自定义验证，请实现 `IValidateOptions<TOptions>`，它支持：
 
 * 验证多种类型的选项：`class ValidateTwo : IValidateOptions<Option1>, IValidationOptions<Option2>`
-* 验证取决于其他选项类型：`public DependsOnAnotherOptionValidator(IOptions<AnotherOption> options)`
+* 验证取决于其他选项类型：`public DependsOnAnotherOptionValidator(IOptionsMonitor<AnotherOption> options)`
 
 `IValidateOptions` 验证：
 
@@ -358,7 +343,7 @@ public interface IValidateOptions<TOptions> where TOptions : class
 }
 ```
 
-通过调用 `OptionsBuilder<TOptions>` 上的 `ValidateDataAnnotations` 方法，可以从 [Microsoft.Extensions.Options.DataAnnotations](https://www.nuget.org/packages/Microsoft.Extensions.Options.DataAnnotations) 包中获得基于数据注释的验证：
+通过调用 `OptionsBuilder<TOptions>` 上的 `ValidateDataAnnotations` 方法，可以从 [Microsoft.Extensions.Options.DataAnnotations](https://www.nuget.org/packages/Microsoft.Extensions.Options.DataAnnotations) 包中获得基于数据注释的验证。 [Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)（ASP.NET Core 2.2 或更高版本）中包括 `Microsoft.Extensions.Options.DataAnnotations`。
 
 ```csharp
 private class AnnotatedOptions
@@ -372,7 +357,7 @@ private class AnnotatedOptions
     [Range(-5, 5, ErrorMessage = "Out of range.")]
     public int IntRange { get; set; }
 }
-    
+
 [Fact]
 public void CanValidateDataAnnotations()
 {
@@ -389,7 +374,7 @@ public void CanValidateDataAnnotations()
     var sp = services.BuildServiceProvider();
 
     var error = Assert.Throws<OptionsValidationException>(() => 
-        sp.GetRequiredService<IOptions<AnnotatedOptions>>().Value);
+        sp.GetRequiredService<IOptionsMonitor<AnnotatedOptions>>().Value);
     ValidateFailure<AnnotatedOptions>(error, Options.DefaultName, 1,
         "DataAnnotation validation failed for members Required " +
             "with the error 'The Required field is required.'.",
@@ -397,18 +382,16 @@ public void CanValidateDataAnnotations()
             "with the error 'Too long.'.",
         "DataAnnotation validation failed for members IntRange " +
             "with the error 'Out of range.'.");
-}    
+}
 ```
 
 设计团队正在考虑为未来版本提供预先验证（在启动时快速失败）。
 
 ::: moniker-end
 
-::: moniker range=">= aspnetcore-2.0"
+## <a name="options-post-configuration"></a>选项后期配置
 
-## <a name="ipostconfigureoptions"></a>IPostConfigureOptions
-
-通过 [IPostConfigureOptions&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.ipostconfigureoptions-1) 设置后期配置。 在发生所有 [IConfigureOptions&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.iconfigureoptions-1) 配置后运行后期配置：
+使用 <xref:Microsoft.Extensions.Options.IPostConfigureOptions`1> 设置后期配置。 进行所有 <xref:Microsoft.Extensions.Options.IConfigureOptions`1> 配置后运行后期配置：
 
 ```csharp
 services.PostConfigure<MyOptions>(myOptions =>
@@ -417,7 +400,7 @@ services.PostConfigure<MyOptions>(myOptions =>
 });
 ```
 
-[PostConfigure&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.ipostconfigureoptions-1.postconfigure) 可用于对命名选项进行后期配置：
+<xref:Microsoft.Extensions.Options.IPostConfigureOptions`1.PostConfigure*> 可用于对命名选项进行后期配置：
 
 ```csharp
 services.PostConfigure<MyOptions>("named_options_1", myOptions =>
@@ -426,7 +409,7 @@ services.PostConfigure<MyOptions>("named_options_1", myOptions =>
 });
 ```
 
-使用 [PostConfigureAll&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.dependencyinjection.optionsservicecollectionextensions.postconfigureall) 对所有配置实例进行后期配置：
+使用 <xref:Microsoft.Extensions.DependencyInjection.OptionsServiceCollectionExtensions.PostConfigureAll*> 对所有配置实例进行后期配置：
 
 ```csharp
 services.PostConfigureAll<MyOptions>(myOptions =>
@@ -435,32 +418,18 @@ services.PostConfigureAll<MyOptions>(myOptions =>
 });
 ```
 
-::: moniker-end
-
-## <a name="options-factory-monitoring-and-cache"></a>选项工厂、监视和缓存
-
-[IOptionsMonitor](/dotnet/api/microsoft.extensions.options.ioptionsmonitor-1) 用于在 `TOptions` 实例更改时进行通知。 `IOptionsMonitor` 支持可重载选项、更改通知和 `IPostConfigureOptions`。
-
-::: moniker range=">= aspnetcore-2.0"
-
-[IOptionsFactory&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.ioptionsfactory-1) 负责新建选项实例。 它具有单个[创建](/dotnet/api/microsoft.extensions.options.ioptionsfactory-1.create)方法。 默认实现采用所有已注册 `IConfigureOptions` 和 `IPostConfigureOptions` 并首先运行所有配置，然后才进行后期配置。 它区分 `IConfigureNamedOptions` 和 `IConfigureOptions` 且仅调用适当的接口。
-
-`IOptionsMonitor` 使用 [IOptionsMonitorCache&lt;TOptions&gt;](/dotnet/api/microsoft.extensions.options.ioptionsmonitorcache-1) 缓存 `TOptions` 实例。 `IOptionsMonitorCache` 可使监视器中的选项实例无效，以便重新计算值 ([TryRemove](/dotnet/api/microsoft.extensions.options.ioptionsmonitorcache-1.tryremove))。 还可通过 [TryAdd](/dotnet/api/microsoft.extensions.options.ioptionsmonitorcache-1.tryadd) 手动引入值。 在应按需重新创建所有命名实例时使用[清除](/dotnet/api/microsoft.extensions.options.ioptionsmonitorcache-1.clear)方法。
-
-::: moniker-end
-
 ## <a name="accessing-options-during-startup"></a>在启动期间访问选项
 
-`IOptions` 可用于 `Startup.Configure` 中，因为在 `Configure` 方法执行之前已生成服务。
+<xref:Microsoft.Extensions.Options.IOptions`1> 和 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1> 可用于 `Startup.Configure` 中，因为在 `Configure` 方法执行之前已生成服务。
 
 ```csharp
-public void Configure(IApplicationBuilder app, IOptions<MyOptions> optionsAccessor)
+public void Configure(IApplicationBuilder app, IOptionsMonitor<MyOptions> optionsAccessor)
 {
-    var option1 = optionsAccessor.Value.Option1;
+    var option1 = optionsAccessor.CurrentValue.Option1;
 }
 ```
 
-`IOptions` 不应在 `Startup.ConfigureServices` 中使用。 由于服务注册的顺序，可能存在不一致的选项状态。
+不使用 `Startup.ConfigureServices` 中的 <xref:Microsoft.Extensions.Options.IOptions`1> 或 <xref:Microsoft.Extensions.Options.IOptionsMonitor`1>。 由于服务注册的顺序，可能存在不一致的选项状态。
 
 ## <a name="additional-resources"></a>其他资源
 

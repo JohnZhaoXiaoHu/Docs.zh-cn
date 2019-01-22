@@ -7,12 +7,12 @@ ms.author: tdykstra
 ms.custom: mvc
 ms.date: 11/14/2018
 uid: signalr/streaming
-ms.openlocfilehash: 6d5f707bd2a37e1999c6e87e3cfc369aa0301207
-ms.sourcegitcommit: 09bcda59a58019fdf47b2db5259fe87acf19dd38
+ms.openlocfilehash: e0d201a7ffebbbe387a874c6d788994faa2be7a5
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/15/2018
-ms.locfileid: "51708434"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098800"
 ---
 # <a name="use-streaming-in-aspnet-core-signalr"></a>使用 ASP.NET Core SignalR 中流式处理
 
@@ -27,20 +27,20 @@ ASP.NET Core SignalR 支持流式处理服务器方法的返回值。 这是适�
 集线器方法自动成为流式处理的集线器方法时它将返回`ChannelReader<T>`或`Task<ChannelReader<T>>`。 下面是一个示例，显示的数据流式传输到客户端的基础知识。 每当将对象写入到`ChannelReader`该对象将立即发送给客户端。 在结束时，`ChannelReader`完成告诉客户端流已关闭。
 
 > [!NOTE]
-> 写入`ChannelReader`在后台线程并返回`ChannelReader`越早越好。 将阻止其他集线器调用，直到`ChannelReader`返回。
+> * 写入`ChannelReader`在后台线程并返回`ChannelReader`越早越好。 将阻止其他集线器调用，直到`ChannelReader`返回。
+> * 包装中的逻辑`try ... catch`并完成`Channel`catch 和外部的关键点，以确保在中心正确完成方法调用。
 
 ::: moniker range="= aspnetcore-2.1"
 
-[!code-csharp[Streaming hub method](streaming/sample/Hubs/StreamHub.aspnetcore21.cs?range=12-36)]
+[!code-csharp[Streaming hub method](streaming/sample/Hubs/StreamHub.aspnetcore21.cs?name=snippet1)]
 
 ::: moniker-end
 
 ::: moniker range=">= aspnetcore-2.2"
 
-[!code-csharp[Streaming hub method](streaming/sample/Hubs/StreamHub.cs?range=11-35)]
+[!code-csharp[Streaming hub method](streaming/sample/Hubs/StreamHub.cs?name=snippet1)]
 
-> [!NOTE]
-> 在 ASP.NET Core 2.2 或更高版本，流式处理集线器方法可以接受`CancellationToken`从流的客户端取消订阅时，将触发的参数。 使用此令牌来停止服务器操作和释放任何资源，如果客户端断开连接之前流的末尾。
+在 ASP.NET Core 2.2 或更高版本，流式处理集线器方法可以接受`CancellationToken`从流的客户端取消订阅时，将触发的参数。 使用此令牌来停止服务器操作和释放任何资源，如果客户端断开连接之前流的末尾。
 
 ::: moniker-end
 

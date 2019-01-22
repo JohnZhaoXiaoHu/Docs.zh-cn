@@ -4,14 +4,14 @@ author: rick-anderson
 description: 了解如何使用 Visual Studio 创建 ASP.NET Core Web 应用并使用 Git 将它部署到 Azure 应用服务以实现持续部署。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/14/2016
+ms.date: 12/06/2018
 uid: host-and-deploy/azure-apps/azure-continuous-deployment
-ms.openlocfilehash: 5ae8ce01610828417fc76ed6626e518c8493bd0f
-ms.sourcegitcommit: 57eccdea7d89a62989272f71aad655465f1c600a
+ms.openlocfilehash: e12c2ee0b78db105b431770e8644e7d19d915765
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/10/2018
-ms.locfileid: "44340194"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284419"
 ---
 # <a name="continuous-deployment-to-azure-with-visual-studio-and-git-with-aspnet-core"></a>使用 Visual Studio 和 Git 将 ASP.NET Core 持续部署到 Azure
 
@@ -71,7 +71,7 @@ ms.locfileid: "44340194"
 
 1. 选择“Web + 移动” > “Web 应用”。
 
-   ![Microsoft Azure 门户：“新建”按钮：市场下的“Web + 移动”：“特别推荐的应用”下的“Web 应用”按钮](azure-continuous-deployment/_static/05-azure-newwebapp.png)
+   ![Microsoft Azure 门户：“新建”按钮：“市场”下的“Web + 移动”：“特色应用”下的“Web 应用”按钮](azure-continuous-deployment/_static/05-azure-newwebapp.png)
 
 1. 在“Web 应用”边栏选项卡中，输入“应用服务名称”的唯一值。
 
@@ -230,3 +230,4 @@ Git 是一个分布式版本控制系统，可用来部署 Azure App Service Web
 
 * [使用 Azure Pipelines 创建你的第一个管道](/azure/devops/pipelines/get-started-yaml)
 * [项目 Kudu](https://github.com/projectkudu/kudu/wiki)
+* <xref:host-and-deploy/visual-studio-publish-profiles>

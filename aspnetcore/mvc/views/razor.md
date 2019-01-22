@@ -5,12 +5,12 @@ description: 了解 Razor 标记语法，该语法用于将基于服务器的代
 ms.author: riande
 ms.date: 10/26/2018
 uid: mvc/views/razor
-ms.openlocfilehash: 10f0db168b36fed82def8227b3c3edcf5b57f6d7
-ms.sourcegitcommit: 54655f1e1abf0b64d19506334d94cfdb0caf55f6
+ms.openlocfilehash: 8e9ec3c5040e5a24cd5f773b1232897338741c0c
+ms.sourcegitcommit: 184ba5b44d1c393076015510ac842b77bc9d4d93
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/26/2018
-ms.locfileid: "50148884"
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "54396254"
 ---
 # <a name="razor-syntax-reference-for-aspnet-core"></a>ASP.NET Core 的 Razor 语法参考
 
@@ -216,7 +216,7 @@ Razor 代码块以 `@` 开头，并括在 `{}` 中。 代码块内的 C# 代码�
 
 如果代码中没有 `@:`，会生成 Razor 运行时错误。
 
-警告：Razor 文件中多余的 `@` 字符可能会导致代码块中后面的语句发生编译器错误。 这些编译器错误可能难以理解，因为实际错误发生在报告的错误之前。 将多个隐式/显式表达式合并到单个代码块以后，经常会发生此错误。
+警告:Razor 文件中多余的 `@` 字符可能会导致代码块中后面的语句发生编译器错误。 这些编译器错误可能难以理解，因为实际错误发生在报告的错误之前。 将多个隐式/显式表达式合并到单个代码块以后，经常会发生此错误。
 
 ## <a name="control-structures"></a>控制结构
 
@@ -526,6 +526,105 @@ Razor 公开了 `Model` 属性，用于访问传递到视图的模型：
 
 `@section` 指令与[布局](xref:mvc/views/layout)结合使用，允许视图将内容呈现在 HTML 页面的不同部分。 有关详细信息，请参阅[部分](xref:mvc/views/layout#layout-sections-label)。
 
+## <a name="templated-razor-delegates"></a>模板化 Razor 委托
+
+通过 Razor 模板，可使用以下格式定义 UI 代码片段：
+
+```cshtml
+@<tag>...</tag>
+```
+
+下面的示例演示如何指定模板化 Razor 委托作为 <xref:System.Func`2>。 为委托封装的方法的参数指定[动态类型](/dotnet/csharp/programming-guide/types/using-type-dynamic)。 将[对象类型](/dotnet/csharp/language-reference/keywords/object)指定为委托的返回值。 该模板与 `Pet`（具有 `Name` 属性）的 <xref:System.Collections.Generic.List`1> 一起使用。
+
+```csharp
+public class Pet
+{
+    public string Name { get; set; }
+}
+```
+
+```cshtml
+@{
+    Func<dynamic, object> petTemplate = @<p>You have a pet named <strong>@item.Name</strong>.</p>;
+
+    var pets = new List<Pet>
+    {
+        new Pet { Name = "Rin Tin Tin" },
+        new Pet { Name = "Mr. Bigglesworth" },
+        new Pet { Name = "K-9" }
+    };
+}
+```
+
+使用 `foreach` 语句提供的 `pets` 呈现该模板：
+
+```cshtml
+@foreach (var pet in pets)
+{
+    @petTemplate(pet)
+}
+```
+
+呈现的输出：
+
+```html
+<p>You have a pet named <strong>Rin Tin Tin</strong>.</p>
+<p>You have a pet named <strong>Mr. Bigglesworth</strong>.</p>
+<p>You have a pet named <strong>K-9</strong>.</p>
+```
+
+还可以提供内联 Razor 模板作为方法的参数。 如下示例中，`Repeat` 方法收到一个 Razor 模板。 该方法使用模板生成 HTML 内容，其中包含列表中提供的重复项：
+
+```cshtml
+@using Microsoft.AspNetCore.Html
+
+@functions {
+    public static IHtmlContent Repeat(IEnumerable<dynamic> items, int times, 
+        Func<dynamic, IHtmlContent> template)
+    {
+        var html = new HtmlContentBuilder();
+
+        foreach (var item in items)
+        {
+            for (var i = 0; i < times; i++)
+            {
+                html.AppendHtml(template(item));
+            }
+        }
+
+        return html;
+    }
+}
+```
+
+使用前面示例中的 pets 列表，调用 `Repeat` 方法以及：
+
+* `Pet` 的 <xref:System.Collections.Generic.List`1>。
+* 每只宠物的重复次数。
+* 用于无序列表的列表项的内联模板。
+
+```cshtml
+<ul>
+    @Repeat(pets, 3, @<li>@item.Name</li>)
+</ul>
+```
+
+呈现的输出：
+
+```html
+<ul>
+    <li>Rin Tin Tin</li>
+    <li>Rin Tin Tin</li>
+    <li>Rin Tin Tin</li>
+    <li>Mr. Bigglesworth</li>
+    <li>Mr. Bigglesworth</li>
+    <li>Mr. Bigglesworth</li>
+    <li>K-9</li>
+    <li>K-9</li>
+    <li>K-9</li>
+</ul>
+```
+
 ## <a name="tag-helpers"></a>标记帮助程序
 
 [标记帮助程序](xref:mvc/views/tag-helpers/intro)有三个相关指令。
@@ -642,7 +741,7 @@ Razor 视图引擎为视图执行区分大小写的查找。 但是，实际查�
 
 建议开发人员将文件和目录名称的大小写与以下项的大小写匹配：
 
-    * 区域、控制器和操作名称。
-    * Razor 页面。
+* 区域、控制器和操作名称。
+* Razor 页面。
 
 匹配大小写可确保无论使用哪种基础文件系统，部署都能找到其视图。

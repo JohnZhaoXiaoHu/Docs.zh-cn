@@ -4,16 +4,16 @@ title: 在 ASP.NET 4.5 中使用异步方法 |Microsoft Docs
 author: Rick-Anderson
 description: 本教程将讲述构建异步 ASP.NET Web 窗体应用程序使用 Visual Studio Express 2012 for Web，这是一种免费的基础知识...
 ms.author: riande
-ms.date: 06/06/2012
+ms.date: 01/02/2019
 ms.assetid: a585c9a2-7c8e-478b-9706-90f3739c50d1
 msc.legacyurl: /web-forms/overview/performance-and-caching/using-asynchronous-methods-in-aspnet-45
 msc.type: authoredcontent
-ms.openlocfilehash: 9a3c9fab4932c3bc85733a912cf1d1eaaecc1ab7
-ms.sourcegitcommit: fc7eb4243188950ae1f1b52669edc007e9d0798d
+ms.openlocfilehash: c36749f82051ee8965035eca9c2e4e57a5dbd616
+ms.sourcegitcommit: e1cc4c1ef6c9e07918a609d5ad7fadcb6abe3e12
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/07/2018
-ms.locfileid: "51225481"
+ms.lasthandoff: 01/03/2019
+ms.locfileid: "53997339"
 ---
 <a name="using-asynchronous-methods-in-aspnet-45"></a>在 ASP.NET 4.5 中使用异步方法
 ====================
@@ -38,7 +38,7 @@ ms.locfileid: "51225481"
 
 有关使用的详细信息[await](https://msdn.microsoft.com/library/hh156528(VS.110).aspx)并[异步](https://msdn.microsoft.com/library/hh156513(VS.110).aspx)关键字和[任务](https://msdn.microsoft.com/library/system.threading.tasks.task.aspx)命名空间，请参阅以下参考资料。
 
-- [在.NET 中的白皮书： 实现异步](https://go.microsoft.com/fwlink/?LinkId=204844)
+- [白皮书：在.NET 中实现异步](https://go.microsoft.com/fwlink/?LinkId=204844)
 - [Async/Await FAQ](https://blogs.msdn.com/b/pfxteam/archive/2012/04/12/10293335.aspx)
 - [Visual Studio 异步编程](https://msdn.microsoft.com/vstudio/gg316360)
 
@@ -68,7 +68,7 @@ ms.locfileid: "51225481"
 - 操作是网络绑定的或绑定 I/O 而不是受 CPU 限制。
 - 并行度不比代码的简单性更重要。
 - 你想要提供一种机制，允许用户取消长时间运行的请求。
-- 当切换出的线程的好处的权重设置上下文切换的成本。 一般情况下，您应使方法成为异步如果同步方法不执行任何工作时阻止 ASP.NET 请求线程。 可以执行异步调用，ASP.NET 请求线程不被阻止等待完成的 web 服务请求时任何工作。
+- 当切换线程的好处远远超过上下文切换的成本。 一般情况下，您应使方法成为异步如果同步方法不执行任何工作时阻止 ASP.NET 请求线程。 可以执行异步调用，ASP.NET 请求线程不被阻止等待完成的 web 服务请求时任何工作。
 - 测试显示阻塞操作是在站点的性能瓶颈和 IIS 可以通过使用异步方法对这些阻塞调用服务更多的请求。
 
   可下载的示例演示如何有效地使用异步方法。 提供的示例旨在提供 ASP.NET 4.5 中的异步编程的简单演示。 该示例不是要在 ASP.NET 中的异步编程的参考体系结构。 在示例程序调用[ASP.NET Web API](../../../web-api/index.md)方法，用于反过来调用[Task.Delay](https://msdn.microsoft.com/library/hh139096(VS.110).aspx)以模拟长时间运行 web 服务调用。 大多数生产应用程序不会显示使用异步方法对这种明显的优势。   
@@ -79,9 +79,9 @@ ms.locfileid: "51225481"
 
 您可以下载的示例应用程序[ https://github.com/RickAndMSFT/Async-ASP.NET ](https://github.com/RickAndMSFT/Async-ASP.NET)上[GitHub](https://github.com/)站点。 存储库包含三个项目：
 
-- *WebAppAsync*： 使用 Web API 的 ASP.NET Web 窗体项目**WebAPIpwg**服务。 本教程是从该代码的大多数项目。
-- *WebAPIpgw*： 用于实现 ASP.NET MVC 4 Web API 项目`Products, Gizmos and Widgets`控制器。 它提供的数据*WebAppAsync*项目并*Mvc4Async*项目。
-- *Mvc4Async*： 包含在另一个教程中使用的代码的 ASP.NET MVC 4 项目。 Web API 调用**WebAPIpwg**服务。
+- *WebAppAsync*:ASP.NET Web 窗体使用的项目的 Web API **WebAPIpwg**服务。 本教程是从该代码的大多数项目。
+- *WebAPIpgw*:实现的 ASP.NET MVC 4 Web API 项目`Products, Gizmos and Widgets`控制器。 它提供的数据*WebAppAsync*项目并*Mvc4Async*项目。
+- *Mvc4Async*:包含在另一个教程中使用的代码的 ASP.NET MVC 4 项目。 Web API 调用**WebAPIpwg**服务。
 
 ## <a id="GizmosSynch"></a>  Gizmos，请同步页
 

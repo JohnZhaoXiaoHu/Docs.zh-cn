@@ -4,14 +4,14 @@ author: Rick-Anderson
 description: 理解 ASP.NET Core 项目的警告和错误，并对其进行故障排除。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/24/2018
+ms.date: 11/26/2018
 uid: test/troubleshoot
-ms.openlocfilehash: 150f2192bb4b6dd0d330fd678d9c5fa0bf31673e
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: 7a3361970bde2b8761c76884fc1905957d075c5c
+ms.sourcegitcommit: e9b99854b0a8021dafabee0db5e1338067f250a9
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090106"
+ms.lasthandoff: 11/28/2018
+ms.locfileid: "52450770"
 ---
 # <a name="troubleshoot-aspnet-core-projects"></a>解决 ASP.NET Core 项目
 
@@ -67,3 +67,97 @@ ms.locfileid: "50090106"
 
 * 安装或验证.NET Core SDK 的安装。
 * 验证`PATH`环境变量指向在其中安装了 SDK 的位置。 安装程序通常设置`PATH`。
+
+## <a name="obtain-data-from-an-app"></a>从应用程序获取数据
+
+如果应用程序能够对请求作出响应，你可以从应用使用中间件获取以下数据：
+
+* 请求&ndash;方法、 方案、 主机、 pathbase、 路径、 查询字符串，标头
+* 连接&ndash;远程 IP 地址、 远程端口、 本地 IP 地址、 本地端口、 客户端证书
+* 标识&ndash;名称、 显示名称
+* 配置设置
+* 环境变量
+
+将以下项放[中间件](xref:fundamentals/middleware/index#create-a-middleware-pipeline-with-iapplicationbuilder)代码的开头`Startup.Configure`方法的请求处理管道。 中间件运行以确保仅在开发环境中执行的代码之前，将检查该环境。
+
+若要获取该环境，请使用以下方法之一：
+
+* 注入`IHostingEnvironment`到`Startup.Configure`方法，并检查本地变量的环境。 下面的示例代码演示了这种方法。
+
+* 将在环境中的属性分配`Startup`类。 检查在环境中使用属性 (例如， `if (Environment.IsDevelopment())`)。
+
+```csharp
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+    IConfiguration config)
+{
+    if (env.IsDevelopment())
+    {
+        app.Run(async (context) =>
+        {
+            var sb = new StringBuilder();
+            var nl = System.Environment.NewLine;
+            var rule = string.Concat(nl, new string('-', 40), nl);
+            var authSchemeProvider = app.ApplicationServices
+                .GetRequiredService<IAuthenticationSchemeProvider>();
+
+            sb.Append($"Request{rule}");
+            sb.Append($"{DateTimeOffset.Now}{nl}");
+            sb.Append($"{context.Request.Method} {context.Request.Path}{nl}");
+            sb.Append($"Scheme: {context.Request.Scheme}{nl}");
+            sb.Append($"Host: {context.Request.Headers["Host"]}{nl}");
+            sb.Append($"PathBase: {context.Request.PathBase.Value}{nl}");
+            sb.Append($"Path: {context.Request.Path.Value}{nl}");
+            sb.Append($"Query: {context.Request.QueryString.Value}{nl}{nl}");
+
+            sb.Append($"Connection{rule}");
+            sb.Append($"RemoteIp: {context.Connection.RemoteIpAddress}{nl}");
+            sb.Append($"RemotePort: {context.Connection.RemotePort}{nl}");
+            sb.Append($"LocalIp: {context.Connection.LocalIpAddress}{nl}");
+            sb.Append($"LocalPort: {context.Connection.LocalPort}{nl}");
+            sb.Append($"ClientCert: {context.Connection.ClientCertificate}{nl}{nl}");
+
+            sb.Append($"Identity{rule}");
+            sb.Append($"User: {context.User.Identity.Name}{nl}");
+            var scheme = await authSchemeProvider
+                .GetSchemeAsync(IISDefaults.AuthenticationScheme);
+            sb.Append($"DisplayName: {scheme?.DisplayName}{nl}{nl}");
+
+            sb.Append($"Headers{rule}");
+            foreach (var header in context.Request.Headers)
+            {
+                sb.Append($"{header.Key}: {header.Value}{nl}");
+            }
+            sb.Append(nl);
+
+            sb.Append($"Websockets{rule}");
+            if (context.Features.Get<IHttpUpgradeFeature>() != null)
+            {
+                sb.Append($"Status: Enabled{nl}{nl}");
+            }
+            else
+            {
+                sb.Append($"Status: Disabled{nl}{nl}");
+            }
+
+            sb.Append($"Configuration{rule}");
+            foreach (var pair in config.AsEnumerable())
+            {
+                sb.Append($"{pair.Path}: {pair.Value}{nl}");
+            }
+            sb.Append(nl);
+
+            sb.Append($"Environment Variables{rule}");
+            var vars = System.Environment.GetEnvironmentVariables();
+            foreach (var key in vars.Keys.Cast<string>().OrderBy(key => key, 
+                StringComparer.OrdinalIgnoreCase))
+            {
+                var value = vars[key];
+                sb.Append($"{key}: {value}{nl}");
+            }
+
+            context.Response.ContentType = "text/plain";
+            await context.Response.WriteAsync(sb.ToString());
+        });
+    }
+}
+```

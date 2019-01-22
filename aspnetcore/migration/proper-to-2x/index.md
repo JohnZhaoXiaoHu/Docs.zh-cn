@@ -3,14 +3,14 @@ title: 从 ASP.NET 迁移到 ASP.NET Core
 author: isaac2004
 description: 接收将现有 ASP.NET MVC 或 Web API 应用迁移到 ASP.NET Core Web 的指南
 ms.author: scaddie
-ms.date: 08/27/2017
+ms.date: 12/11/2018
 uid: migration/proper-to-2x/index
-ms.openlocfilehash: 1a3e3f0b514c262cfe13ea8391ab97b95aa4384e
-ms.sourcegitcommit: 54655f1e1abf0b64d19506334d94cfdb0caf55f6
+ms.openlocfilehash: a9eef832a68afa1a73e3c7c545378da190602ce2
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/26/2018
-ms.locfileid: "50148793"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284391"
 ---
 # <a name="migrate-from-aspnet-to-aspnet-core"></a>从 ASP.NET 迁移到 ASP.NET Core
 
@@ -20,7 +20,7 @@ ms.locfileid: "50148793"
 
 ## <a name="prerequisites"></a>系统必备
 
-[!INCLUDE [](~/includes/net-core-sdk-download-link.md)]
+[.NET Core SDK 2.2 或更高版本](https://www.microsoft.com/net/download)
 
 ## <a name="target-frameworks"></a>目标框架
 
@@ -28,15 +28,15 @@ ASP.NET Core 项目为开发人员提供了面向 .NET Core 和/或 .NET Framewo
 
 面向 .NET Framework 时，项目需要引用单个 NuGet 包。
 
-得益于有 ASP.NET Core [元包](xref:fundamentals/metapackage)，面向 .NET Core 时可以避免进行大量的显式包引用。 在项目中安装 `Microsoft.AspNetCore.All` 元包：
+得益于有 ASP.NET Core [元包](xref:fundamentals/metapackage-app)，面向 .NET Core 时可以避免进行大量的显式包引用。 在项目中安装 `Microsoft.AspNetCore.App` 元包：
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
+   <PackageReference Include="Microsoft.AspNetCore.App" />
 </ItemGroup>
 ```
 
-使用此元包时，应用不会部署元包中引用的任何包。 .NET Core 运行时存储中包含这些资产，并已预编译，旨在提升性能。 请参阅 [ASP.NET Core 2.x 的 Microsoft.AspNetCore.All 元包](xref:fundamentals/metapackage)了解详细信息。
+使用此元包时，应用不会部署元包中引用的任何包。 .NET Core 运行时存储中包含这些资产，并已预编译，旨在提升性能。 如需了解更多详情，请参阅[用于 ASP.NET Core 的 Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)。
 
 ## <a name="project-structure-differences"></a>项目结构差异
 
@@ -64,15 +64,14 @@ ASP.NET Core 使用相似的方法，但是不依赖 OWIN 处理条目。 相反
 
 [!code-csharp[](samples/program.cs)]
 
-`Startup` 必须包含 `Configure` 方法。 在 `Configure` 中，向管道添加必要的中间件。 在下列示例（位于默认的网站模板）中，使用了多个扩展方法为管道配置对以下内容的支持：
+`Startup` 必须包含 `Configure` 方法。 在 `Configure` 中，向管道添加必要的中间件。 在下面的示例（来自默认网站模板）中，扩展方法为管道配置以下支持：
 
-* [BrowserLink](http://vswebessentials.com/features/browserlink)
 * 错误页
-* 静态文件
+* HTTP 严格传输安全
+* 从 HTTP 重定向到 HTTPS
 * ASP.NET Core MVC
-* 标识
 
-[!code-csharp[](../../common/samples/WebApplication1/Startup.cs?highlight=8,9,10,14,17,19,21&start=58&end=84)]
+[!code-csharp[](samples/startup.cs)]
 
 现在主机和应用程序已分离，这样将来就可以灵活地迁移到其他平台。
 

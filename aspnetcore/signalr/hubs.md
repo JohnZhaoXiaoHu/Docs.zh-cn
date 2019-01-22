@@ -5,14 +5,14 @@ description: 了解如何在 ASP.NET Core SignalR 中使用中心。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: tdykstra
 ms.custom: mvc
-ms.date: 11/07/2018
+ms.date: 11/20/2018
 uid: signalr/hubs
-ms.openlocfilehash: 0413d354307208726f4252f431ac59526effed08
-ms.sourcegitcommit: 408921a932448f66cb46fd53c307a864f5323fe5
+ms.openlocfilehash: 91f92e9d6b776457cd319965d548ee401ddc5e0e
+ms.sourcegitcommit: 4225e2c49a0081e6ac15acff673587201f54b4aa
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/12/2018
-ms.locfileid: "51569914"
+ms.lasthandoff: 11/21/2018
+ms.locfileid: "52282131"
 ---
 # <a name="use-hubs-in-signalr-for-aspnet-core"></a>ASP.NET Core 使用 SignalR 中的中心
 
@@ -26,17 +26,17 @@ SignalR 中心 API，可从服务器在连接的客户端上调用方法。 在�
 
 ## <a name="configure-signalr-hubs"></a>配置 SignalR 集线器
 
-SignalR 中间件需要某些服务，通过调用配置`services.AddSignalR`。
+SignalR 中间件需要一些服务，这些服务通过调用`services.AddSignalR`来配置。
 
 [!code-csharp[Configure service](hubs/sample/startup.cs?range=38)]
 
-在 SignalR 功能添加到 ASP.NET Core 应用程序时，通过调用设置 SignalR 路由`app.UseSignalR`中`Startup.Configure`方法。
+将 SignalR 功能添加到 ASP.NET Core 应用程序时，通过在`Startup.Configure`方法中调用`app.UseSignalR`来设置 SignalR 路由。
 
 [!code-csharp[Configure routes to hubs](hubs/sample/startup.cs?range=57-60)]
 
 ## <a name="create-and-use-hubs"></a>创建和使用中心
 
-通过声明继承的类创建一个中心`Hub`，并向其添加公共方法。 客户端可以调用方法定义为`public`。
+通过声明从`Hub`继承的类来创建中心，并向其添加公共方法。 客户端可以调用定义为`public`的方法。
 
 ```csharp
 public class ChatHub : Hub
@@ -52,7 +52,7 @@ public class ChatHub : Hub
 
 > [!NOTE]
 > 中心是暂时的：
-> * 不要将状态存储在中心类的属性。 每个集线器方法调用新的中心实例上执行。  
+> * 不要将状态存储在 hub 类的属性中。 每个 hub 方法调用都在新的 hub 实例上执行。  
 > * 使用`await`调用取决于中心保持活动状态的异步方法时。 例如，如方法`Clients.All.SendAsync(...)`如果调用，但不可能会失败`await`和集线器方法完成之前`SendAsync`完成。
 
 ## <a name="the-context-object"></a>上下文对象
@@ -84,7 +84,6 @@ public class ChatHub : Hub
 | `All` | 在所有连接的客户端上调用的方法 |
 | `Caller` | 在客户端调用集线器方法调用的方法 |
 | `Others` | 除调用该方法的客户端的所有已连接客户端上调用的方法 |
-
 
 `Hub.Clients` 此外包含以下方法：
 
@@ -126,7 +125,17 @@ public class ChatHub : Hub
 
 使用`Hub<IChatClient>`启用编译时检查的客户端方法。 这可以防止由于使用魔幻字符串导致的问题`Hub<T>`可以仅提供访问权限在接口中定义的方法。
 
-使用强类型化`Hub<T>`禁用的功能使用`SendAsync`。
+使用强类型化`Hub<T>`禁用的功能使用`SendAsync`。 该接口上定义的任何方法仍可以定义为异步。 实际上，每种方法应返回`Task`。 由于它是一个接口，不要使用`async`关键字。 例如：
+
+```csharp
+public interface IClient
+{
+    Task ClientMethod();
+}
+```
+
+> [!NOTE]
+> `Async`后缀不从方法名称中去除。 除非客户端方法使用定义`.on('MyMethodAsync')`，则不应使用`MyMethodAsync`作为名称。
 
 ## <a name="change-the-name-of-a-hub-method"></a>将集线器方法的名称更改
 
@@ -150,7 +159,7 @@ SignalR 中心 API 提供了`OnConnectedAsync`和`OnDisconnectedAsync`管理和�
 
 [!code-javascript[Error](hubs/sample/wwwroot/js/chat.js?range=23)]
 
-默认情况下，如果你的中心引发异常，SignalR 就返回一般错误消息到客户端。 例如：
+如果你的中心引发了异常，不会关闭连接。 默认情况下，SignalR 返回到客户端的一般性错误消息。 例如：
 
 ```
 Microsoft.AspNetCore.SignalR.HubException: An unexpected error occurred invoking 'MethodName' on the server.

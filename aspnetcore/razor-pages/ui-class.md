@@ -1,17 +1,18 @@
 ---
 title: ASP.NET Core 的类库中的可重用 Razor UI
 author: Rick-Anderson
-description: 说明如何在类库中创建可重用 Razor UI。
+description: 说明如何创建可重复使用 Razor UI 在 ASP.NET Core 中的类库中使用分部视图。
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.date: 09/07/2018
+ms.custom: seodec18
 uid: razor-pages/ui-class
-ms.openlocfilehash: 4cbff1565fe82925d9196d8cd810651b97b293da
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: e5f329dcc423a7b7d6c247d0d359d35d95283de4
+ms.sourcegitcommit: 49faca2644590fc081d86db46ea5e29edfc28b7b
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50206517"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53121487"
 ---
 # <a name="create-reusable-ui-using-the-razor-class-library-project-in-aspnet-core"></a>创建使用 ASP.NET Core 中 Razor 类库项目的可重用 UI
 

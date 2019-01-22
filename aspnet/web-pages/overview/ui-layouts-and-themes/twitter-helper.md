@@ -4,20 +4,23 @@ title: Twitter 使用 ASP.NET Web 页面的帮助程序 |Microsoft Docs
 author: Rick-Anderson
 description: 此主题和应用程序演示如何将 Twitter 帮助程序添加到 WebMatrix 3 项目。 它包含的 Twitter 帮助程序代码，并演示如何调用帮助器...
 ms.author: riande
-ms.date: 02/07/2014
+ms.date: 11/26/2018
 ms.assetid: c1a1244e-b9c8-42e6-a00b-8456a4ec027c
 msc.legacyurl: /web-pages/overview/ui-layouts-and-themes/twitter-helper
 msc.type: authoredcontent
-ms.openlocfilehash: 89c8c520cd32ca2ee24e6cd90e11f7bdf39c7a80
-ms.sourcegitcommit: 2d3e5422d530203efdaf2014d1d7df31f88d08d0
+ms.openlocfilehash: fabe9f2b84d278a766dc8d8b7bfc00e1eb967127
+ms.sourcegitcommit: 710fc5fcac258cc8415976dc66bdb355b3e061d5
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "51020568"
+ms.lasthandoff: 11/26/2018
+ms.locfileid: "52299425"
 ---
 <a name="twitter-helper-with-aspnet-web-pages"></a>使用 ASP.NET 网页的 twitter 帮助程序
 ====================
 通过[Tom FitzMacken](https://github.com/tfitzmac)
+
+> [!IMPORTANT]
+> Twitter 帮助程序已过时。 关于 Twitter 的最新 engagement 工具的网站，请参阅[Twitter 网站概述](https://developer.twitter.com/en/docs/twitter-for-websites/overview)。
 
 > 此主题和应用程序演示如何将 Twitter 帮助程序添加到 WebMatrix 3 项目。 它包含的 Twitter 帮助器代码，并演示了如何调用帮助器方法。
 > 

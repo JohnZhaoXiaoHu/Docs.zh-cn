@@ -22,7 +22,7 @@ Visual Studio 在 ASP.NET Core 项目中内置了对 [LibMan](xref:client-side/l
 * 支持在生成时配置和运行 LibMan 还原操作。
 * 用于触发 LibMan 还原和清理操作的菜单项。
 * 搜索对话框，查找库并将文件添加到项目中。
-* 编辑对 *libman.json*（LibMan 清单文件）的支持。
+* 编辑对*libman.json*（LibMan  清单文件）的支持。&mdash;
 
 [查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/client-side/libman/samples/) [（如何下载）](xref:index#how-to-download-a-sample)
 
@@ -32,10 +32,10 @@ Visual Studio 在 ASP.NET Core 项目中内置了对 [LibMan](xref:client-side/l
 
 ## <a name="add-library-files"></a>添加库文件
 
- 可通过两种不同的方式将库文件添加到 ASP.NET Core 项目中：
+可通过两种不同的方式将库文件添加到 ASP.NET Core 项目中：
 
 1. [使用“添加客户端库”对话框](#use-the-add-client-side-library-dialog)
-2. [手动配置 LibMan 清单文件条目](#manually-configure-libman-manifest-file-entries)
+1. [手动配置 LibMan 清单文件条目](#manually-configure-libman-manifest-file-entries)
 
 ### <a name="use-the-add-client-side-library-dialog"></a>使用“添加客户端库”对话框
 

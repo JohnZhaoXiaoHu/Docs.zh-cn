@@ -4,14 +4,14 @@ author: zuckerthoben
 description: 了解如何将 Swashbuckle 添加到 ASP.NET Core web API 项目中以集成 Swagger UI。
 ms.author: scaddie
 ms.custom: mvc
-ms.date: 11/05/2018
+ms.date: 12/18/2018
 uid: tutorials/get-started-with-swashbuckle
-ms.openlocfilehash: 945a2ebe138ba6a1f6029f9e867887b1ce8d628f
-ms.sourcegitcommit: 09affee3d234cb27ea6fe33bc113b79e68900d22
+ms.openlocfilehash: a8c3d999cfddb4d3d888455d7cc0b899a71e427e
+ms.sourcegitcommit: ea215df889e89db44037a6ac2f01baede0450da9
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/06/2018
-ms.locfileid: "51191277"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53595329"
 ---
 # <a name="get-started-with-swashbuckle-and-aspnet-core"></a>Swashbuckle 和 ASP.NET Core 入门
 
@@ -107,6 +107,8 @@ dotnet add TodoApi.csproj package Swashbuckle.AspNetCore
 > 要在应用的根 (`http://localhost:<port>/`) 处提供 Swagger UI，请将 `RoutePrefix` 属性设置为空字符串：
 >
 > [!code-csharp[](../tutorials/web-api-help-pages-using-swagger/samples/2.0/TodoApi.Swashbuckle/Startup3.cs?name=snippet_UseSwaggerUI&highlight=4)]
+
+如果使用目录及 IIS 或反向代理，请使用 `./` 前缀将 Swagger 终结点设置为相对路径。 例如 `./swagger/v1/swagger.json`。 使用 `/swagger/v1/swagger.json` 指示应用在 URL 的真实根目录中查找 JSON 文件（如果使用，加上路由前缀）。 例如，请使用 `http://localhost:<port>/<route_prefix>/swagger/v1/swagger.json` 而不是 `http://localhost:<port>/<virtual_directory>/<route_prefix>/swagger/v1/swagger.json`。
 
 ## <a name="customize-and-extend"></a>自定义和扩展
 
@@ -256,7 +258,7 @@ namespace TodoApi
 
 ::: moniker-end
 
-在上述代码中，[反射](/dotnet/csharp/programming-guide/concepts/reflection)用于生成与 Web API 项目相匹配的 XML 文件名。 [AppContext.BaseDirectory](/dotnet/api/system.appcontext.basedirectory#System_AppContext_BaseDirectory)属性用于构造 XML 文件的路径。
+在上述代码中，[反射](/dotnet/csharp/programming-guide/concepts/reflection)用于生成与 Web API 项目相匹配的 XML 文件名。 [AppContext.BaseDirectory](xref:System.AppContext.BaseDirectory*)属性用于构造 XML 文件的路径。
 
 通过向节标题添加说明，将三斜杠注释添加到操作增强了 Swagger UI。 执行 `Delete` 操作前添加 [\<summary>](/dotnet/csharp/programming-guide/xmldoc/summary) 元素：
 
@@ -369,7 +371,7 @@ Swagger UI 显示上述代码的 `<summary>` 元素的内部文本：
 
 ### <a name="describe-response-types"></a>描述响应类型
 
-消费应用程序开发人员最关心的问题是返回的内容 &mdash; 具体的响应类型和错误代码（如果不标准）。 在 XML 注释和数据注释中表示响应类型和错误代码。
+使用 Web API 的开发人员最关心的问题是返回的内容，特别是响应类型和错误代码（如果不标准）。 在 XML 注释和数据注释中表示响应类型和错误代码。
 
 `Create` 操作成功后返回 HTTP 201 状态代码。 发布的请求正文为 NULL 时，将返回 HTTP 400 状态代码。 如果 Swagger UI 中没有提供合适的文档，那么使用者会缺少对这些预期结果的了解。 在以下示例中，通过添加突出显示的行解决此问题：
 
@@ -388,6 +390,12 @@ Swagger UI 显示上述代码的 `<summary>` 元素的内部文本：
 Swagger UI 现在清楚地记录预期的 HTTP 响应代码：
 
 ![Swagger UI 针对“响应消息”下的状态代码和原因显示 POST 响应类描述“返回新建的待办事项”和“400 - 如果该项为 null”](web-api-help-pages-using-swagger/_static/data-annotations-response-types.png)
+
+::: moniker range=">= aspnetcore-2.2"
+
+在 ASP.NET Core 2.2 或更高版本中，约定可以用作使用 `[ProducesResponseType]` 显式修饰各操作的替代方法。 有关更多信息，请参见<xref:web-api/advanced/conventions>。
+
+::: moniker-end
 
 ### <a name="customize-the-ui"></a>自定义 UI
 

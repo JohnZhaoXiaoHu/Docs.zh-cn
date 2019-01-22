@@ -1,17 +1,17 @@
 ---
-title: 使用 ASP.NET Core 和 Azure DevOps |后续步骤
+title: 后续步骤-使用 ASP.NET Core 和 Azure 进行开发运营
 author: CamSoper
-description: 提供有关为托管在 Azure 中的 ASP.NET Core 应用构建 DevOps 管道的端到端指导的指南。
+description: 更多的 ASP.NET Core 和 Azure 中的 DevOps 学习路径。
 ms.author: casoper
-ms.custom: mvc
+ms.custom: mvc, seodec18
 ms.date: 10/24/2018
 uid: azure/devops/next-steps
-ms.openlocfilehash: b82e7251b507f8d141930673d50722cfaa576db5
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: a775dc42551a43bcce72b5f9ca364ed00b1dc4e6
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50089872"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284452"
 ---
 # <a name="next-steps"></a>后续步骤
 

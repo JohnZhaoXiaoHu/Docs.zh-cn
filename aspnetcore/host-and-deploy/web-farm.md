@@ -4,14 +4,14 @@ author: guardrex
 description: 了解如何在 Web 场环境中托管包含共享资源的 ASP.NET Core 应用的多个实例。
 ms.author: riande
 ms.custom: mvc
-ms.date: 07/16/2018
+ms.date: 11/26/2018
 uid: host-and-deploy/web-farm
-ms.openlocfilehash: 2435c24bc205486331c828337ca81c43e6e60448
-ms.sourcegitcommit: 3ca527f27c88cfc9d04688db5499e372fbc2c775
+ms.openlocfilehash: 4873665e6174a6acf885e1ebb41fb005d646bd1f
+ms.sourcegitcommit: e9b99854b0a8021dafabee0db5e1338067f250a9
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 07/17/2018
-ms.locfileid: "39096083"
+ms.lasthandoff: 11/28/2018
+ms.locfileid: "52450666"
 ---
 # <a name="host-aspnet-core-in-a-web-farm"></a>在 Web 场中托管 ASP.NET Core
 
@@ -67,6 +67,8 @@ Web 场包含两个或多个 Web 服务器（亦称为“节点”），用于�
 
 ## <a name="troubleshoot"></a>疑难解答
 
+### <a name="data-protection-and-caching"></a>数据保护和缓存
+
 如果未为 Web 场环境配置数据保护或缓存，就会在处理请求时发生间歇性错误。 之所以会发生这种情况是因为，节点不共享相同的资源，并且用户请求并不总是路由回同一节点。
 
 假设用户通过 Cookie 身份验证来登录应用。 用户在 Web 场中的一个节点上登录应用。 如果用户的下一个请求到达登录应用时所用的同一节点，应用便能解密身份验证 Cookie，并允许用户访问应用资源。 如果用户的下一个请求到达其他节点，应用便无法从用户登录时所用的节点解密身份验证 Cookie，并且无法授权用户请求获取的资源。
@@ -81,3 +83,7 @@ Web 场包含两个或多个 Web 服务器（亦称为“节点”），用于�
 * POST 失败 &ndash; 防伪造检查失败。
 
 若要详细了解与 Web 场部署有关的数据保护配置，请参阅<xref:security/data-protection/configuration/overview>。 若要详细了解与 Web 场部署有关的缓存配置，请参阅<xref:performance/caching/distributed>。
+
+## <a name="obtain-data-from-apps"></a>从应用中获取数据
+
+如果 Web 场应用能够响应请求，则使用终端内联中间件从应用中获取请求、连接和其他数据。 有关详细信息和示例代码，请参阅<xref:test/troubleshoot#obtain-data-from-an-app>。

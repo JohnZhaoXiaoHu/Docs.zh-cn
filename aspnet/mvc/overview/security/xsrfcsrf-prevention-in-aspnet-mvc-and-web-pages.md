@@ -83,7 +83,7 @@ ANTI-XSRF 令牌的有效负载进行加密和签名，以便使用工具来检�
 若要生成的 ANTI-XSRF 令牌，调用[ @Html.AntiForgeryToken ](https://msdn.microsoft.com/library/dd470175.aspx) MVC 视图中的方法或@AntiForgery.GetHtml从 Razor 页面 （)。 然后，运行时将执行以下步骤：
 
 1. 如果当前的 HTTP 请求中已包含的 ANTI-XSRF 会话令牌 (的 ANTI-XSRF cookie \_ \_RequestVerificationToken)，从其提取的安全令牌。 如果 HTTP 请求不包含的 ANTI-XSRF 会话令牌或安全令牌提取失败，将生成新的随机的 ANTI-XSRF 令牌。
-2. 使用从上面的步骤 (1) 和当前登录的用户的标识的安全令牌生成的 ANTI-XSRF 字段令牌。 (有关确定用户标识的详细信息，请参阅**[提供特殊支持的方案](#_Scenarios_with_special)** 下面一节。)此外，如果[IAntiForgeryAdditionalDataProvider](https://msdn.microsoft.com/library/jj158328(v=vs.111).aspx)是配置，则运行时会调用其[GetAdditionalData](https://msdn.microsoft.com/library/system.web.helpers.iantiforgeryadditionaldataprovider.getadditionaldata(v=vs.111).aspx)方法，包括字段令牌中返回的字符串。 (请参阅**[配置和可扩展性](#_Configuration_and_extensibility)** 部分，了解详细信息。)
+2. 使用从上面的步骤 (1) 和当前登录的用户的标识的安全令牌生成的 ANTI-XSRF 字段令牌。 (有关确定用户标识的详细信息，请参阅 **[提供特殊支持的方案](#_Scenarios_with_special)** 下面一节。)此外，如果[IAntiForgeryAdditionalDataProvider](https://msdn.microsoft.com/library/jj158328(v=vs.111).aspx)是配置，则运行时会调用其[GetAdditionalData](https://msdn.microsoft.com/library/system.web.helpers.iantiforgeryadditionaldataprovider.getadditionaldata(v=vs.111).aspx)方法，包括字段令牌中返回的字符串。 (请参阅**[配置和可扩展性](#_Configuration_and_extensibility)** 部分，了解详细信息。)
 3. 如果在步骤 (1) 中生成新的 ANTI-XSRF 令牌，新的会话令牌将创建以包含它，并且将添加到的出站的 HTTP cookie 集合。 步骤 (2) 中的字段标记将包装在`<input type="hidden" />`将返回值的元素，并且此 HTML 标记`Html.AntiForgeryToken()`或`AntiForgery.GetHtml()`。
 
 ## <a name="validating-the-tokens"></a>验证的令牌

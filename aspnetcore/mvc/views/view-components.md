@@ -3,14 +3,14 @@ title: ASP.NET Core 中的视图组件
 author: rick-anderson
 description: 了解如何在 ASP.NET Core 中使用视图组件，以及如何将其添加到应用中。
 ms.author: riande
-ms.date: 02/14/2017
+ms.date: 12/03/2018
 uid: mvc/views/view-components
-ms.openlocfilehash: 91399acafb36f1f8759ed1783e70e59b631e3bf0
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: 5812abad80cd906d6b9a7175bd7cdefd03a99eb3
+ms.sourcegitcommit: 9bb58d7c8dad4bbd03419bcc183d027667fefa20
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50253122"
+ms.lasthandoff: 12/04/2018
+ms.locfileid: "52861324"
 ---
 # <a name="view-components-in-aspnet-core"></a>ASP.NET Core 中的视图组件
 
@@ -63,13 +63,13 @@ ms.locfileid: "50253122"
 
 ### <a name="view-component-methods"></a>视图组件方法
 
-视图组件以返回 `InvokeAsync` 的 `IViewComponentResult` 方法定义其逻辑。 参数直接来自视图组件的调用，而不是来自模型绑定。 视图组件从不直接处理请求。 通常，视图组件通过调用 `View` 方法来初始化模型并将其传递到视图。 总之，视图组件方法：
+视图组件以返回 `Task<IViewComponentResult>` 的 `InvokeAsync` 方法，或是以返回 `IViewComponentResult` 的同步 `Invoke` 方法定义其逻辑。 参数直接来自视图组件的调用，而不是来自模型绑定。 视图组件从不直接处理请求。 通常，视图组件通过调用 `View` 方法来初始化模型并将其传递到视图。 总之，视图组件方法：
 
-* 定义返回 `IViewComponentResult` 的 `InvokeAsync` 方法
-* 一般通过调用 `ViewComponent` `View` 方法来初始化模型并将其传递到视图
-* 参数来自调用方法，而不是 HTTP，没有模型绑定
-* 不可直接作为 HTTP 终结点访问，它们从代码调用（通常在视图中）。 视图组件从不处理请求
-* 在签名上重载，而不是当前 HTTP 请求的任何详细信息
+* 定义返回 `Task<IViewComponentResult>` 的 `InvokeAsync` 方法，或是返回 `IViewComponentResult` 的同步 `Invoke` 方法。
+* 一般通过调用 `ViewComponent` `View` 方法来初始化模型并将其传递到视图。
+* 参数来自调用方法，而不是 HTTP。 没有模型绑定。
+* 不可直接作为 HTTP 终结点进行访问。 通过代码调用它们（通常在视图中）。 视图组件从不处理请求。
+* 在签名上重载，而不是当前 HTTP 请求的任何详细信息。
 
 ### <a name="view-search-path"></a>视图搜索路径
 

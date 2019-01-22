@@ -4,14 +4,14 @@ author: guardrex
 description: 了解如何诊断 ASP.NET Core 应用的 Internet Information Services (IIS) 部署的问题。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/24/2018
+ms.date: 12/18/2018
 uid: host-and-deploy/iis/troubleshoot
-ms.openlocfilehash: 2b23bf8230f7a1c207ef7870da098ffb0c597fd5
-ms.sourcegitcommit: fc7eb4243188950ae1f1b52669edc007e9d0798d
+ms.openlocfilehash: 68fcd578c051ae9ba6234cad0465a7ef42f1ed14
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/07/2018
-ms.locfileid: "51225442"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637685"
 ---
 # <a name="troubleshoot-aspnet-core-on-iis"></a>对 IIS 上的 ASP.NET Core 进行故障排除
 
@@ -34,7 +34,7 @@ ms.locfileid: "51225442"
 其他故障排除主题：
 
 <xref:host-and-deploy/azure-apps/troubleshoot>  
-虽然应用服务使用 [ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)和 IIS 托管应用，但若要获取特定于应用服务的说明，请参阅专用主题。
+虽然应用服务使用 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)和 IIS 托管应用，但若要获取特定于应用服务的说明，请参阅专用主题。
 
 <xref:fundamentals/error-handling>  
 了解如何在本地系统上处理 ASP.NET Core 应用在开发期间的错误。
@@ -47,7 +47,8 @@ ms.locfileid: "51225442"
 
 ## <a name="app-startup-errors"></a>应用启动错误
 
-**502.5 进程故障**  
+### <a name="5025-process-failure"></a>502.5 进程失败
+
 工作进程失败。 应用不启动。
 
 ASP.NET Core 模块尝试启动后端 dotnet 进程，但启动失败。 通常可以从“[应用程序事件日志](#application-event-log)”和“[ASP.NET Core 模块 stdout 日志](#aspnet-core-module-stdout-log)”的条目中确定进程启动失败的原因。 
@@ -60,7 +61,7 @@ ASP.NET Core 模块尝试启动后端 dotnet 进程，但启动失败。 通常�
 
 ::: moniker range=">= aspnetcore-2.2"
 
-500.30 进程内启动失败
+### <a name="50030-in-process-startup-failure"></a>500.30 进程内启动失败
 
 工作进程失败。 应用不启动。
 
@@ -68,7 +69,7 @@ ASP.NET Core 模块尝试进程内启动 .NET Core CLR，但启动失败。 通�
 
 常见的失败情况是，由于目标 ASP.NET Core 共享框架版本不存在，因此应用配置错误。 检查目标计算机上安装的 ASP.NET Core 共享框架版本。
 
-500.0 进程内处理程序加载失败
+### <a name="5000-in-process-handler-load-failure"></a>500.0 进程内处理程序加载失败
 
 工作进程失败。 应用不启动。
 
@@ -77,7 +78,7 @@ ASP.NET Core 模块无法找到 .NET Core CLR 和进程内请求处理程序 (as
 * 该应用针对 [Microsoft.AspNetCore.Server.IIS NuGet](https://www.nuget.org/packages/Microsoft.AspNetCore.Server.IIS) 包或 [Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)。
 * 目标计算机上安装了该应用所针对的 ASP.NET Core 共享框架版本。
 
-500.0 进程外处理程序加载失败
+### <a name="5000-out-of-process-handler-load-failure"></a>500.0 进程外处理程序加载失败
 
 工作进程失败。 应用不启动。
 
@@ -85,12 +86,33 @@ ASP.NET Core 模块无法找到进程外托管请求处理程序。 请确保 as
 
 ::: moniker-end
 
-**500 内部服务器错误**  
+### <a name="500-internal-server-error"></a>500 内部服务器错误
+
 应用启动，但某个错误阻止了服务器完成请求。
 
 在启动期间或在创建响应时，应用的代码内出现此错误。 响应可能不包含任何内容，或响应可能会在浏览器中显示为“500 内部服务器错误”。 应用程序事件日志通常表明应用正常启动。 从服务器的角度来看，这是正确的。 应用已启动，但无法生成有效的响应。 在服务器上[在命令提示符处运行应用](#run-the-app-at-a-command-prompt)或[启用 ASP.NET Core 模块 stdout 日志](#aspnet-core-module-stdout-log)以解决该问题。
 
-**连接重置**
+### <a name="failed-to-start-application-errorcode-0x800700c1"></a>未能启动应用程序（错误代码“0x800700c1”）
+
+```
+EventID: 1010
+Source: IIS AspNetCore Module V2
+Failed to start application '/LM/W3SVC/6/ROOT/', ErrorCode '0x800700c1'.
+```
+
+应用未能启动，因为应用的程序集 (.dll) 无法加载。
+
+当已发布的应用与 w3wp/iisexpress 进程之间的位数不匹配时，会出现此错误。
+
+确认应用池的 32 位设置正确：
+
+1. 在 IIS 管理器的“应用程序池”中选择应用池。
+1. 在“操作”面板中的“编辑应用程序池”下选择“高级设置”。
+1. 设置“启用 32 位应用程序”：
+   * 如果部署 32 位 (x86) 应用，则将值设置为 `True`。
+   * 如果部署 64 位 (x64) 应用，则将值设置为 `False`。
+
+### <a name="connection-reset"></a>连接重置
 
 如果在发送标头后出现错误，则服务器在出现错误时发送“500 内部服务器错误”已经太晚了。 通常在序列化响应的复杂对象期间出现错误时发生这种情况。 此类型的错误在客户端上显示为“连接重置”错误。 [应用程序日志记录](xref:fundamentals/logging/index)可以帮助解决这些类型的错误。
 
@@ -99,6 +121,21 @@ ASP.NET Core 模块无法找到进程外托管请求处理程序。 请确保 as
 ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默认值时，在模块记录进程故障之前，可能最多需要两分钟来启动应用。 有关配置模块的信息，请参阅 [aspNetCore 元素的属性](xref:host-and-deploy/aspnet-core-module#attributes-of-the-aspnetcore-element)。
 
 ## <a name="troubleshoot-app-startup-errors"></a>解决应用启动错误
+
+### <a name="enable-the-aspnet-core-module-debug-log"></a>启用 ASP.NET Core 模块调试日志
+
+将以下处理程序设置添加到应用的 web.config 文件以启用 ASP.NET Core 模块调试日志：
+
+```xml
+<aspNetCore ...>
+  <handlerSettings>
+    <handlerSetting name="debugLevel" value="file" />
+    <handlerSetting name="debugFile" value="c:\temp\ancm.log" />
+  </handlerSettings>
+</aspNetCore>
+```
+
+确认为日志指定的路径存在，并且应用池的标识具有该位置的写入权限。
 
 ### <a name="application-event-log"></a>应用程序事件日志
 
@@ -113,21 +150,21 @@ ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默
 
 许多启动错误未在应用程序事件日志中生成有用信息。 可以通过在托管系统上在命令提示符处运行应用来找到某些错误的原因。
 
-**依赖框架的部署**
+#### <a name="framework-dependent-deployment"></a>依赖框架的部署
 
 如果应用是[依赖框架的部署](/dotnet/core/deploying/#framework-dependent-deployments-fdd)：
 
 1. 在命令提示符处，导航到部署文件夹并通过使用 dotnet.exe 执行应用的程序集来运行应用。 在以下命令中，替换 \<assembly_name> 的应用程序集的名称：`dotnet .\<assembly_name>.dll`。
 1. 来自应用且显示任何错误的控制台输出将写入控制台窗口。
-1. 如果向应用发出请求时出现错误，请向 Kestrel 侦听所在的主机和端口发出请求。 如果使用默认主机和端口，请向 `http://localhost:5000/` 发出请求。 如果应用在 Kestrel 终结点地址处正常响应，则问题更可能与反向代理配置相关，而不太可能在于应用。
+1. 如果向应用发出请求时出现错误，请向 Kestrel 侦听所在的主机和端口发出请求。 如果使用默认主机和端口，请向 `http://localhost:5000/` 发出请求。 如果应用在 Kestrel 终结点地址处正常响应，则问题更可能与承载配置相关，而不太可能在于应用。
 
-**独立部署**
+#### <a name="self-contained-deployment"></a>独立部署
 
 如果应用是[独立部署](/dotnet/core/deploying/#self-contained-deployments-scd)：
 
 1. 在命令提示符处，导航到部署文件夹并运行应用的可执行文件。 在以下命令中，替换 \<assembly_name> 的应用程序集的名称：`<assembly_name>.exe`。
 1. 来自应用且显示任何错误的控制台输出将写入控制台窗口。
-1. 如果向应用发出请求时出现错误，请向 Kestrel 侦听所在的主机和端口发出请求。 如果使用默认主机和端口，请向 `http://localhost:5000/` 发出请求。 如果应用在 Kestrel 终结点地址处正常响应，则问题更可能与反向代理配置相关，而不太可能在于应用。
+1. 如果向应用发出请求时出现错误，请向 Kestrel 侦听所在的主机和端口发出请求。 如果使用默认主机和端口，请向 `http://localhost:5000/` 发出请求。 如果应用在 Kestrel 终结点地址处正常响应，则问题更可能与承载配置相关，而不太可能在于应用。
 
 ### <a name="aspnet-core-module-stdout-log"></a>ASP.NET Core 模块 stdout 日志
 
@@ -142,7 +179,8 @@ ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默
 1. 导航到 logs 文件夹。 查找并打开最新的 stdout 日志。
 1. 研究日志以查找错误。
 
-**重要提示！** 故障排除完成后，禁用 stdout 日志记录。
+> [!IMPORTANT]
+> 故障排除完成后，禁用 stdout 日志记录。
 
 1. 编辑 web.config 文件。
 1. 将“stdoutLogEnabled”设置为 `false`。
@@ -153,9 +191,27 @@ ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默
 >
 > 对于 ASP.NET Core 应用中的例程日志记录，使用限制日志文件大小和旋转日志的日志记录库。 有关详细信息，请参阅[第三方日志记录提供程序](xref:fundamentals/logging/index#third-party-logging-providers)。
 
-## <a name="enabling-the-developer-exception-page"></a>启用开发人员异常页面
+## <a name="enable-the-developer-exception-page"></a>启用开发人员异常页面
 
 `ASPNETCORE_ENVIRONMENT` [环境变量可以添加到 web.config](xref:host-and-deploy/aspnet-core-module#setting-environment-variables) 以在开发环境中运行应用。 只要在应用启动时环境不被主机生成器上的 `UseEnvironment` 重写，设置环境变量就会在运行应用时显示“[开发人员异常页面](xref:fundamentals/error-handling)”。
+
+::: moniker range=">= aspnetcore-2.2"
+
+```xml
+<aspNetCore processPath="dotnet"
+      arguments=".\MyApp.dll"
+      stdoutLogEnabled="false"
+      stdoutLogFile=".\logs\stdout"
+      hostingModel="InProcess">
+  <environmentVariables>
+    <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Development" />
+  </environmentVariables>
+</aspNetCore>
+```
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-2.2"
 
 ```xml
 <aspNetCore processPath="dotnet"
@@ -168,11 +224,17 @@ ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默
 </aspNetCore>
 ```
 
+::: moniker-end
+
 仅建议在未向 Internet 公开的暂存服务器和测试服务器上设置 `ASPNETCORE_ENVIRONMENT` 的环境变量。 在故障排除后从 web.config 文件中删除环境变量。 有关设置 web.config 中的环境变量的信息，请参阅 [aspNetCore 的 environmentVariables 子元素](xref:host-and-deploy/aspnet-core-module#setting-environment-variables)。
 
-## <a name="common-startup-errors"></a>常见启动错误 
+## <a name="common-startup-errors"></a>常见启动错误
 
 请参阅 <xref:host-and-deploy/azure-iis-errors-reference>。 参考主题介绍了阻止应用启动的大部分常见问题。
+
+## <a name="obtain-data-from-an-app"></a>从应用中获取数据
+
+如果应用能够响应请求，则使用终端内联中间件从应用中获取请求、连接和其他数据。 有关详细信息和示例代码，请参阅<xref:test/troubleshoot#obtain-data-from-an-app>。
 
 ## <a name="slow-or-hanging-app"></a>应用缓慢或挂起
 
@@ -190,7 +252,7 @@ ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默
 
 [Application Insights](/azure/application-insights/) 提供来自 IIS 托管的应用的遥测，包括错误日志记录和报告功能。 当应用的日志记录功能变得可用时，Application Insights 只能报告应用启动后出现的错误。 有关详细信息，请参阅[用于 ASP.NET Core 的 Application Insights](/azure/application-insights/app-insights-asp-net-core)。
 
-## <a name="additional-troubleshooting-advice"></a>其他故障排除建议
+## <a name="additional-advice"></a>其他建议
 
 有时，正常运行的应用在开发计算机上升级 .NET Core SDK 或在应用内升级包版本后立即出现故障。 在某些情况下，不同的包可能在执行主要升级时中断应用。 可以按照以下说明来修复其中大部分问题：
 
@@ -201,11 +263,12 @@ ASP.NET Core 模块的默认“startupTimeLimit”配置为 120 秒。 保留默
 
 > [!TIP]
 > 清除包缓存的简便方法是从命令提示符执行 `dotnet nuget locals all --clear`。
-> 
+>
 > 清除包缓存还可通过使用 [nuget.exe](https://www.nuget.org/downloads) 工具并执行命令 `nuget locals all -clear` 来完成。 *nuget.exe* 不是与 Windows 桌面操作系统的捆绑安装，必须从 [NuGet 网站](https://www.nuget.org/downloads)中单独获取。
 
 ## <a name="additional-resources"></a>其他资源
 
+* <xref:test/troubleshoot>
 * <xref:fundamentals/error-handling>
 * <xref:host-and-deploy/azure-iis-errors-reference>
 * <xref:host-and-deploy/aspnet-core-module>

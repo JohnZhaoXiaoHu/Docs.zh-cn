@@ -8,16 +8,18 @@ ms.date: 05/15/2013
 ms.assetid: eaa206c4-edb3-487e-8fcb-54a3261fed36
 msc.legacyurl: /signalr/overview/older-versions/dependency-injection
 msc.type: authoredcontent
-ms.openlocfilehash: 905dea4918be731673c39e788069ce2dc78e1649
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 2035b3feebfa32dd7ec4d6adf715a7fee5e7b74f
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48910689"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287349"
 ---
 <a name="dependency-injection-in-signalr-1x"></a>在 SignalR 中的依赖关系注入 1.x
 ====================
 通过[Mike Wasson](https://github.com/MikeWasson)， [Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 依赖关系注入是一种方法来删除硬编码对象，使其更易替换对象的依赖项，无论是用于测试 （使用 mock 对象） 或运行时行为的更改之间的依赖项。 本教程演示如何执行 SignalR 集线器上的依赖关系注入。 它还演示如何使用 SignalR 使用 IoC 容器。 IoC 容器是依赖关系注入一个通用框架。
 
@@ -81,8 +83,8 @@ ms.locfileid: "48910689"
 
 StockTicker 示例定义两个主要类：
 
-- `StockTickerHub`： 管理客户端的连接中心类。
-- `StockTicker`： 一个单一实例，它包含股票价格并定期更新它们。
+- `StockTickerHub`：Hub 类，用于管理客户端连接。
+- `StockTicker`：单一实例，它包含股票价格并定期更新它们。
 
 `StockTickerHub` 保存对的引用`StockTicker`单一实例，而`StockTicker`持有一个指向引用**IHubConnectionContext**为`StockTickerHub`。 它使用此接口与通信`StockTickerHub`实例。 (有关详细信息，请参阅[服务器与 ASP.NET SignalR 广播](index.md)。)
 

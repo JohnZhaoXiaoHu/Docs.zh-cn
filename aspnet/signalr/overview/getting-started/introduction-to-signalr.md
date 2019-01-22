@@ -8,26 +8,26 @@ ms.date: 06/10/2014
 ms.assetid: 0fab5e35-8c1f-43d4-8635-b8aba8766a71
 msc.legacyurl: /signalr/overview/getting-started/introduction-to-signalr
 msc.type: authoredcontent
-ms.openlocfilehash: 0b7e223b6b793d1860797157be6021ffb7f1bc12
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: c865078c14b8615faa278819f86a9dd623a42f36
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090288"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287558"
 ---
 <a name="introduction-to-signalr"></a>SignalR 简介
 ====================
 
-请参阅[ASP.NET Core SignalR 简介](/aspnet/core/signalr/introduction)本教程中使用 Visual Studio 的最新版本的更新版本。 新教程使用[ASP.NET Core](/aspnet/core/)，通过本教程提供许多改进。
-
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
+
 
 > 本文介绍了 SignalR 是什么，以及一些了要创建的解决方案。 
 > 
 > ## <a name="questions-and-comments"></a>问题和提出的意见
 > 
 > 请在你喜欢本教程的内容以及我们可以改进的页的底部的评论中留下反馈。 如果你有与本教程不直接相关的问题，你可以发布到[ASP.NET SignalR 论坛](https://forums.asp.net/1254.aspx/1?ASP+NET+SignalR)或[StackOverflow.com](https://stackoverflow.com/questions/tagged/signalr)。
-
 
 ## <a name="what-is-signalr"></a>SignalR 是什么？
 
@@ -57,7 +57,7 @@ SignalR 使用新的 WebSocket 传输 （如果有），并在必要时回退到
 
 ## <a name="transports-and-fallbacks"></a>传输和回退
 
-SignalR 是一种抽象，通过某些要求进行客户端和服务器之间的实时工作的传输。 SignalR 连接作为 HTTP，启动，然后升级到 WebSocket 连接是否可用。 WebSocket 是 SignalR 的理想之选传输，因为它使服务器内存的最有效地使用，具有最低的延迟，并且具有最基本功能 （如完整双工客户端和服务器之间的通信），但它还具有最严格要求： WebSocket 要求要使用 Windows Server 2012 或 Windows 8 和.NET Framework 4.5 的服务器。 如果不满足这些要求，SignalR 将尝试使用其他传输以其连接。
+SignalR 是一种抽象，通过某些要求进行客户端和服务器之间的实时工作的传输。 SignalR 连接作为 HTTP，启动，然后升级到 WebSocket 连接是否可用。 WebSocket 是 SignalR 的理想之选传输，因为它使服务器内存的最有效地使用，具有最低的延迟，并且具有最基本功能 （如完整双工客户端和服务器之间的通信），但它还具有最严格要求：WebSocket 要求要使用 Windows Server 2012 或 Windows 8 和.NET Framework 4.5 的服务器。 如果不满足这些要求，SignalR 将尝试使用其他传输以其连接。
 
 ### <a name="html-5-transports"></a>HTML 5 传输
 
@@ -132,7 +132,7 @@ SignalR 是一种抽象，通过某些要求进行客户端和服务器之间的
 
 ## <a name="connections-and-hubs"></a>连接和集线器
 
-SignalR API 包含客户端和服务器之间进行通信的两个模型： 永久连接和中心。
+SignalR API 包含客户端和服务器之间进行通信的两个模型：持久连接和集线器。
 
 连接表示用于发送单个收件人、 分组或广播消息的简单终结点。 开发人员直接访问 SignalR 公开低级别通信协议 （由 PersistentConnection 类的.NET 代码中表示） 的持久性连接 API 提供。 使用连接的通信模型都会熟悉的开发人员已使用基于连接的 Api，如 Windows Communication Foundation。
 

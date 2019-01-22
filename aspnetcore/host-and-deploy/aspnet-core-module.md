@@ -1,43 +1,57 @@
 ---
-title: ASP.NET Core 模块配置参考
+title: ASP.NET Core 模块
 author: guardrex
 description: 了解如何配置 ASP.NET Core 模块以托管 ASP.NET Core 应用。
 ms.author: riande
 ms.custom: mvc
-ms.date: 09/21/2018
+ms.date: 01/11/2019
 uid: host-and-deploy/aspnet-core-module
-ms.openlocfilehash: ca86b1548c7c28a64fd391617b2e8290c1c264cf
-ms.sourcegitcommit: 09affee3d234cb27ea6fe33bc113b79e68900d22
+ms.openlocfilehash: f97d6f188bfcba6285cbd1fa91ce530e96395929
+ms.sourcegitcommit: ec71fd5a988f927ae301813aae5ff764feb3bb6a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/06/2018
-ms.locfileid: "51191355"
+ms.lasthandoff: 01/12/2019
+ms.locfileid: "54249556"
 ---
-# <a name="aspnet-core-module-configuration-reference"></a>ASP.NET Core 模块配置参考
+# <a name="aspnet-core-module"></a>ASP.NET Core 模块
 
-作者：[Luke Latham](https://github.com/guardrex)、[Rick Anderson](https://twitter.com/RickAndMSFT)、[Sourabh Shirhatti](https://twitter.com/sshirhatti) 和 [Justin Kotalik](https://github.com/jkotalik)
-
-本文档说明了如何配置 ASP.NET Core 模块以托管 ASP.NET Core 应用。 有关 ASP.NET Core 模块简介和安装说明，请参阅 [ASP.NET Core 模块概述](xref:fundamentals/servers/aspnet-core-module)。
+作者：[Tom Dykstra](https://github.com/tdykstra)、[Rick Strahl](https://github.com/RickStrahl)、[Chris Ross](https://github.com/Tratcher)、[Rick Anderson](https://twitter.com/RickAndMSFT)、[Sourabh Shirhatti](https://twitter.com/sshirhatti)、[Justin Kotalik](https://github.com/jkotalik) 和 [Luke Latham](https://github.com/guardrex)
 
 ::: moniker range=">= aspnetcore-2.2"
 
-## <a name="hosting-model"></a>托管模型
+ASP.NET Core 模块是插入 IIS 管道的本机 IIS 模块，用于：
 
-对于在 .NET Core 2.2 或更高版本上运行的应用，该模块支持进程内托管模型以便提高性能（与反向代理(进程外)托管相比）。 有关更多信息，请参见<xref:fundamentals/servers/aspnet-core-module#aspnet-core-module-description>。
+* 在 IIS 工作进程 (`w3wp.exe`) 内托管 ASP.NET Core 应用，称为[进程内托管模型](#in-process-hosting-model)。
+* 将 Web 请求转发到运行 [Kestrel 服务器](xref:fundamentals/servers/kestrel)的后端 ASP.NET Core 应用，称为[进程外托管模型](#out-of-process-hosting-model)。
 
-进程内托管选择使用现有应用，但 [dotnet new](/dotnet/core/tools/dotnet-new) 模板默认使用所有 IIS 和 IIS Express 方案的进程内托管模型。
+受支持的 Windows 版本：
 
-若要配置用于进程内托管的应用，请将 `<AspNetCoreHostingModel>` 属性添加到值为 `inprocess`（进程外托管使用 `outofprocess` 进行设置）的应用项目文件（例如，MyApp.csproj）：
+* Windows 7 或更高版本
+* Windows Server 2008 R2 或更高版本
+
+在进程内托管时，该模块会使用 IIS 进程内服务器实现，即 IIS HTTP 服务器 (`IISHttpServer`)。
+
+在进程外托管时，该模块仅适用于 Kestrel。 该模块与 [HTTP.sys](xref:fundamentals/servers/httpsys) 不兼容。
+
+## <a name="hosting-models"></a>托管模型
+
+### <a name="in-process-hosting-model"></a>进程内托管模型
+
+若要配置用于进程内托管的应用，请将 `<AspNetCoreHostingModel>` 属性添加到值为 `InProcess`（进程外托管使用 `OutOfProcess` 进行设置）的应用项目文件：
 
 ```xml
 <PropertyGroup>
-  <AspNetCoreHostingModel>inprocess</AspNetCoreHostingModel>
+  <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 </PropertyGroup>
 ```
 
+定目标到 .NET Framework 的 ASP.NET Core 应用不支持进程内托管模型。
+
+如果文件中不存在 `<AspNetCoreHostingModel>` 属性，则默认值为 `OutOfProcess`。
+
 在进程内托管时，将应用以下特征：
 
-* 不会使用 [Kestrel 服务器](xref:fundamentals/servers/kestrel)。 自定义 <xref:Microsoft.AspNetCore.Hosting.Server.IServer> 实现 `IISHttpServer` 充当应用的服务器。
+* 使用 IIS HTTP 服务器 (`IISHttpServer`) 而不是 [Kestrel](xref:fundamentals/servers/kestrel) 服务器。
 
 * [requestTimeout 属性](#attributes-of-the-aspnetcore-element)不适用于进程内托管。
 
@@ -51,7 +65,24 @@ ms.locfileid: "51191355"
 
 * 检测到客户端连接断开。 客户端连接断开时，[HttpContext.RequestAborted](xref:Microsoft.AspNetCore.Http.HttpContext.RequestAborted*) 取消标记将会取消。
 
-* `Directory.GetCurrentDirectory()` 会返回 IIS 启动的进程的工作目录而非应用程序目录（例如，对于 w3wp.exe，是 C:\Windows\System32\inetsrv）。
+* <xref:System.IO.Directory.GetCurrentDirectory*> 会返回 IIS 启动的进程的工作目录而非应用目录（例如，对于 w3wp.exe，是 C:\Windows\System32\inetsrv）。
+
+  对于设置应用的当前目录的示例代码，请参阅 [CurrentDirectoryHelpers 类](https://github.com/aspnet/Docs/tree/master/aspnetcore/host-and-deploy/aspnet-core-module/samples_snapshot/2.x/CurrentDirectoryHelpers.cs)。 调用 `SetCurrentDirectory` 方法。 后续 <xref:System.IO.Directory.GetCurrentDirectory*> 调用提供应用的目录。
+
+### <a name="out-of-process-hosting-model"></a>进程外托管模型
+
+若要配置进程外托管应用，请在项目文件中使用以下方法之一：
+
+* 不指定 `<AspNetCoreHostingModel>` 属性。 如果文件中不存在 `<AspNetCoreHostingModel>` 属性，则默认值为 `OutOfProcess`。
+* 将 `<AspNetCoreHostingModel>` 属性的值设为 `OutOfProcess`（进程内托管设为 `InProcess`）：
+
+```xml
+<PropertyGroup>
+  <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+</PropertyGroup>
+```
+
+使用 [Kestrel](xref:fundamentals/servers/kestrel) 服务器，而不是 IIS HTTP 服务器 (`IISHttpServer`)。
 
 ### <a name="hosting-model-changes"></a>托管模型更改
 
@@ -64,6 +95,43 @@ ms.locfileid: "51191355"
 `Process.GetCurrentProcess().ProcessName` 报告 `w3wp`/`iisexpress`（进程内）或 `dotnet`（进程外）。
 
 ::: moniker-end
+
+::: moniker range="< aspnetcore-2.2"
+
+ASP.NET Core 模块是插入 IIS 管道的本机 IIS 模块，用于将 Web 请求转发到后端 ASP.NET Core 应用。
+
+受支持的 Windows 版本：
+
+* Windows 7 或更高版本
+* Windows Server 2008 R2 或更高版本
+
+该模块仅适用于 Kestrel。 该模块与 [HTTP.sys](xref:fundamentals/servers/httpsys) 不兼容。
+
+由于 ASP.NET Core 应用在独立于 IIS 辅助进程的进程中运行，因此该模块还处理进程管理。 该模块在第一个请求到达时启动 ASP.NET Core 应用的进程，并在应用崩溃时重新启动该应用。 这基本上与在 [Windows 进程激活服务 (WAS)](/iis/manage/provisioning-and-managing-iis/features-of-the-windows-process-activation-service-was) 托管的 IIS 中在进程内运行的 ASP.NET 4.x 应用中出现的行为相同。
+
+下图说明了 IIS、ASP.NET Core 模块和应用之间的关系：
+
+![ASP.NET Core 模块](aspnet-core-module/_static/ancm-outofprocess.png)
+
+请求从 Web 到达内核模式 HTTP.sys 驱动程序。 驱动程序将请求路由到网站的配置端口上的 IIS，通常为 80 (HTTP) 或 443 (HTTPS)。 该模块将该请求转发到应用的随机端口（非端口 80/443）上的 Kestrel。
+
+该模块在启动时通过环境变量指定端口，IIS 集成中间件将服务器配置为侦听 `http://localhost:{port}`。 执行其他检查，拒绝不是来自该模块的请求。 该模块不支持 HTTPS 转发，因此即使请求由 IIS 通过 HTTPS 接收，它们还是通过 HTTP 转发。
+
+Kestrel 从模块获取请求后，请求会被推送到 ASP.NET Core 中间件管道中。 中间件管道处理该请求并将其作为 `HttpContext` 实例传递给应用的逻辑。 IIS 集成添加的中间件会将方案、远程 IP 和 pathbase 更新到帐户以将请求转发到 Kestrel。 应用的响应传递回 IIS，IIS 将响应推送回发起请求的 HTTP 客户端。
+
+::: moniker-end
+
+许多本机模块（如 Windows 身份验证）仍处于活动状态。 要详细了解随 ASP.NET Core 模块活动的 IIS 模块，请参阅 <xref:host-and-deploy/iis/modules>。
+
+ASP.NET Core 模块还可以：
+
+* 为工作进程设置环境变量。
+* 将 stdout 输出记录到文件存储器，以解决启动问题。
+* 转发 Windows 身份验证令牌。
+
+## <a name="how-to-install-and-use-the-aspnet-core-module"></a>如何安装和使用 ASP.NET Core 模块
+
+有关如何安装和使用 ASP.NET Core 模块的说明，请参阅 <xref:host-and-deploy/iis/index>。
 
 ## <a name="configuration-with-webconfig"></a>web.config 的配置
 
@@ -85,7 +153,7 @@ ms.locfileid: "51191355"
                   arguments=".\MyApp.dll" 
                   stdoutLogEnabled="false" 
                   stdoutLogFile=".\logs\stdout" 
-                  hostingModel="inprocess" />
+                  hostingModel="InProcess" />
     </system.webServer>
   </location>
 </configuration>
@@ -127,11 +195,13 @@ ms.locfileid: "51191355"
       <aspNetCore processPath=".\MyApp.exe" 
                   stdoutLogEnabled="false" 
                   stdoutLogFile=".\logs\stdout" 
-                  hostingModel="inprocess" />
+                  hostingModel="InProcess" />
     </system.webServer>
   </location>
 </configuration>
 ```
+
+将 <xref:System.Configuration.SectionInformation.InheritInChildApplications*> 属性设置为 `false`，表示 [\<>](/iis/manage/managing-your-configuration-settings/understanding-iis-configuration-delegation#the-concept-of-location) 元素中指定的设置不会由驻留在应用子目录中的应用继承。
 
 ::: moniker-end
 
@@ -155,18 +225,18 @@ ms.locfileid: "51191355"
 
 将应用部署为 [Azure 应用服务](https://azure.microsoft.com/services/app-service/)时，`stdoutLogFile` 路径将设置为 `\\?\%home%\LogFiles\stdout`。 该路径会将 stdout 日志保存到 *LogFiles* 文件夹，该文件夹是由服务自动创建的位置。
 
-有关在子应用中配置 *web.config* 文件的重要说明，请参阅[子应用程序配置](xref:host-and-deploy/iis/index#sub-application-configuration)。
+有关 IIS 子应用程序配置的信息，请参阅<xref:host-and-deploy/iis/index#sub-applications>。
 
 ### <a name="attributes-of-the-aspnetcore-element"></a>aspNetCore 元素的属性
 
 ::: moniker range=">= aspnetcore-2.2"
 
-| 特性 | 描述 | 默认 |
+| 特性 | 说明 | 默认 |
 | --------- | ----------- | :-----: |
 | `arguments` | <p>可选的字符串属性。</p><p>processPath 中指定的可执行文件的参数。</p> | |
 | `disableStartUpErrorPage` | <p>可选布尔属性。</p><p>如果为 true，将禁止显示“502.5 - 进程失败”页面，而会优先显示 web.config 中配置的 502 状态代码页面。</p> | `false` |
 | `forwardWindowsAuthToken` | <p>可选布尔属性。</p><p>如果为 true，会将令牌作为每个请求的标头“MS-ASPNETCORE-WINAUTHTOKEN”，转发到在 %ASPNETCORE_PORT% 上侦听的子进程。 该进程负责在每个请求的此令牌上调用 CloseHandle。</p> | `true` |
-| `hostingModel` | <p>可选的字符串属性。</p><p>将托管模型指定为进程内 (`inprocess`) 或进程外 (`outofprocess`)。</p> | `outofprocess` |
+| `hostingModel` | <p>可选的字符串属性。</p><p>将托管模型指定为进程内 (`InProcess`) 或进程外 (`OutOfProcess`)。</p> | `OutOfProcess` |
 | `processesPerApplication` | <p>可选的整数属性。</p><p>指定每个应用均可启动的 **processPath** 设置中指定的进程的实例数。</p><p>&dagger;对于进程内托管，值限制为 `1`。</p> | 默认值：`1`<br>最小值：`1`<br>最大值：`100`&dagger; |
 | `processPath` | <p>必需的字符串属性。</p><p>为 HTTP 请求启动进程侦听的可执行文件的路径。 支持相对路径。 如果路径以 `.` 开头，则该路径被视为与站点根目录相对。</p> | |
 | `rapidFailsPerMinute` | <p>可选的整数属性。</p><p>指定允许 processPath 中指定的进程每分钟崩溃的次数。 如果超出了此限制，模块将在剩余分钟数内停止启动该进程。</p><p>不支持进程内托管。</p> | 默认值：`10`<br>最小值：`0`<br>最大值：`100` |
@@ -180,7 +250,7 @@ ms.locfileid: "51191355"
 
 ::: moniker range="= aspnetcore-2.1"
 
-| 特性 | 描述 | 默认 |
+| 特性 | 说明 | 默认 |
 | --------- | ----------- | :-----: |
 | `arguments` | <p>可选的字符串属性。</p><p>processPath 中指定的可执行文件的参数。</p>| |
 | `disableStartUpErrorPage` | <p>可选布尔属性。</p><p>如果为 true，将禁止显示“502.5 - 进程失败”页面，而会优先显示 web.config 中配置的 502 状态代码页面。</p> | `false` |
@@ -198,7 +268,7 @@ ms.locfileid: "51191355"
 
 ::: moniker range="<= aspnetcore-2.0"
 
-| 特性 | 描述 | 默认 |
+| 特性 | 说明 | 默认 |
 | --------- | ----------- | :-----: |
 | `arguments` | <p>可选的字符串属性。</p><p>processPath 中指定的可执行文件的参数。</p>| |
 | `disableStartUpErrorPage` | <p>可选布尔属性。</p><p>如果为 true，将禁止显示“502.5 - 进程失败”页面，而会优先显示 web.config 中配置的 502 状态代码页面。</p> | `false` |
@@ -227,7 +297,7 @@ ms.locfileid: "51191355"
       arguments=".\MyApp.dll"
       stdoutLogEnabled="false"
       stdoutLogFile="\\?\%home%\LogFiles\stdout"
-      hostingModel="inprocess">
+      hostingModel="InProcess">
   <environmentVariables>
     <environmentVariable name="ASPNETCORE_ENVIRONMENT" value="Development" />
     <environmentVariable name="CONFIG_DIR" value="f:\application_config" />
@@ -280,13 +350,13 @@ ms.locfileid: "51191355"
 
 对于进程外托管，如果 ASP.NET Core 模块无法启动后端进程或后端进程启动但无法在配置的端口上侦听，则将显示“502.5 - 进程失败”状态代码页。
 
-若要禁止显示此页面并还原为默认 IIS 5xx 状态代码页，请使用 `disableStartUpErrorPage` 属性。 有关配置自定义错误消息的详细信息，请参阅 [HTTP 错误 &lt;httpErrors&gt;](/iis/configuration/system.webServer/httpErrors/)。
+若要禁止显示此页面并还原为默认 IIS 5xx 状态代码页，请使用 `disableStartUpErrorPage` 属性。 有关配置自定义错误消息的详细信息，请参阅 [HTTP 错误 \<httpErrors>](/iis/configuration/system.webServer/httpErrors/)。
 
 ::: moniker-end
 
 ::: moniker range="< aspnetcore-2.2"
 
-如果 ASP.NET Core 模块无法启动后端进程或后端进程启动但无法在配置的端口上侦听，则将显示“502.5 - 进程失败”状态代码页。 若要禁止显示此页面并还原为默认 IIS 502 状态代码页面，请使用 `disableStartUpErrorPage` 属性。 有关配置自定义错误消息的详细信息，请参阅 [HTTP 错误 &lt;httpErrors&gt;](/iis/configuration/system.webServer/httpErrors/)。
+如果 ASP.NET Core 模块无法启动后端进程或后端进程启动但无法在配置的端口上侦听，则将显示“502.5 - 进程失败”状态代码页。 若要禁止显示此页面并还原为默认 IIS 502 状态代码页面，请使用 `disableStartUpErrorPage` 属性。 有关配置自定义错误消息的详细信息，请参阅 [HTTP 错误 \<httpErrors>](/iis/configuration/system.webServer/httpErrors/)。
 
 ![“502.5 进程失败”状态代码页面](aspnet-core-module/_static/ANCM-502_5.png)
 
@@ -317,7 +387,7 @@ ms.locfileid: "51191355"
     arguments=".\MyApp.dll"
     stdoutLogEnabled="true"
     stdoutLogFile="\\?\%home%\LogFiles\stdout"
-    hostingModel="inprocess">
+    hostingModel="InProcess">
 </aspNetCore>
 ```
 
@@ -346,7 +416,7 @@ ms.locfileid: "51191355"
     arguments=".\MyApp.dll"
     stdoutLogEnabled="false"
     stdoutLogFile="\\?\%home%\LogFiles\stdout"
-    hostingModel="inprocess">
+    hostingModel="InProcess">
   <handlerSettings>
     <handlerSetting name="debugFile" value="aspnetcore-debug.log" />
     <handlerSetting name="debugLevel" value="FILE,TRACE" />
@@ -391,7 +461,7 @@ ms.locfileid: "51191355"
 
 在 ASP.NET Core 模块和 Kestrel 之间创建的代理使用 HTTP 协议。 使用 HTTP 是一种性能优化，其中模块和 Kestrel 之间的流量发生于脱离网络接口的环回地址。 因此，不存在从脱离服务器的位置窃取模块和 Kestrel 之间的流量的风险。
 
-配对令牌用于保证 Kestrel 收到的请求已由 IIS 代理且不来自某些其他源。 模块已创建配对令牌并将其设置到环境变量 (`ASPNETCORE_TOKEN`)。 此外，配对令牌还设置到每个代理请求的标头 (`MSAspNetCoreToken`)。 IIS 中间件检查它所接收的每个请求，以确认配对令牌标头值与环境变量值相匹配。 如果令牌值不匹配，则将记录请求并拒绝该请求。 无法从脱离服务器的位置访问配对令牌环境变量及模块和 Kestrel 之间的流量。 如果不知道配对令牌值，攻击者就无法提交绕过 IIS 中间件中的检查的请求。
+配对令牌用于保证 Kestrel 收到的请求已由 IIS 代理且不来自某些其他源。 模块已创建配对令牌并将其设置到环境变量 (`ASPNETCORE_TOKEN`)。 此外，配对令牌还设置到每个代理请求的标头 (`MS-ASPNETCORE-TOKEN`)。 IIS 中间件检查它所接收的每个请求，以确认配对令牌标头值与环境变量值相匹配。 如果令牌值不匹配，则将记录请求并拒绝该请求。 无法从脱离服务器的位置访问配对令牌环境变量及模块和 Kestrel 之间的流量。 如果不知道配对令牌值，攻击者就无法提交绕过 IIS 中间件中的检查的请求。
 
 ## <a name="aspnet-core-module-with-an-iis-shared-configuration"></a>具有 IIS 共享配置的 ASP.NET Core 模块
 
@@ -477,3 +547,9 @@ ASP.NET Core 模块安装程序使用系统帐户的权限运行。 由于本地
    * %ProgramFiles%\IIS Express\config\templates\PersonalWebServer\applicationHost.config
 
 可以通过在 applicationHost.config 文件中搜索 aspnetcore 找到这些文件。
+
+## <a name="additional-resources"></a>其他资源
+
+* <xref:host-and-deploy/iis/index>
+* [ASP.NET Core 模块 GitHub 存储库（引用源）](https://github.com/aspnet/AspNetCoreModule)
+* <xref:host-and-deploy/iis/modules>

@@ -4,30 +4,36 @@ author: rick-anderson
 description: 了解如何在 Visual Studio 中创建发布配置文件，并将它们用于管理针对各种目标的 ASP.NET Core 应用部署。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/24/2018
+ms.date: 12/06/2018
 uid: host-and-deploy/visual-studio-publish-profiles
-ms.openlocfilehash: 3e626f99b06b0343360d6c46447e357890433dda
-ms.sourcegitcommit: 54655f1e1abf0b64d19506334d94cfdb0caf55f6
+ms.openlocfilehash: 3d24cd2cd4697e8e7cf7e4bdf4d076a09b6a6a23
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/26/2018
-ms.locfileid: "50148923"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284703"
 ---
 # <a name="visual-studio-publish-profiles-for-aspnet-core-app-deployment"></a>用于 ASP.NET Core 应用部署的 Visual Studio 发布配置文件
 
 作者：[Sayed Ibrahim Hashimi](https://github.com/sayedihashimi) 和 [Rick Anderson](https://twitter.com/RickAndMSFT)
 
-本文档重点介绍如何使用 Visual Studio 2017 创建并使用发布配置文件。 可以从 MSBuild 和 Visual Studio 2017 运行使用 Visual Studio 创建的发布配置文件。 有关发布到 Azure 的说明，请参阅[使用 Visual Studio 将 ASP.NET Core Web 应用发布到 Azure App Service](xref:tutorials/publish-to-azure-webapp-using-vs)。
+::: moniker range="<= aspnetcore-1.1"
+
+对于本主题的 1.1 版本，请下载[用于 ASP.NET Core 应用部署的 Visual Studio 发布配置文件（版本 1.1，PDF）](https://webpifeed.blob.core.windows.net/webpifeed/Partners/VS_Publish_Profiles_1.1.pdf)。
+
+::: moniker-end
+
+本文档重点介绍如何使用 Visual Studio 2017 或更高版本创建并使用发布配置文件。 可以从 MSBuild 和 Visual Studio 运行使用 Visual Studio 创建的发布配置文件。 有关发布到 Azure 的说明，请参阅[使用 Visual Studio 将 ASP.NET Core Web 应用发布到 Azure App Service](xref:tutorials/publish-to-azure-webapp-using-vs)。
 
 使用命令 `dotnet new mvc` 创建以下项目文件：
 
-::: moniker range=">= aspnetcore-2.1"
+::: moniker range=">= aspnetcore-2.2"
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,37 +45,17 @@ ms.locfileid: "50148923"
 
 ::: moniker-end
 
-::: moniker range="= aspnetcore-2.0"
+::: moniker range="< aspnetcore-2.2"
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
-  </ItemGroup>
-
-</Project>
-```
-
-::: moniker-end
-
-::: moniker range="< aspnetcore-2.0"
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
-  <PropertyGroup>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>
@@ -113,7 +99,7 @@ MSBuild 或 Visual Studio 加载项目时，执行下列高级别操作：
 在 Visual Studio 中选择“发布”按钮时或从命令行发布时：
 
 * 计算属性/项目（需要生成的文件）。
-* 仅限 Visual Studio：还原 NuGet 包。 （用户需要在 CLI 上执行显式还原。）
+* **仅限 Visual Studio**：NuGet 包已还原。 （用户需要在 CLI 上执行显式还原。）
 * 生成项目。
 * 计算发布项（需要发布的文件）。
 * 文件已发布（计算的文件将被复制到发布目标）。
@@ -130,24 +116,10 @@ dotnet publish C:\Webs\Web1
 
 运行以下命令以创建并发布 Web 应用：
 
-::: moniker range=">= aspnetcore-2.0"
-
 ```console
 dotnet new mvc
 dotnet publish
 ```
-
-::: moniker-end
-
-::: moniker range="< aspnetcore-2.0"
-
-```console
-dotnet new mvc
-dotnet restore
-dotnet publish
-```
-
-::: moniker-end
 
 [dotnet publish](/dotnet/core/tools/dotnet-publish) 命令生成类似下面的输出：
 
@@ -174,7 +146,7 @@ dotnet publish -c Release -o C:\MyWebs\test
 
 可以使用以下任一格式来传递 MSBuild 属性：
 
-* ` p:<NAME>=<VALUE>`
+* `p:<NAME>=<VALUE>`
 * `/p:<NAME>=<VALUE>`
 
 以下命令将 `Release` 版本发布到网络共享：
@@ -187,12 +159,12 @@ dotnet publish -c Release -o C:\MyWebs\test
 
 ## <a name="publish-profiles"></a>发布配置文件
 
-本部分使用 Visual Studio 2017 创建发布配置文件。 创建后，可以从 Visual Studio 或命令行中发布。
+本部分使用 Visual Studio 2017 或更高版本创建发布配置文件。 创建配置文件后，可以从 Visual Studio 或命令行进行发布。
 
 发布配置文件可以简化发布过程，并且可以存在任意数量的配置文件。 通过选择以下路径之一在 Visual Studio 中创建发布配置文件：
 
 * 在解决方案资源管理器中右键单击该项目，然后选择“发布”。
-* 可以从“生成”菜单中选择发布 &lt;project_name&gt;。
+* 可以从“生成”菜单中选择“发布 {项目名称}”。
 
 随即显示应用程序容量页的“发布”选项卡。 如果项目缺少发布配置文件，将显示以下页面：
 
@@ -214,11 +186,11 @@ dotnet publish -c Release -o C:\MyWebs\test
 
 有关详细信息，请参阅[哪些发布选项适合我](/visualstudio/ide/not-in-toc/web-publish-options)。
 
-使用 Visual Studio 创建发布配置文件时，将创建 Properties/PublishProfiles/&lt;profile_name&gt;.pubxml MSBuild 文件。 此 .pubxml 文件为 MSBuild 文件，包含发布配置设置。 可以更改此文件以自定义生成和发布过程。 通过发布过程读取此文件。 `<LastUsedBuildConfiguration>` 比较特殊，因为它是一个全局属性，不应出现在导入生成的任何文件中。 有关详细信息，请参阅 [MSBuild：如何设置配置属性](http://sedodream.com/2012/10/27/MSBuildHowToSetTheConfigurationProperty.aspx)。
+使用 Visual Studio 创建发布配置文件时，将创建 Properties/PublishProfiles/{PROFILE NAME}.pubxml MSBuild 文件。 此 .pubxml 文件为 MSBuild 文件，包含发布配置设置。 可以更改此文件以自定义生成和发布过程。 通过发布过程读取此文件。 `<LastUsedBuildConfiguration>` 比较特殊，因为它是一个全局属性，不应出现在导入生成的任何文件中。 有关详细信息，请参阅 [MSBuild：如何设置配置属性](http://sedodream.com/2012/10/27/MSBuildHowToSetTheConfigurationProperty.aspx)。
 
 发布到 Azure 目标时，.pubxml 文件包含 Azure 订阅标识符。 不建议使用该目标类型将此文件添加到源代码管理。 发布到非 Azure 目标时，签入 .pubxml 文件是安全的。
 
-敏感信息（如发布密码）在每个用户/机器级别均进行加密。 它存储在 Properties/PublishProfiles/&lt;profile_name&gt;.pubxml.user 文件中。 由于此文件可以存储敏感信息，因此不应将其签入源代码管理。
+敏感信息（如发布密码）在每个用户/机器级别均进行加密。 它存储在 Properties/PublishProfiles/{PROFILE NAME}.pubxml.user 文件中。 由于此文件可以存储敏感信息，因此不应将其签入源代码管理。
 
 有关如何在 ASP.NET Core 上发布 Web 应用的概述，请参阅[托管和部署](xref:host-and-deploy/index)。 发布 ASP.NET Core 应用程序所需的 MSBuild 任务和目标是开放源代码，位于： https://github.com/aspnet/websdk。
 
@@ -270,7 +242,7 @@ dotnet publish /p:PublishProfile=Azure /p:Configuration=Release
 使用发布配置文件时，请设置以下 MSBuild 属性：
 
 * `DeployOnBuild=true`
-* `PublishProfile=<Publish profile name>`
+* `PublishProfile={PUBLISH PROFILE}`
 
 发布名为 FolderProfile 的配置文件时，可以执行以下命令之一：
 
@@ -321,34 +293,49 @@ msbuild /p:Configuration=Release /p:DeployOnBuild=true /p:PublishProfile=FolderP
 
 ## <a name="publish-to-an-msdeploy-endpoint-from-the-command-line"></a>从命令行发布到 MSDeploy 终结点
 
-可以使用 .NET Core CLI 或 MSBuild 完成发布。 `dotnet publish` 在 .NET Core 的上下文中运行。 `msbuild` 命令需要 .NET Framework，它将该命令限制到 Windows 环境。
+下面的示例使用由 Visual Studio 创建的 ASP.NET Core Web 应用，名为 AzureWebApp。 通过 Visual Studio 添加 Azure 应用发布配置文件。 有关如何创建配置文件的详细信息，请参阅[发布配置文件](#publish-profiles)部分。
 
-使用 MSDeploy 发布的最简单的方法是，首先在 Visual Studio 2017 中创建发布配置文件，然后从命令行中使用配置文件。
+若要使用发布配置文件部署应用，请在 Visual Studio 开发人员命令提示中执行 `msbuild` 命令。 Windows 任务栏上的“开始”菜单的“Visual Studio”文件夹中提供命令提示符。 为了便于访问，可将命令提示符添加到 Visual Studio 中的“工具”菜单中。 有关详细信息，请参阅 [Visual Studio 开发人员命令提示符](/dotnet/framework/tools/developer-command-prompt-for-vs#run-the-command-prompt-from-inside-visual-studio)。
 
-下面的示例中创建了一个 ASP.NET Core Web应用（使用 `dotnet new mvc`），并且通过 Visual Studio 添加了一个 Azure 发布配置文件。
-
-从 VS 2017 开发人员命令提示符中运行 `msbuild`。 开发人员命令提示符在其路径中将具有正确的 msbuild.exe，并会设置一些 MSBuild 变量。
-
-MSBuild 使用以下语法：
+MSBuild 使用以下命令语法：
 
 ```console
-msbuild <path-to-project-file> /p:DeployOnBuild=true /p:PublishProfile=<Publish Profile> /p:Username=<USERNAME> /p:Password=<PASSWORD>
+msbuild {PATH} 
+    /p:DeployOnBuild=true 
+    /p:PublishProfile={PROFILE} 
+    /p:Username={USERNAME} 
+    /p:Password={PASSWORD}
 ```
 
-可以从 \<Publish name>.PublishSettings 文件获取 `Password`。 可以从以下位置下载 .PublishSettings 文件：
+* {PATH} &ndash; 应用的项目文件路径。
+* {PROFILE} &ndash; 发布配置文件的名称。
+* {USERNAME} &ndash; MSDeploy 用户名。 可在发布配置文件中找到 {USERNAME}。
+* {PASSWORD} &ndash; MSDeploy 密码。 从 {PROFILE}.PublishSettings 文件中获取 {PASSWORD}。 可以从以下位置下载 .PublishSettings 文件：
+  * 解决方案资源管理器：选择“视图” > “Cloud Explorer”。 连接你的 Azure 订阅。 打开“应用服务”。 右键单击应用。 选择“下载发布配置文件”。
+  * Azure 门户：选择 Web 应用“概述”面板上的“获取发布配置文件”。
 
-* 解决方案资源管理器：右键单击 Web 应用并选择“下载发布配置文件”。
-* Azure 门户：单击 Web 应用“概述”面板上的“获取发布配置文件”。
-
-可在发布配置文件中找到 `Username`。
-
-以下示例使用“Web11112 - Web 部署”发布配置文件：
+下面的示例使用名为“AzureWebApp - Web 部署”的发布配置文件：
 
 ```console
-msbuild "C:\Webs\Web1\Web1.csproj" /p:DeployOnBuild=true
- /p:PublishProfile="Web11112 - Web Deploy"  /p:Username="$Web11112"
- /p:Password="<password removed>"
+msbuild "AzureWebApp.csproj" 
+    /p:DeployOnBuild=true 
+    /p:PublishProfile="AzureWebApp - Web Deploy" 
+    /p:Username="$AzureWebApp" 
+    /p:Password=".........."
 ```
+
+此外，还可通过 Windows 命令提示符将发布配置文件与 .NET Core CLI [dotnet msbuild](/dotnet/core/tools/dotnet-msbuild) 命令配合使用：
+
+```console
+dotnet msbuild "AzureWebApp.csproj"
+    /p:DeployOnBuild=true 
+    /p:PublishProfile="AzureWebApp - Web Deploy" 
+    /p:Username="$AzureWebApp" 
+    /p:Password=".........."
+```
+
+> [!NOTE]
+> 可跨平台使用 [dotnet msbuild](/dotnet/core/tools/dotnet-msbuild) 命令，并且可在 macOS 和 Linux 上编译 ASP.NET Core 应用。 但是，macOS 或 Linux 版 MSBuild 并不能将应用部署到 Azure 或其他 MSDeploy 终结点。 MSDeploy 仅在 Windows 上可用。
 
 ## <a name="exclude-files"></a>排除文件
 

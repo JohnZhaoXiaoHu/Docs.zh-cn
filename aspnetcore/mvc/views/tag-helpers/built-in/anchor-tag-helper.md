@@ -4,20 +4,20 @@ author: pkellner
 description: 了解 ASP.NET Core 定位点标记帮助程序属性以及每个属性在扩展 HTML 定位点标记的行为中所起的作用。
 ms.author: scaddie
 ms.custom: mvc
-ms.date: 10/10/2018
+ms.date: 12/18/2018
 uid: mvc/views/tag-helpers/builtin-th/anchor-tag-helper
-ms.openlocfilehash: 01c5833210b73dafb763602d363afcf9e7bc0122
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 60fa0c00e40878a8227ca2bc8bdb0bc2bf9f8336
+ms.sourcegitcommit: ea215df889e89db44037a6ac2f01baede0450da9
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50206271"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53595336"
 ---
 # <a name="anchor-tag-helper-in-aspnet-core"></a>ASP.NET Core 中的定位点标记帮助程序
 
 作者：[Peter Kellner](http://peterkellner.net) 和 [Scott Addie](https://github.com/scottaddie)
 
-[定位点标记帮助程序](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper)可通过添加新属性来增强标准的 HTML 定位点 (`<a ... ></a>`) 标记。 按照约定，属性名称将使用前缀 `asp-`。 `asp-` 属性的值决定呈现的定位点元素的 `href` 属性值。
+[定位点标记帮助程序](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper)可通过添加新属性来增强标准的 HTML 定位点 (`<a ... ></a>`) 标记。 按照约定，属性名称将使用前缀 `asp-`。 `asp-` 属性的值决定呈现的定位点元素的 `href` 属性值。
 
 有关标记帮助程序的概述，请参阅 <xref:mvc/views/tag-helpers/intro>。
 
@@ -31,7 +31,7 @@ ms.locfileid: "50206271"
 
 ## <a name="asp-controller"></a>asp-controller
 
-[asp-controller](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.controller) 属性可分配用于生成 URL 的控制器。 下面的标记列出了所有发言人：
+[asp-controller](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Controller*) 属性可分配用于生成 URL 的控制器。 下面的标记列出了所有发言人：
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspController)]
 
@@ -49,7 +49,7 @@ ms.locfileid: "50206271"
 
 ## <a name="asp-action"></a>asp-action
 
-[asp-action](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.action) 属性值表示生成的 `href` 属性中包含的控制器操作名称。 下面的标记可将生成的 `href` 属性值设置为发言人评估页：
+[asp-action](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Action*) 属性值表示生成的 `href` 属性中包含的控制器操作名称。 下面的标记可将生成的 `href` 属性值设置为发言人评估页：
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspAction)]
 
@@ -65,7 +65,7 @@ ms.locfileid: "50206271"
 
 ## <a name="asp-route-value"></a>asp-route-{value}
 
-[asp-route-{value}](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.routevalues) 属性可实现通配符路由前缀。 占用 `{value}` 占位符的所有值都解释为潜在的路由参数。 如果找不到默认路由，则将此路由前缀作为请求参数和值追加到生成的 `href` 属性。 否则，将在路由模板中替换它。
+[asp-route-{value}](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.RouteValues*) 属性可实现通配符路由前缀。 占用 `{value}` 占位符的所有值都解释为潜在的路由参数。 如果找不到默认路由，则将此路由前缀作为请求参数和值追加到生成的 `href` 属性。 否则，将在路由模板中替换它。
 
 考虑以下控制器操作：
 
@@ -102,8 +102,8 @@ MVC 视图使用操作提供的模型，如下所示：
 <!DOCTYPE html>
 <html>
 <body>
-    <a asp-controller="Speaker" 
-       asp-action="Detail" 
+    <a asp-controller="Speaker"
+       asp-action="Detail"
        asp-route-speakerid="@Model.SpeakerId">SpeakerId: @Model.SpeakerId</a>
 <body>
 </html>
@@ -119,7 +119,7 @@ MVC 视图使用操作提供的模型，如下所示：
 
 ## <a name="asp-route"></a>asp-route
 
-[asp-route](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.route) 属性用于创建直接链接到命名路由的 URL。 使用[路由属性](xref:mvc/controllers/routing#attribute-routing)，路由可以按 `SpeakerController` 中所示进行命名并用于其 `Evaluations` 操作：
+[asp-route](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Route*) 属性用于创建直接链接到命名路由的 URL。 使用[路由属性](xref:mvc/controllers/routing#attribute-routing)，路由可以按 `SpeakerController` 中所示进行命名并用于其 `Evaluations` 操作：
 
 [!code-csharp[](samples/TagHelpersBuiltIn/Controllers/SpeakerController.cs?range=22-24)]
 
@@ -137,7 +137,7 @@ MVC 视图使用操作提供的模型，如下所示：
 
 ## <a name="asp-all-route-data"></a>asp-all-route-data
 
-[asp-all-route-data](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.routevalues) 属性支持创建键值对字典。 键是参数名称，值是参数值。
+[asp-all-route-data](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.RouteValues*) 属性支持创建键值对字典。 键是参数名称，值是参数值。
 
 在下面的示例中，将对字典进行初始化并将其传递给 Razor 视图。 或者，也可以使用模型传入数据。
 
@@ -157,7 +157,7 @@ MVC 视图使用操作提供的模型，如下所示：
 
 ## <a name="asp-fragment"></a>asp-fragment
 
-[asp-fragment](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.fragment) 属性可定义要追加到 URL 的 URL 片段。 定位点标记帮助程序添加哈希字符 (#)。 请考虑以下标记：
+[asp-fragment](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Fragment*) 属性可定义要追加到 URL 的 URL 片段。 定位点标记帮助程序添加哈希字符 (#)。 请考虑以下标记：
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspFragment)]
 
@@ -171,7 +171,45 @@ MVC 视图使用操作提供的模型，如下所示：
 
 ## <a name="asp-area"></a>asp-area
 
-[asp-area](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.area) 属性可设置用来设置相应路由的区域名称。 以下示例展示了区域属性如何导致重新映射路由。 如果将 `asp-area` 设置为 “Blogs”，则会为此定位点标记的关联控制器和视图的路由添加目录 Areas/Blogs 作为前缀。
+[asp-area](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Area*) 属性可设置用来设置相应路由的区域名称。 以下示例展示了 `asp-area` 属性如何导致重新映射路由。
+
+### <a name="usage-in-razor-pages"></a>Razor Pages 中的使用情况
+
+ASP.NET Core 2.1 或更高版本中支持 Razor Pages 区域。
+
+考虑以下目录层次结构：
+
+* **{项目名称}**
+  * **wwwroot**
+  * **区域**
+    * **会话**
+      * **页**
+        * ViewStart.cshtml*\_*
+        * Index.cshtml
+        * Index.cshtml.cs
+  * **页**
+
+用于引用“会话”区域“索引”Razor 页的标记是：
+
+[!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspAreaRazorPages)]
+
+生成的 HTML：
+
+```html
+<a href="/Sessions">View Sessions</a>
+```
+
+> [!TIP]
+> 若要支持 Razor Pages 应用中的区域，请执行以下 `Startup.ConfigureServices` 之一：
+>
+> * 将[兼容性版本](xref:mvc/compatibility-version)设置为 2.1 或更高版本。
+> * 将 [RazorPagesOptions.AllowAreas](xref:Microsoft.AspNetCore.Mvc.RazorPages.RazorPagesOptions.AllowAreas*) 属性设置为 `true`：
+>
+>   [!code-csharp[](samples/TagHelpersBuiltIn/Startup.cs?name=snippet_AllowAreas)]
+
+### <a name="usage-in-mvc"></a>MVC 中的使用情况
+
+考虑以下目录层次结构：
 
 * **{项目名称}**
   * **wwwroot**
@@ -186,7 +224,7 @@ MVC 视图使用操作提供的模型，如下所示：
         * ViewStart.cshtml*\_*
   * **控制器**
 
-鉴于上述目录层次结构，引用 AboutBlog.cshtml 文件的标记是：
+如果将 `asp-area` 设置为 “Blogs”，则会为此定位点标记的关联控制器和视图的路由添加目录 Areas/Blogs 作为前缀。 用于引用 AboutBlog 视图的标记是：
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspArea)]
 
@@ -197,13 +235,13 @@ MVC 视图使用操作提供的模型，如下所示：
 ```
 
 > [!TIP]
-> 若要使区域在 MVC 应用中正常工作，路由模板必须包含对该区域（如果存在）的引用。 该模板由 Startup.Configure 中的 `routes.MapRoute` 方法调用的第二个参数表示：
+> 若要在 MVC 应用中支持区域，路由模板必须包含对该区域（如果存在）的引用。 该模板由 Startup.Configure 中的 `routes.MapRoute` 方法调用的第二个参数表示：
 >
 > [!code-csharp[](samples/TagHelpersBuiltIn/Startup.cs?name=snippet_UseMvc&highlight=5)]
 
 ## <a name="asp-protocol"></a>asp-protocol
 
-[asp-protocol](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.protocol) 属性用于在 URL 中指定协议（比如 `https`）。 例如:
+[asp-protocol](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Protocol*) 属性用于在 URL 中指定协议（比如 `https`）。 例如:
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspProtocol)]
 
@@ -213,11 +251,11 @@ MVC 视图使用操作提供的模型，如下所示：
 <a href="https://localhost/Home/About">About</a>
 ```
 
-示例中的主机名为 localhost，但在生成 URL 时，定位点标记帮助程序会使用网站的公共域。
+示例中的主机名为 localhost。 生成 URL 时，定位点标记帮助程序会使用网站的公共域。
 
 ## <a name="asp-host"></a>asp-host
 
-[asp-host](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.host) 属性用于在 URL 中指定主机名。 例如:
+[asp-host](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Host*) 属性用于在 URL 中指定主机名。 例如:
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspHost)]
 
@@ -229,7 +267,7 @@ MVC 视图使用操作提供的模型，如下所示：
 
 ## <a name="asp-page"></a>asp-page
 
-[asp-page](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.page) 属性适用于 Razor 页面。 使用它向特定页设置定位点标记的 `href` 属性值。 通过在页面名称前面使用正斜杠 (“/”) 作为前缀，可创建 URL。
+[asp-page](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.Page*) 属性适用于 Razor 页面。 使用它向特定页设置定位点标记的 `href` 属性值。 通过在页面名称前面使用正斜杠 (“/”) 作为前缀，可创建 URL。
 
 下列示例指向与会者 Razor 页面：
 
@@ -253,13 +291,13 @@ MVC 视图使用操作提供的模型，如下所示：
 
 ## <a name="asp-page-handler"></a>asp-page-handler
 
-[asp-page-handler](/dotnet/api/microsoft.aspnetcore.mvc.taghelpers.anchortaghelper.pagehandler) 属性适用于 Razor 页面。 它用于链接到特定的页处理程序。
+[asp-page-handler](xref:Microsoft.AspNetCore.Mvc.TagHelpers.AnchorTagHelper.PageHandler*) 属性适用于 Razor 页面。 它用于链接到特定的页处理程序。
 
 请考虑以下页处理程序：
 
 [!code-csharp[](samples/TagHelpersBuiltIn/Pages/Attendee.cshtml.cs?name=snippet_OnGetProfileHandler)]
 
-页模型的关联标记链接到 `OnGetProfile` 页处理程序。 注意，`asp-page-handler` 属性值中省略了页处理程序方法名称的 `On<Verb>` 前缀。 如果这是异步方法，还会省略 `Async` 后缀。
+页模型的关联标记链接到 `OnGetProfile` 页处理程序。 注意，`asp-page-handler` 属性值中省略了页处理程序方法名称的 `On<Verb>` 前缀。 如果方法是异步的，也省略 `Async` 后缀。
 
 [!code-cshtml[](samples/TagHelpersBuiltIn/Views/Home/Index.cshtml?name=snippet_AspPageHandler)]
 
@@ -273,3 +311,4 @@ MVC 视图使用操作提供的模型，如下所示：
 
 * <xref:mvc/controllers/areas>
 * <xref:razor-pages/index>
+* <xref:mvc/compatibility-version>

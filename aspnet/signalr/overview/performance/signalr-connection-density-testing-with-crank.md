@@ -8,21 +8,23 @@ ms.date: 02/22/2015
 ms.assetid: 148d9ca7-1af1-44b6-a9fb-91e261b9b463
 msc.legacyurl: /signalr/overview/performance/signalr-connection-density-testing-with-crank
 msc.type: authoredcontent
-ms.openlocfilehash: 556accb1bcc18e9e4d1f813a87fc6f4b67bda088
-ms.sourcegitcommit: 2d3e5422d530203efdaf2014d1d7df31f88d08d0
+ms.openlocfilehash: 308fed51953b085506488c5e0dda1ced9f4d09fb
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "51021477"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287557"
 ---
 <a name="signalr-connection-density-testing-with-crank"></a>测试使用曲柄实现 SignalR 连接密度
 ====================
 通过[Tom FitzMacken](https://github.com/tfitzmac)
 
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
+
 > 本文介绍如何使用曲柄工具来测试具有多个模拟客户端的应用程序。
 
 
-在应用程序运行在其宿主环境中 （Azure web 角色，IIS，或使用 Owin 自承载） 中，可以测试应用程序的响应较高的使用曲柄工具的连接密度级别。 宿主环境可以是 Internet 信息服务 (IIS) 服务器、 Owin 主机或 Azure web 角色。 (注意： 性能计数器不可在 Azure 应用服务 Web 应用，因此你将无法再从连接密度测试获取性能数据。)
+在应用程序运行在其宿主环境中 （Azure web 角色，IIS，或使用 Owin 自承载） 中，可以测试应用程序的响应较高的使用曲柄工具的连接密度级别。 宿主环境可以是 Internet 信息服务 (IIS) 服务器、 Owin 主机或 Azure web 角色。 （注意：性能计数器不可在 Azure 应用服务 Web 应用，因此你将无法再从连接密度测试获取性能数据。）
 
 连接密度是指可以在服务器建立的并发 TCP 连接数。 每个 TCP 连接可能会产生其自身的开销，并打开大量的空闲连接最终会创建内存瓶颈。
 
@@ -44,22 +46,22 @@ ms.locfileid: "51021477"
 
 曲柄工具的可用选项包括：
 
-- **/?**： 显示帮助屏幕。 如果也会显示可用的选项**Url**省略参数。
-- **/ Url**: SignalR 连接的 URL。 此参数是必需的。 使用默认映射为 SignalR 应用程序，该路径将在结尾"/ signalr"。
-- **/ 传输**： 传输使用的名称。 默认值是`auto`，这将选择最佳的可用协议。 选项包括`WebSockets`， `ServerSentEvents`，并`LongPolling`(`ForeverFrame`没有一个选项为曲柄，因为.NET 客户端而不是使用 Internet Explorer)。 SignalR 如何选择传输方式的详细信息，请参阅[传输和回退](../getting-started/introduction-to-signalr.md#transports)。
-- **/ BatchSize**： 添加每个批中的客户端的数量。 默认值为 50。
-- **/ ConnectInterval**: 间隔 （毫秒） 之间添加连接。 默认值为 500。
-- **/ 连接**： 用于负载测试应用程序的连接数。 默认值为 100,000。
-- **/ ConnectTimeout**： 中止测试之前等待的秒的超时。 默认值为 300。
-- **MinServerMBytes**： 若要达到的最小服务器兆字节。 默认值为 500。
-- **SendBytes**： 有效负载发送到服务器以字节为单位的大小。 默认值为 0。
-- **SendInterval**： 延迟的消息与服务器之间的毫秒数。 默认值为 500。
-- **SendTimeout**： 超时以毫秒为单位的到服务器的消息。 默认值为 300。
-- **ControllerUrl**： 一台客户端将在其中托管控制器中心的 Url。 默认值为 null （无控制器中心）。 控制器中心启动时启动曲柄会话;无需再进行控制器集线器和曲柄之间的联系。
-- **NumClients**： 模拟客户端连接到该应用程序的数量。 默认值为 1。
-- **日志文件**： 为测试运行日志文件的文件名。 默认值为 `crank.csv`。
-- **SampleInterval**： 以毫秒为单位的性能计数器样本之间的时间。 默认值为 1000。
-- **SignalRInstance**： 在服务器上的性能计数器的实例名称。 默认值是使用客户端连接状态。
+- **/?**:显示帮助屏幕。 如果也会显示可用的选项**Url**省略参数。
+- **/ Url**:SignalR 连接 URL。 此参数是必需的。 使用默认映射为 SignalR 应用程序，该路径将在结尾"/ signalr"。
+- **/ 传输**:传输使用的名称。 默认值是`auto`，这将选择最佳的可用协议。 选项包括`WebSockets`， `ServerSentEvents`，并`LongPolling`(`ForeverFrame`没有一个选项为曲柄，因为.NET 客户端而不是使用 Internet Explorer)。 SignalR 如何选择传输方式的详细信息，请参阅[传输和回退](../getting-started/introduction-to-signalr.md#transports)。
+- **/ BatchSize**:每个批处理中添加客户端数。 默认值为 50。
+- **/ ConnectInterval**:间隔 （毫秒） 之间添加连接。 默认值为 500。
+- **/ 连接**:用于负载测试应用程序的连接数。 默认值为 100,000。
+- **/ ConnectTimeout**:以秒，然后中止测试的超时。 默认值为 300。
+- **MinServerMBytes**:若要达到最小服务器兆字节。 默认值为 500。
+- **SendBytes**:有效负载发送到服务器以字节为单位的大小。 默认值为 0。
+- **SendInterval**:延迟的消息与服务器之间的毫秒数。 默认值为 500。
+- **SendTimeout**:以毫秒为单位的到服务器的消息的超时。 默认值为 300。
+- **ControllerUrl**:一台客户端将在其中托管控制器中心 Url。 默认值为 null （无控制器中心）。 控制器中心启动时启动曲柄会话;无需再进行控制器集线器和曲柄之间的联系。
+- **NumClients**:模拟客户端连接到该应用程序数。 默认值为 1。
+- **日志文件**:为测试运行日志文件的文件名。 默认值为 `crank.csv`。
+- **SampleInterval**:时间 （毫秒） 之间的性能计数器样本。 默认值为 1000。
+- **SignalRInstance**:在服务器上的性能计数器实例名称。 默认值是使用客户端连接状态。
 
 ### <a name="example"></a>示例
 

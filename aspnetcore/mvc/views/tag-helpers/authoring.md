@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 10/24/2018
 uid: mvc/views/tag-helpers/authoring
-ms.openlocfilehash: 78e5281d109977e8f41fe1f207254d3016f9c569
-ms.sourcegitcommit: c43a6f1fe72d7c2db4b5815fd532f2b45d964e07
+ms.openlocfilehash: 16f3a435af267a5a17a24ee9fbda2b1c7c8818fd
+ms.sourcegitcommit: 49faca2644590fc081d86db46ea5e29edfc28b7b
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50244861"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53121617"
 ---
 # <a name="author-tag-helpers-in-aspnet-core"></a>在 ASP.NET Core 中创作标记帮助程序
 

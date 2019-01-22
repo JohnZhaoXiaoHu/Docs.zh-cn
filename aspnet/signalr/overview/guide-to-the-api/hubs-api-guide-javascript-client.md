@@ -4,20 +4,21 @@ title: ASP.NET SignalR 中心 API 指南-JavaScript 客户端 |Microsoft Docs
 author: pfletcher
 description: 本文档介绍了使用 SignalR 版本 2 中 JavaScript 客户端，如浏览器和 Windows 应用商店 (WinJS) applicat 中心 API...
 ms.author: riande
-ms.date: 09/28/2015
+ms.date: 01/15/2019
 ms.assetid: a9fd4dc0-1b96-4443-82ca-932a5b4a8ea4
 msc.legacyurl: /signalr/overview/guide-to-the-api/hubs-api-guide-javascript-client
 msc.type: authoredcontent
-ms.openlocfilehash: 9edb7fd100a3f4c5331454045ac206d2f7a81961
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 12d675b6a2f2f6acdd8c3a5d0d27b5ad2fb1efc4
+ms.sourcegitcommit: 184ba5b44d1c393076015510ac842b77bc9d4d93
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48912444"
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "54396306"
 ---
 <a name="aspnet-signalr-hubs-api-guide---javascript-client"></a>ASP.NET SignalR 中心 API 指南-JavaScript 客户端
 ====================
-通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档提供使用 SignalR 版本 2 中 JavaScript 客户端，如浏览器和 Windows 应用商店 (WinJS) 应用程序为中心 API 的简介。
 >
@@ -28,7 +29,7 @@ ms.locfileid: "48912444"
 > ## <a name="software-versions-used-in-this-topic"></a>本主题中使用的软件版本
 >
 >
-> - [Visual Studio 2013](https://my.visualstudio.com/Downloads?q=visual%20studio%202013)
+> - [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
 > - .NET 4.5
 > - SignalR 版本 2
 >
@@ -41,7 +42,6 @@ ms.locfileid: "48912444"
 > ## <a name="questions-and-comments"></a>问题和提出的意见
 >
 > 请在你喜欢本教程的内容以及我们可以改进的页的底部的评论中留下反馈。 如果你有与本教程不直接相关的问题，你可以发布到[ASP.NET SignalR 论坛](https://forums.asp.net/1254.aspx/1?ASP+NET+SignalR)或[StackOverflow.com](http://stackoverflow.com/)。
-
 
 ## <a name="overview"></a>概述
 
@@ -141,9 +141,7 @@ JavaScript 客户端需要对 jQuery 和 SignalR core JavaScript 文件的引用
 
 作为一般规则，用于指定将用于 CSS 或 JavaScript 文件"/ signalr/中心"URL 中使用相同的方法。 如果不使用波形符指定 URL，在某些情况下你的应用程序将正常工作时在 Visual Studio 中使用 IIS Express 测试，但部署到完整 IIS 时将失败并显示 404 错误。 有关详细信息，请参阅**解析对根级资源的引用**中[对于 ASP.NET Web 项目的 Visual Studio 中的 Web 服务器](https://msdn.microsoft.com/library/58wxa9w5.aspx)MSDN 站点上。
 
-当在调试模式下，Visual Studio 2013 中运行 web 项目，如果你使用 Internet Explorer 为您的浏览器，可以看到中的代理文件**解决方案资源管理器**下**脚本文档**，如中所示下图。
-
-![在解决方案资源管理器中的 JavaScript 生成的代理文件](hubs-api-guide-javascript-client/_static/image1.png)
+当在调试模式下，Visual Studio 2017 中运行 web 项目，如果你使用 Internet Explorer 为您的浏览器，可以看到中的代理文件**解决方案资源管理器**下**脚本**。
 
 若要查看该文件的内容，请双击**中心**。 如果没有使用 Visual Studio 2012 或 2013年和 Internet Explorer 中，或者你不在调试模式下，还可以通过浏览到"/ signalR/中心"URL 来获取文件的内容。 例如，如果您的网站在运行时`http://localhost:56699`，请转到`http://localhost:56699/SignalR/hubs`在浏览器中。
 
@@ -226,7 +224,7 @@ JavaScript 客户端需要对 jQuery 和 SignalR core JavaScript 文件的引用
 
 JSONP 需要在客户端 （以支持旧版浏览器中的跨域请求） 上，它将需要通过设置显式启用`EnableJSONP`上`HubConfiguration`对象传递给`true`，如下所示。 JSONP 是默认禁用，因为它比 CORS 不太安全。
 
-**向项目添加 Microsoft.Owin.Cors:** 若要安装此库，包管理器控制台中运行以下命令：
+**向项目添加 Microsoft.Owin.Cors:** 若要安装此库，请在包管理器控制台中运行以下命令：
 
 `Install-Package Microsoft.Owin.Cors`
 
@@ -464,13 +462,13 @@ JSONP 需要在客户端 （以支持旧版浏览器中的跨域请求） 上，
 
 SignalR 提供了以下连接可以处理的生存期事件：
 
-- `starting`： 通过连接发送任何数据之前引发。
-- `received`： 在连接上接收到任何数据时引发。 提供接收到的数据。
-- `connectionSlow`： 当客户端检测到慢速或频繁删除连接时引发。
-- `reconnecting`： 基础传输开始重新连接时引发。
-- `reconnected`： 当基础传输已重新连接时引发。
-- `stateChanged`： 连接状态更改时引发。 提供的旧状态和新的状态 （连接、 已连接、 正在重新连接或已断开连接）。
-- `disconnected`： 当连接已断开连接时引发。
+- `starting`：通过连接发送任何数据之前引发。
+- `received`：在连接上接收到任何数据时引发。 提供接收到的数据。
+- `connectionSlow`：当客户端检测到慢速或频繁删除连接时引发。
+- `reconnecting`：基础传输开始重新连接时引发。
+- `reconnected`：当基础传输已重新连接时引发。
+- `stateChanged`：连接状态更改时引发。 提供的旧状态和新的状态 （连接、 已连接、 正在重新连接或已断开连接）。
+- `disconnected`：当连接已断开连接时引发。
 
 例如，如果你想要有可能会导致明显延迟的连接问题时显示警告消息，处理`connectionSlow`事件。
 
@@ -530,4 +528,4 @@ SignalR JavaScript 客户端提供了`error`可以添加的处理程序的事件
 
 [!code-javascript[Main](hubs-api-guide-javascript-client/samples/sample54.js?highlight=2)]
 
-若要查看日志，请打开浏览器的开发人员工具，并转到控制台选项卡。本教程介绍的分步说明和屏幕截图显示如何执行此操作，请参阅[服务器与 ASP.NET Signalr-启用日志记录广播](../getting-started/tutorial-server-broadcast-with-signalr.md#enablelogging)。
+若要查看日志，请打开浏览器的开发人员工具，并转到控制台选项卡。本教程介绍的分步说明和屏幕截图显示如何执行此操作，请参阅[服务器与 ASP.NET Signalr-启用日志记录广播](../getting-started/tutorial-server-broadcast-with-signalr.md#enable-logging)。

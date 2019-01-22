@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 06/14/2018
 uid: fundamentals/app-state
-ms.openlocfilehash: 5ca909681ca9da3fae0391991902da97581852be
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: 2d9fe4fc7c69f23a903b4ada44e328ef140963db
+ms.sourcegitcommit: e1cc4c1ef6c9e07918a609d5ad7fadcb6abe3e12
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50253177"
+ms.lasthandoff: 01/03/2019
+ms.locfileid: "53997300"
 ---
 # <a name="session-and-app-state-in-aspnet-core"></a>ASP.NET Core 中的会话和应用状态
 
@@ -64,6 +64,7 @@ ASP.NET Core 通过向客户端提供包含会话 ID 的 Cookie 来维护会话�
 * 应用在上次请求后保留会话的时间有限。 应用设置会话超时，或者使用 20 分钟的默认值。 会话状态适用于存储特定于特定会话的用户数据，但该数据无需永久的会话存储。
 * 调用 [ISession.Clear](/dotnet/api/microsoft.aspnetcore.http.isession.clear) 实现或者会话过期时，会删除会话数据。
 * 没有默认机制告知客户端浏览器已关闭或者客户端上的会话 Cookie 被删除或过期的应用代码。
+ASP.NET Core MVC 和 Razor 页面模板包括对[一般数据保护条例 (GDPR)](xref:security/gdpr) 的支持。 [会话状态 cookie 不是必需的](xref:security/gdpr#tempdata-provider-and-session-state-cookies-are-not-essential)，如果禁用跟踪，则会话状态不起作用。
 
 > [!WARNING]
 > 请勿将敏感数据存储在会话状态中。 用户可能不会关闭浏览器并清除会话 Cookie。 某些浏览器会保留所有浏览器窗口中的有效会话 Cookie。 会话可能不限于单个用户 - 下一个用户可能继续使用同一会话 Cookie 浏览应用。
@@ -125,7 +126,7 @@ ASP.NET Core 通过向客户端提供包含会话 ID 的 Cookie 来维护会话�
 
 ::: moniker range=">= aspnetcore-2.0"
 
-| 选项 | 描述 |
+| 选项 | 说明 |
 | ------ | ----------- |
 | [Cookie](/dotnet/api/microsoft.aspnetcore.builder.sessionoptions.cookie) | 确定用于创建 Cookie 的设置。 [名称](/dotnet/api/microsoft.aspnetcore.http.cookiebuilder.name)默认为 [SessionDefaults.CookieName](/dotnet/api/microsoft.aspnetcore.session.sessiondefaults.cookiename) (`.AspNetCore.Session`)。 [路径](/dotnet/api/microsoft.aspnetcore.http.cookiebuilder.path)默认为 [SessionDefaults.CookiePath](/dotnet/api/microsoft.aspnetcore.session.sessiondefaults.cookiepath) (`/`)。 [SameSite](/dotnet/api/microsoft.aspnetcore.http.cookiebuilder.samesite) 默认为 [SameSiteMode.Lax](/dotnet/api/microsoft.aspnetcore.http.samesitemode) (`1`)。 [HttpOnly](/dotnet/api/microsoft.aspnetcore.http.cookiebuilder.httponly) 默认为 `true`。 [IsEssential](/dotnet/api/microsoft.aspnetcore.http.cookiebuilder.isessential) 默认为 `false`。 |
 | [IdleTimeout](/dotnet/api/microsoft.aspnetcore.builder.sessionoptions.idletimeout) | `IdleTimeout` 显示放弃其内容前，内容可以空闲多长时间。 每个会话访问都会重置超时。 此设置仅适用于会话内容，不适用于 Cookie。 默认为 20 分钟。 |
@@ -137,7 +138,7 @@ ASP.NET Core 通过向客户端提供包含会话 ID 的 Cookie 来维护会话�
 
 ::: moniker range="< aspnetcore-2.0"
 
-| 选项 | 描述 |
+| 选项 | 说明 |
 | ------ | ----------- |
 | [CookieDomain](/dotnet/api/microsoft.aspnetcore.builder.sessionoptions.cookiedomain) | 确定用于创建 Cookie 的域。 默认情况下不设置 `CookieDomain`。 |
 | [CookieHttpOnly](/dotnet/api/microsoft.aspnetcore.builder.sessionoptions.cookiehttponly) | 确定浏览器是否应该允许客户端 JavaScript 访问 Cookie。 默认为 `true`，这意味着 Cookie 仅传递到 HTTP 请求，且不适用于页面上的脚本。 |
@@ -374,7 +375,7 @@ app.Run(async (context) =>
 
 缓存数据未与特定请求、用户或会话相关联。 **请注意不要缓存可能由其他用户请求检索的特定于用户的数据。**
 
-有关详细信息，请参阅[缓存响应](xref:performance/caching/index)主题。
+有关更多信息，请参见<xref:performance/caching/response>。
 
 ## <a name="dependency-injection"></a>依赖关系注入
 

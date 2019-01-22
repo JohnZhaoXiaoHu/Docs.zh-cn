@@ -30,7 +30,7 @@ ms.locfileid: "41824887"
 
 - [使用 Visual Studio 对 Azure 应用服务中的 Web 应用进行故障排除](https://azure.microsoft.com/documentation/articles/web-sites-dotnet-troubleshoot-visual-studio/)
 - [在 Azure 应用服务中监视 Web 应用](https://azure.microsoft.com/documentation/articles/web-sites-monitor//)
-- [宣布推出 Windows Azure SDK 2.0 for.NET 的版本](http:// https://weblogs.asp.net/scottgu/announcing-the-release-of-windows-azure-sdk-2-0-for-net)（ScottGu 的博客，演示了如何在 Visual Studio 中获取诊断日志）
+- [宣布推出 Windows Azure SDK 2.0 for.NET 的版本](http:// https://weblogs.asp.net/scottgu/announcing-the-release-of-windows-azure-sdk-2-0-for-net) （ScottGu 的博客，演示了如何在 Visual Studio 中获取诊断日志）
 
 ## <a name="server-error-in--application---current-custom-error-settings-prevent-details-of-the-error-from-being-viewed-remotely"></a>服务器错误 '/' 应用程序-在当前的自定义错误设置防止错误的详细信息查看远程
 
@@ -306,7 +306,7 @@ Web 部署任务失败。 (无法完成对远程代理 URL 的请求<https://ser
 
 ### <a name="possible-cause-and-solution"></a>可能的原因和解决方案
 
-默认情况下，Visual Studio 设置网站的根文件夹的权限上读写权限应用\_数据文件夹。 如果您知道站点文件夹上的默认权限是否正确，并且不需要设置，则禁用此行为通过添加**&lt;IncludeSetACLProviderOn 目标&gt;False&lt;/IncludeSetACLProviderOnDestination&gt;** 到发布配置文件 （若要影响单个配置文件） 或 wpp.targets 文件 （用于会影响所有配置文件）。 有关如何编辑这些文件的信息，请参阅[如何： 编辑配置文件 (.pubxml) 文件中的部署设置](https://msdn.microsoft.com/library/ff398069.aspx)。
+默认情况下，Visual Studio 设置网站的根文件夹的权限上读写权限应用\_数据文件夹。 如果您知道站点文件夹上的默认权限是否正确，并且不需要设置，则禁用此行为通过添加 **&lt;IncludeSetACLProviderOn 目标&gt;False&lt;/IncludeSetACLProviderOnDestination&gt;** 到发布配置文件 （若要影响单个配置文件） 或 wpp.targets 文件 （用于会影响所有配置文件）。 有关如何编辑这些文件的信息，请参阅[如何： 编辑配置文件 (.pubxml) 文件中的部署设置](https://msdn.microsoft.com/library/ff398069.aspx)。
 
 ## <a name="access-denied-errors-when-the-application-tries-to-write-to-an-application-folder"></a>当应用程序尝试写入应用程序文件夹时，访问被拒绝错误
 
@@ -316,7 +316,7 @@ Web 部署任务失败。 (无法完成对远程代理 URL 的请求<https://ser
 
 ### <a name="possible-cause-and-solution"></a>可能的原因和解决方案
 
-默认情况下，Visual Studio 设置网站的根文件夹的权限上读写权限应用\_数据文件夹。 如果你的应用程序需要到子文件夹的写访问权限，可以将该文件夹的权限设置中所示设置文件夹权限并部署到此系列中的生产环境教程。 如果你的应用程序需要到该站点的根文件夹的写访问权限，您必须以防止它在根文件夹上设置只读访问权限，通过添加**&lt;IncludeSetACLProviderOn 目标&gt;False&lt;/IncludeSetACLProviderOnDestination&gt;** 到发布配置文件 （若要影响单个配置文件） 或 wpp.targets 文件 （用于会影响所有配置文件）。 有关如何编辑这些文件的信息，请参阅[如何： 编辑配置文件 (.pubxml) 文件中的部署设置](https://msdn.microsoft.com/library/ff398069.aspx)。
+默认情况下，Visual Studio 设置网站的根文件夹的权限上读写权限应用\_数据文件夹。 如果你的应用程序需要到子文件夹的写访问权限，可以将该文件夹的权限设置中所示设置文件夹权限并部署到此系列中的生产环境教程。 如果你的应用程序需要到该站点的根文件夹的写访问权限，您必须以防止它在根文件夹上设置只读访问权限，通过添加 **&lt;IncludeSetACLProviderOn 目标&gt;False&lt;/IncludeSetACLProviderOnDestination&gt;** 到发布配置文件 （若要影响单个配置文件） 或 wpp.targets 文件 （用于会影响所有配置文件）。 有关如何编辑这些文件的信息，请参阅[如何： 编辑配置文件 (.pubxml) 文件中的部署设置](https://msdn.microsoft.com/library/ff398069.aspx)。
 
 <a id="aspnet45error"></a>
 

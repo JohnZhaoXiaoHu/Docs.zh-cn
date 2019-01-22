@@ -5,24 +5,24 @@ description: 了解如何为 ASP.NET Core 中的 Web API 创建和使用自定�
 ms.author: tdykstra
 ms.date: 02/08/2017
 uid: web-api/advanced/custom-formatters
-ms.openlocfilehash: ee6f166ced41c41506f2a17a7d362399c165b718
-ms.sourcegitcommit: 2d3e5422d530203efdaf2014d1d7df31f88d08d0
+ms.openlocfilehash: 2861a15a80725dcc237d33313a24822cf8aa9c7e
+ms.sourcegitcommit: e1cc4c1ef6c9e07918a609d5ad7fadcb6abe3e12
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "51020645"
+ms.lasthandoff: 01/03/2019
+ms.locfileid: "53997287"
 ---
 # <a name="custom-formatters-in-aspnet-core-web-api"></a>ASP.NET Core Web API 中的自定义格式化程序
 
 作者：[Tom Dykstra](https://github.com/tdykstra)
 
-ASP.NET Core MVC 使用 JSON、XML 或纯文本格式，为 Web API 中的数据交换提供内置支持。 本文展示如何通过创建自定义格式化程序，添加对其他格式的支持。
+ASP.NET Core MVC 使用 JSON 或 XML，为 Web API 中的数据交换提供内置支持。 本文展示如何通过创建自定义格式化程序，添加对其他格式的支持。
 
 [查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/web-api/advanced/custom-formatters/sample)（[如何下载](xref:index#how-to-download-a-sample)）
 
 ## <a name="when-to-use-custom-formatters"></a>何时使用自定义格式化程序
 
-如果希望[内容协商](xref:web-api/advanced/formatting#content-negotiation)过程支持内置格式化程序（JSON、XML 和纯文本）所不支持的内容类型，可使用自定义格式化程序。
+如果希望[内容协商](xref:web-api/advanced/formatting#content-negotiation)过程支持内置格式化程序（JSON 和 XML）所不支持的内容类型，可使用自定义格式化程序。
 
 例如，如果 Web API 的某些客户端可以处理 [Protobuf](https://github.com/google/protobuf) 格式，你可能想在这些客户端上使用 Protobuf，因为它更高效。 或者，你可能希望 Web API 使用 [vCard](https://wikipedia.org/wiki/VCard) 格式发送联系人姓名和地址，这种格式经常用于交换联系人数据。 本文提供的示例应用可实现简单的 vCard 格式化程序。
 
@@ -103,7 +103,8 @@ ASP.NET Core MVC 使用 JSON、XML 或纯文本格式，为 Web API 中的数据
 
 ## <a name="next-steps"></a>后续步骤
 
-请参阅[示例应用程序](https://github.com/aspnet/Docs/tree/master/aspnetcore/web-api/advanced/custom-formatters/sample)，它可实现简单的 vCard 输入和输出格式化程序。 该应用程序可读取和写入与以下示例类似的 vCard：
+* [GitHub 上的纯文本格式化程序示例代码。](https://github.com/aspnet/Entropy/tree/master/samples/Mvc.Formatters)
+* [此文档的示例应用](https://github.com/aspnet/Docs/tree/master/aspnetcore/web-api/advanced/custom-formatters/sample)，它可实现简单的 vCard 输入和输出格式化程序。 该应用可读取和写入与以下示例类似的 vCard：
 
 ```
 BEGIN:VCARD

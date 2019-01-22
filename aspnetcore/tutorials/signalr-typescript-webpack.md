@@ -2,17 +2,16 @@
 title: 配合使用 ASP.NET Core SignalR 和 TypeScript 以及 Webpack
 author: ssougnez
 description: 本教程将配置 Webpack，以捆绑和生成 ASP.NET Core SignalR Web 应用，该应用的客户端是使用 TypeScript 编写的。
-monikerRange: '>= aspnetcore-2.1'
 ms.author: scaddie
 ms.custom: mvc
-ms.date: 06/29/2018
+ms.date: 11/30/2018
 uid: tutorials/signalr-typescript-webpack
-ms.openlocfilehash: a7b39bbf657244db83e9d60014a5759000eb5f14
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 92709beb7a99289b8639135aab9d821937825103
+ms.sourcegitcommit: a16352c1c88a71770ab3922200a8cd148fb278a6
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50206947"
+ms.lasthandoff: 12/13/2018
+ms.locfileid: "53335281"
 ---
 # <a name="use-aspnet-core-signalr-with-typescript-and-webpack"></a>配合使用 ASP.NET Core SignalR 和 TypeScript 以及 Webpack
 
@@ -31,22 +30,7 @@ ms.locfileid: "50206947"
 
 [查看或下载示例代码](https://github.com/aspnet/Docs/tree/master/aspnetcore/tutorials/signalr-typescript-webpack/sample)（[如何下载](xref:index#how-to-download-a-sample)）
 
-## <a name="prerequisites"></a>系统必备
-
-安装以下软件：
-
-# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
-
-* [.NET Core SDK 2.1 或更高版本](https://www.microsoft.com/net/download/all)
-* 带 [npm](https://www.npmjs.com/) 的 [Node.js](https://nodejs.org/)
-* 已安装“ASP.NET 和 Web 开发”工作负载的 [Visual Studio 2017](https://www.visualstudio.com/downloads/) 15.7.3 版或更高版本
-
-# <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)
-
-* [.NET Core SDK 2.1 或更高版本](https://www.microsoft.com/net/download/all)
-* 带 [npm](https://www.npmjs.com/) 的 [Node.js](https://nodejs.org/)
-
----
+[!INCLUDE [Prerequisites](~/includes/net-core-prereqs-vs-vsc-2.2.md)]
 
 ## <a name="create-the-aspnet-core-web-app"></a>创建 ASP.NET Core Web 应用
 
@@ -55,17 +39,17 @@ ms.locfileid: "50206947"
 配置 Visual Studio，在 PATH 环境变量中查找 npm。 默认情况下，Visual Studio 使用在安装目录中找到的 npm 版本。 在 Visual Studio 中按照以下说明执行操作：
 
 1. 导航到“工具” > “选项” > “项目和解决方案” > “Web 包管理” > “外部 Web 工具”。
-1. 在列表中选择 $(PATH) 项。 单击向上键将项移动列表第二个位置。 顺便一提，第一项指项目的本地包。
+1. 在列表中选择 $(PATH) 项。 单击向上键将项移动列表第二个位置。
 
     ![Visual Studio 配置](signalr-typescript-webpack/_static/signalr-configure-path-visual-studio.png)
 
 已完成 Visual Studio 配置。 可以开始创建项目了。
 
 1. 使用“文件” > “新建” > “项目”菜单选项，然后选择“ASP.NET Core Web 应用程序”模板。
-1. 将项目命名为 SignalRWebPack 并单击“确定”按钮。
-1. 从目标框架下拉列表选择 .NET Core 并从框架选择器下拉列表选择 ASP.NET Core 2.1。 选择“空白”模板并单击“确定”按钮。
+1. 将项目命名为 SignalRWebPack 并选择“确定”。
+1. 从目标框架下拉列表选择 .NET Core 并从框架选择器下拉列表选择 ASP.NET Core 2.2。 选择“空白”模板并选择“确定”。
 
-# <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)
+# <a name="visual-studio-codetabvisual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
 
 在“集成终端”中运行以下命令：
 
@@ -118,9 +102,9 @@ SignalRWebPack 目录中创建了一个面向 .NET Core 的空 ASP.NET Core Web 
 
     脚本的一些解释：
 
-    * `build`：在开发模式中捆绑客户端资源并观察文件更改。 文件观察程序使捆绑在每次项目文件发生更改时重新生成。 `mode` 选项可禁用生产优化，例如摇树优化和缩小优化。 仅在开发中使用 `build`。
-    * `release`：在生产模式中捆绑客户端资源。
-    * `publish`：运行 `release` 脚本，在生产模式中捆绑客户端资源。 它调用 .NET Core CLI 的 [publish](/dotnet/core/tools/dotnet-publish) 命令发布应用。
+    * `build`：在开发模式下捆绑客户端资源并观察文件更改。 文件观察程序使捆绑在每次项目文件发生更改时重新生成。 `mode` 选项可禁用生产优化，例如摇树优化和缩小优化。 仅在开发中使用 `build`。
+    * `release`：在生产模式下捆绑客户端资源。
+    * `publish`：运行 `release` 脚本，在生产模式下捆绑客户端资源。 它调用 .NET Core CLI 的 [publish](/dotnet/core/tools/dotnet-publish) 命令发布应用。
 
 1. 在项目根中创建名为 webpack.config.js 的文件，包含以下内容：
 
@@ -228,7 +212,7 @@ SignalRWebPack 目录中创建了一个面向 .NET Core 的空 ASP.NET Core Web 
 
 # <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
 
-1. 在 release 模式下运行 Webpack。 使用“包管理器控制台”窗口，在项目根中运行以下命令：
+1. 在 release 模式下运行 Webpack。 使用“包管理器控制台”窗口，在项目根中运行以下命令。 如果不在项目根中，请在输入该命令之前输入 `cd SignalRWebPack`。
 
     [!INCLUDE [npm-run-release](../includes/signalr-typescript-webpack/npm-run-release.md)]
 
@@ -238,7 +222,7 @@ SignalRWebPack 目录中创建了一个面向 .NET Core 的空 ASP.NET Core Web 
 
 1. 选择一个浏览器，在“消息”文本框中键入任意内容，然后单击“发送”按钮。 两个页面上立即显示唯一的用户名和消息。
 
-# <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)
+# <a name="visual-studio-codetabvisual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
 
 1. 通过在项目根中执行以下命令以 release 模式运行 Webpack：
 

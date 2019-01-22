@@ -1,19 +1,19 @@
 ---
-title: 在 ASP.NET Core 中托管
+title: ASP.NET Core 中的 Web 主机和通用主机
 author: guardrex
 description: 了解有关 ASP.NET Core Web 主机和 .NET 通用主机的信息，它们负责应用启动和生存期管理。
 ms.author: riande
-ms.custom: mvc
+ms.custom: mvc, seodec18
 ms.date: 08/28/2018
 uid: fundamentals/host/index
-ms.openlocfilehash: 9927722b5080beb94e5628d9e7b54e6d50a5bff8
-ms.sourcegitcommit: a669c4e3f42e387e214a354ac4143555602e6f66
+ms.openlocfilehash: 43a68f67368ce37a1fb4032579c6c4e4c05d2719
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/31/2018
-ms.locfileid: "43336045"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284573"
 ---
-# <a name="host-in-aspnet-core"></a>在 ASP.NET Core 中托管
+# <a name="web-host-and-generic-host-in-aspnet-core"></a>ASP.NET Core 中的 Web 主机和通用主机
 
 .NET 应用配置和启动主机。 主机负责应用程序启动和生存期管理。 两个主机 API 可供使用：
 

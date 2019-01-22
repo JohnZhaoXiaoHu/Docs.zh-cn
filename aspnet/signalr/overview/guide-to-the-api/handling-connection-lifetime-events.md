@@ -4,20 +4,21 @@ title: 了解和处理 SignalR 中的连接生存期事件 |Microsoft Docs
 author: pfletcher
 description: 本文介绍如何使用事件中心 API 公开的。
 ms.author: riande
-ms.date: 06/10/2014
+ms.date: 01/15/2019
 ms.assetid: 03960de2-8d95-4444-9169-4426dcc64913
 msc.legacyurl: /signalr/overview/guide-to-the-api/handling-connection-lifetime-events
 msc.type: authoredcontent
-ms.openlocfilehash: 1783a3ab292a5460d5cc1b7ad78073071d65d379
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 5aaec6795f714ba0877ec3b22eff45eb281b44aa
+ms.sourcegitcommit: 184ba5b44d1c393076015510ac842b77bc9d4d93
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911928"
+ms.lasthandoff: 01/18/2019
+ms.locfileid: "54396163"
 ---
 <a name="understanding-and-handling-connection-lifetime-events-in-signalr"></a>了解和处理 SignalR 中的连接生存期事件
 ====================
-通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文概述了可以处理的 SignalR 连接、 重新连接和断开连接事件以及可以配置的超时和保持连接设置。
 >
@@ -30,7 +31,7 @@ ms.locfileid: "48911928"
 > ## <a name="software-versions-used-in-this-topic"></a>本主题中使用的软件版本
 >
 >
-> - [Visual Studio 2013](https://my.visualstudio.com/Downloads?q=visual%20studio%202013)
+> - [Visual Studio 2017](https://visualstudio.microsoft.com/downloads/)
 > - .NET 4.5
 > - SignalR 版本 2
 >
@@ -43,7 +44,6 @@ ms.locfileid: "48911928"
 > ## <a name="questions-and-comments"></a>问题和提出的意见
 >
 > 请在你喜欢本教程的内容以及我们可以改进的页的底部的评论中留下反馈。 如果你有与本教程不直接相关的问题，你可以发布到[ASP.NET SignalR 论坛](https://forums.asp.net/1254.aspx/1?ASP+NET+SignalR)或[StackOverflow.com](http://stackoverflow.com/)。
-
 
 ## <a name="overview"></a>概述
 
@@ -59,7 +59,7 @@ ms.locfileid: "48911928"
 
     - [ConnectionTimeout](#connectiontimeout)
     - [DisconnectTimeout](#disconnecttimeout)
-    - [保持连接](#keepalive)
+    - [KeepAlive](#keepalive)
     - [如何更改超时设置和 keepalive 设置](#changetimeout)
 - [如何通知用户有关的断开连接](#notifydisconnect)
 - [如何持续重新连接](#continuousreconnect)
@@ -81,7 +81,7 @@ API 参考主题的链接将指向.NET 4.5 版本的 API。 如果使用的.NET 
 本文将区分*SignalR 连接*，*传输连接*，并*物理连接*:
 
 - **SignalR 连接**指的是客户端和服务器 URL，由 SignalR API 维护并由连接 ID 唯一标识之间的逻辑关系 有关此关系的数据由 SignalR 维护，用于建立传输连接。 数据的客户端调用时释放的关系端和 SignalR `Stop` SignalR 尝试重新建立丢失的传输连接时达到方法或超时限制。
-- **传输连接**客户端和维护四个传输 Api 之一的服务器之间的逻辑关系是指： Websocket 服务器发送事件，下去帧，或者长轮询。 SignalR 使用传输 API 以创建传输的连接，并传输 API 取决于要创建传输连接的物理网络连接存在。 传输连接结束时 SignalR 将终止该进程，或当传输 API 检测到物理连接已断开。
+- **传输连接**指的是客户端和维护四个传输 Api 之一的服务器之间的逻辑关系：Websocket、 服务器发送事件、 永久帧或很长的轮询。 SignalR 使用传输 API 以创建传输的连接，并传输 API 取决于要创建传输连接的物理网络连接存在。 传输连接结束时 SignalR 将终止该进程，或当传输 API 检测到物理连接已断开。
 - **物理连接**指的是物理网络链接--电线，无线信号，路由器，等等-，便于您的客户端计算机和服务器计算机之间的通信。 物理连接必须存在才能建立传输连接，并且必须建立的 SignalR 连接建立的传输连接。 但是，重大的物理连接并不一定会立即结束传输连接或 SignalR 连接，如本主题稍后将对此进行解释。
 
 在下图中，SignalR 连接由中心 API 和 PersistentConnection API SignalR 层、 由传输层，表示传输连接和服务器之间的直线表示的物理连接和的客户端。
@@ -146,7 +146,7 @@ API 参考主题的链接将指向.NET 4.5 版本的 API。 如果使用的.NET 
 
 > [!NOTE]
 >
-> **重要**： 此处所述的事件的顺序不能保证。 SignalR 使每次尝试此方案中，根据不可预测的方式引发连接生存期事件，但有许多不同的网络事件以及基础通信框架，如传输 Api 处理它们的各种方法。 例如，`Reconnected`可能无法引发事件，当客户端重新连接，或`OnConnected`当尝试建立的连接不成功时，可能会运行在服务器上的处理程序。 本主题介绍的通常会生成某些典型的情况下的影响。
+> **重要说明**：此处所述的事件的顺序不能保证。 SignalR 使每次尝试此方案中，根据不可预测的方式引发连接生存期事件，但有许多不同的网络事件以及基础通信框架，如传输 Api 处理它们的各种方法。 例如，`Reconnected`可能无法引发事件，当客户端重新连接，或`OnConnected`当尝试建立的连接不成功时，可能会运行在服务器上的处理程序。 本主题介绍的通常会生成某些典型的情况下的影响。
 
 
 <a id="clientdisconnect"></a>
@@ -195,7 +195,7 @@ API 参考主题的链接将指向.NET 4.5 版本的 API。 如果使用的.NET 
 
 <a id="keepalive"></a>
 
-### <a name="keepalive"></a>保持连接
+### <a name="keepalive"></a>KeepAlive
 
 此设置表示要在通过空闲连接发送保持连接数据包之前等待时间的量。 默认值为 10 秒。 此值不能超过 1/3 的`DisconnectTimeout`值。
 

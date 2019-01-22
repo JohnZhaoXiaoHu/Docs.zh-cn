@@ -4,14 +4,14 @@ author: rick-anderson
 description: 了解如何作为一种标准允许或拒绝在 ASP.NET Core 应用中的跨域请求的 CORS。
 ms.author: riande
 ms.custom: mvc
-ms.date: 11/05/2018
+ms.date: 11/27/2018
 uid: security/cors
-ms.openlocfilehash: 8e5056b448d47d75272e9394b03ce8a58b05a0f4
-ms.sourcegitcommit: 09affee3d234cb27ea6fe33bc113b79e68900d22
+ms.openlocfilehash: f0e01cfa618184d8a3b19c06212dc3914183a2e4
+ms.sourcegitcommit: e7fafb153b9de7595c2558a0133f8d1c33a3bddb
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/06/2018
-ms.locfileid: "51191316"
+ms.lasthandoff: 11/28/2018
+ms.locfileid: "52458538"
 ---
 # <a name="enable-cross-origin-requests-cors-in-aspnet-core"></a>启用 ASP.NET Core 中的跨域请求 (CORS)
 
@@ -124,7 +124,7 @@ CORS 中间件必须位于之前定义的任何终结点应用程序中你想要
 
 ## <a name="cors-policy-options"></a>CORS 策略选项
 
-本部分介绍您可以在 CORS 策略设置的各种选项。
+本部分介绍您可以在 CORS 策略设置的各种选项。 <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsOptions.AddPolicy*>方法调用`Startup.ConfigureServices`。
 
 * [设置允许的来源](#set-the-allowed-origins)
 * [设置允许的 HTTP 方法](#set-the-allowed-http-methods)
@@ -139,55 +139,59 @@ CORS 中间件必须位于之前定义的任何终结点应用程序中你想要
 
 ASP.NET Core MVC 中的 CORS 中间件具有几种方法来指定允许的来源：
 
-* <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithOrigins*>： 允许指定一个或多个 Url。 URL 可能包括方案、 主机名和端口不包含任何路径信息。 例如 `https://example.com`。 不含尾部斜杠，必须指定的 URL (`/`)。
+* <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithOrigins*> &ndash; 允许指定一个或多个 Url。 URL 可能包括方案、 主机名和端口不包含任何路径信息。 例如 `https://example.com`。 不含尾部斜杠，必须指定的 URL (`/`)。
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=20-24&highlight=4)]
+  [!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=20-25&highlight=4-5)]
 
-* <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyOrigin*>： 允许从任何方案使用所有来源的 CORS 请求 (`http`或`https`)。
+* <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyOrigin*> &ndash; 允许来自任何方案使用所有来源的 CORS 请求 (`http`或`https`)。
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=28-32&highlight=4)]
+  [!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=29-33&highlight=4)]
 
-允许任何来源的请求之前，请仔细考虑。 允许任何来源的请求意味着*的任何网站*可以对您的应用程序进行跨域请求。
+  允许任何来源的请求之前，请仔细考虑。 允许任何来源的请求意味着*的任何网站*可以对您的应用程序进行跨域请求。
 
-::: moniker range=">= aspnetcore-2.2"
+  ::: moniker range=">= aspnetcore-2.2"
 
-> [!NOTE]
-> 指定`AllowAnyOrigin`和`AllowCredentials`是不安全的配置，可能会导致跨站点请求伪造。 CORS 服务返回了无效的 CORS 响应时将应用配置了两个。
+  > [!NOTE]
+  > 指定`AllowAnyOrigin`和`AllowCredentials`是不安全的配置，可能会导致跨站点请求伪造。 使用这两种方法配置应用程序时，CORS 服务返回了无效的 CORS 响应。
+
+  ::: moniker-end
+
+  ::: moniker range="< aspnetcore-2.2"
+
+  > [!NOTE]
+  > 指定`AllowAnyOrigin`和`AllowCredentials`是不安全的配置，可能会导致跨站点请求伪造。 请考虑指定确切的来源列表，如果客户端必须先授权本身访问服务器资源。
+
+  ::: moniker-end
+
+  此设置会影响的预检请求和`Access-Control-Allow-Origin`标头。 有关详细信息，请参阅[预检请求](#preflight-requests)部分。
+
+::: moniker range=">= aspnetcore-2.0"
+
+* <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.SetIsOriginAllowedToAllowWildcardSubdomains*> &ndash; 集<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy.IsOriginAllowed*>策略允许来源以匹配配置的通配符域，如果允许原点在评估时的函数的属性。
+
+  [!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=100-104&highlight=4)]
 
 ::: moniker-end
-
-::: moniker range="< aspnetcore-2.2"
-
-> [!NOTE]
-> 指定`AllowAnyOrigin`和`AllowCredentials`是不安全的配置，可能会导致跨站点请求伪造。 请考虑指定确切的来源列表，如果您的客户端需要授权，才能访问服务器资源。
-
-::: moniker-end
-
-此设置会影响[预检请求和访问控制的允许的域标头](#preflight-requests)（在本主题后面所述）。
-
-* <xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.SetIsOriginAllowedToAllowWildcardSubdomains*> -允许来自任何给定域的子域的 CORS 请求。 该方案不能为通配符。
-
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=98-104&highlight=4)]
 
 ### <a name="set-the-allowed-http-methods"></a>设置允许的 HTTP 方法
 
 若要允许所有 HTTP 方法，调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyMethod*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=45-50&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=46-51&highlight=5)]
 
-此设置会影响[预检请求和访问的控制的允许的方法标头](#preflight-requests)（在本主题后面所述）。
+此设置会影响的预检请求和`Access-Control-Allow-Methods`标头。 有关详细信息，请参阅[预检请求](#preflight-requests)部分。
 
 ### <a name="set-the-allowed-request-headers"></a>设置允许的请求标头
 
 若要允许特定标头发送在 CORS 请求中，调用*创作请求标头*，调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithHeaders*>并指定允许的标头：
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=54-59&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=55-60&highlight=5)]
 
 若要允许所有作者的请求标头调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyHeader*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=63-68&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=64-69&highlight=5)]
 
-此设置会影响[预检请求和访问控制的请求标头标头](#preflight-requests)（在本主题后面所述）。
+此设置会影响的预检请求和`Access-Control-Request-Headers`标头。 有关详细信息，请参阅[预检请求](#preflight-requests)部分。
 
 ::: moniker range=">= aspnetcore-2.2"
 
@@ -247,7 +251,7 @@ Access-Control-Request-Headers: Cache-Control, Content-Language
 
 CORS 规范调用这些标头*简单响应标头*。 若要使其他标头可用于应用程序，请调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithExposedHeaders*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=72-77&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=73-78&highlight=5)]
 
 ### <a name="credentials-in-cross-origin-requests"></a>跨域请求中的凭据
 
@@ -274,7 +278,7 @@ $.ajax({
 
 此外，服务器必须允许凭据。 若要允许跨域凭据，调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowCredentials*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=81-86&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=82-87&highlight=5)]
 
 HTTP 响应包括`Access-Control-Allow-Credentials`标头，服务器允许跨域请求凭据将告诉浏览器。
 
@@ -320,11 +324,11 @@ CORS 预检请求可能包括`Access-Control-Request-Headers`标头，指示服�
 
 若要允许的特定标头，请调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.WithHeaders*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=54-59&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=55-60&highlight=5)]
 
 若要允许所有作者的请求标头调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.AllowAnyHeader*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=63-68&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=64-69&highlight=5)]
 
 浏览器不是在设置方式完全一致`Access-Control-Request-Headers`。 如果将标头设置到的任何内容以外`"*"`(或使用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicy.AllowAnyHeader*>)，至少应包含`Accept`， `Content-Type`，和`Origin`，以及你想要支持任何自定义标头。
 
@@ -349,7 +353,7 @@ Date: Wed, 20 May 2015 06:33:22 GMT
 
 `Access-Control-Max-Age`标头指定可以缓存预检请求的响应的时间。 若要设置此标头，请调用<xref:Microsoft.AspNetCore.Cors.Infrastructure.CorsPolicyBuilder.SetPreflightMaxAge*>:
 
-[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=90-95&highlight=5)]
+[!code-csharp[](cors/sample/CorsExample4/Startup.cs?range=91-96&highlight=5)]
 
 ## <a name="how-cors-works"></a>CORS 的工作原理
 

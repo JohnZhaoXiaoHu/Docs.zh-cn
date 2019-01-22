@@ -6,12 +6,12 @@ ms.author: scaddie
 ms.custom: H1Hack27Feb2017
 ms.date: 08/02/2017
 uid: client-side/spa-services
-ms.openlocfilehash: 6d6a92427d5d4b853248e60a12625573c4375515
-ms.sourcegitcommit: c12ebdab65853f27fbb418204646baf6ce69515e
+ms.openlocfilehash: ee772e67ef14608bcc6e3498ade00424ff6090e5
+ms.sourcegitcommit: 49faca2644590fc081d86db46ea5e29edfc28b7b
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/21/2018
-ms.locfileid: "46523293"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53121371"
 ---
 # <a name="use-javascriptservices-to-create-single-page-applications-in-aspnet-core"></a>使用 JavaScriptServices 在 ASP.NET Core 中创建单页应用程序
 
@@ -157,7 +157,7 @@ ASP.NET Core[标记帮助程序](xref:mvc/views/tag-helpers/intro)由 SpaService
 
 到 HTTP 请求管道中的以下代码通过注册 Webpack 开发中间件*Startup.cs*文件的`Configure`方法：
 
-[!code-csharp[](../client-side/spa-services/sample/SpaServicesSampleApp/Startup.cs?name=webpack-middleware-registration&highlight=4)]
+[!code-csharp[](../client-side/spa-services/sample/SpaServicesSampleApp/Startup.cs?name=snippet_WebpackMiddlewareRegistration&highlight=4)]
 
 `UseWebpackDevMiddleware`前必须调用扩展方法[注册静态文件托管](xref:fundamentals/static-files)通过`UseStaticFiles`扩展方法。 出于安全原因，仅当应用程序在开发模式下运行时注册该中间件。
 
@@ -223,7 +223,7 @@ app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
 
 名为的扩展方法`MapSpaFallbackRoute`中使用`Configure`方法：
 
-[!code-csharp[](../client-side/spa-services/sample/SpaServicesSampleApp/Startup.cs?name=mvc-routing-table&highlight=7-9)]
+[!code-csharp[](../client-side/spa-services/sample/SpaServicesSampleApp/Startup.cs?name=snippet_MvcRoutingTable&highlight=7-9)]
 
 提示： 路由配置它们的顺序计算。 因此，`default`进行模式匹配第一次使用在前面的代码示例中的路由。
 
@@ -267,7 +267,7 @@ dotnet new angular
   * 不包括源映射。
   * 可优化通过捆绑和缩小客户端代码。
 
-ASP.NET Core 使用名为的环境变量`ASPNETCORE_ENVIRONMENT`来存储配置模式。 请参阅**[将环境设置](xref:fundamentals/environments#set-the-environment)** 有关详细信息。
+ASP.NET Core 使用名为的环境变量`ASPNETCORE_ENVIRONMENT`来存储配置模式。 请参阅 **[将环境设置](xref:fundamentals/environments#set-the-environment)** 有关详细信息。
 
 ### <a name="running-with-net-core-cli"></a>运行使用.NET Core CLI
 

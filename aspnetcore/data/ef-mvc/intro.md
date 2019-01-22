@@ -6,12 +6,12 @@ ms.author: tdykstra
 ms.custom: mvc
 ms.date: 10/24/2018
 uid: data/ef-mvc/intro
-ms.openlocfilehash: f1682203850f2c5440fe8d0b98830ca8772ff70f
-ms.sourcegitcommit: c43a6f1fe72d7c2db4b5815fd532f2b45d964e07
+ms.openlocfilehash: 1191632555dc9331f815c1bfb1f313459824754a
+ms.sourcegitcommit: 68a3081dd175d6518d1bfa31b4712bd8a2dd3864
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50244877"
+ms.lasthandoff: 12/18/2018
+ms.locfileid: "53577898"
 ---
 # <a name="aspnet-core-mvc-with-entity-framework-core---tutorial-1-of-10"></a>ASP.NET Core MVC 和 Entity Framework Core - 第 1 个教程，共 10 个教程
 
@@ -75,7 +75,7 @@ EF Core 2.0 是 EF 的最新版本，但还没有包括 EF 6.x 的所有功能 �
 
 * 选择 **ASP.NET Core 2.0** 和 **Web 应用程序 （模型-视图-控制器）** 模板。
 
-  **注意：** 本教程需要安装 ASP.NET Core 2.0 和 EF Core 2.0 或更高版本-请确保 **ASP.NET Core 1.1** 未选中。
+  **注意：** 本教程需要安装 ASP.NET Core 2.0 和 EF Core 2.0 或更高版本 - 请确保未选中 ASP.NET Core 1.1。
 
 * 请确保 **身份验证** 设置为  **不进行身份验证**。
 
@@ -245,7 +245,7 @@ CRUD 操作方法和视图的自动创建被称为基架。 基架与代码生�
 
 如果出现“添加 MVC 依赖项”对话框：
 
-* [将 Visual Studio 更新到最新版本](https://www.visualstudio.com/downloads/)。 15.5 之前的 Visual Studio 版本显示此对话框。
+* [将 Visual Studio 更新到最新版本](https://www.visualstudio.com/downloads/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=button+cta&utm_content=download+vs2017)。 15.5 之前的 Visual Studio 版本显示此对话框。
 * 如果无法更新，请选择“添加”，然后再次按照添加控制器步骤操作。
 
 * 在“添加基架”对话框中：
@@ -367,4 +367,4 @@ Web 服务器的可用线程是有限的，而在高负载情况下的可能所�
 ::: moniker-end
 
 > [!div class="step-by-step"]
-> [下一篇](crud.md)
+> [下一页](crud.md)

@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 11/11/2018
 uid: security/authentication/twitter-logins
-ms.openlocfilehash: 43a5ea59d8853d297ae2c1ec3f4b1c0c14ec80c3
-ms.sourcegitcommit: 09bcda59a58019fdf47b2db5259fe87acf19dd38
+ms.openlocfilehash: 49db8b921fde169380ca284f46e535786b2b8a30
+ms.sourcegitcommit: 3e94d192b2ed9409fe72e3735e158b333354964c
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/15/2018
-ms.locfileid: "51708421"
+ms.lasthandoff: 12/21/2018
+ms.locfileid: "53735799"
 ---
 # <a name="twitter-external-login-setup-with-aspnet-core"></a>Twitter 外部登录名与 ASP.NET Core 的安装程序
 
@@ -21,7 +21,7 @@ ms.locfileid: "51708421"
 
 ## <a name="create-the-app-in-twitter"></a>在 Twitter 中创建应用程序
 
-* 导航到[ https://apps.twitter.com/ ](https://apps.twitter.com/)并登录。 如果还没有 Twitter 帐户，使用**[立即注册](https://twitter.com/signup)** 链接创建一个链接。 登录后，**应用程序管理**页所示：
+* 导航到[ https://apps.twitter.com/ ](https://apps.twitter.com/)并登录。 如果还没有 Twitter 帐户，使用 **[立即注册](https://twitter.com/signup)** 链接创建一个链接。 登录后，**应用程序管理**页所示：
 
   ![在 Microsoft Edge 中打开 twitter 应用程序管理](index/_static/TwitterAppManage.png)
 
@@ -62,9 +62,9 @@ ms.locfileid: "51708421"
 将 Twitter 服务中的添加`ConfigureServices`中的方法*Startup.cs*文件：
 
 ```csharp
-services.AddIdentity<ApplicationUser, IdentityRole>()
-        .AddEntityFrameworkStores<ApplicationDbContext>()
-        .AddDefaultTokenProviders();
+services.AddDefaultIdentity<IdentityUser>()
+        .AddDefaultUI(UIFramework.Bootstrap4)
+        .AddEntityFrameworkStores<ApplicationDbContext>();
 
 services.AddAuthentication().AddTwitter(twitterOptions =>
 {
@@ -99,7 +99,7 @@ app.UseTwitterAuthentication(new TwitterOptions()
 
 运行你的应用程序，然后单击**登录**。 通过 Twitter 进行登录的选项将显示：
 
-![Web 应用程序： 用户未经过身份验证](index/_static/DoneTwitter.png)
+![Web 应用程序：用户未经过身份验证](index/_static/DoneTwitter.png)
 
 单击**Twitter**将重定向到 Twitter 进行身份验证：
 
@@ -109,13 +109,13 @@ app.UseTwitterAuthentication(new TwitterOptions()
 
 现在已在使用你的 Twitter 凭据进行登录：
 
-![Web 应用程序： 用户通过身份验证](index/_static/Done.png)
+![Web 应用程序：用户通过身份验证](index/_static/Done.png)
 
 [!INCLUDE[Forward request information when behind a proxy or load balancer section](includes/forwarded-headers-middleware.md)]
 
 ## <a name="troubleshooting"></a>疑难解答
 
-* **ASP.NET Core 2.x 仅：** 如果标识未通过调用配置`services.AddIdentity`中`ConfigureServices`，尝试进行身份验证将导致*ArgumentException： 必须提供 SignInScheme 选项*。 在本教程中使用的项目模板可确保，此操作。
+* **ASP.NET Core 仅限 2.x:** 如果不通过调用配置标识`services.AddIdentity`中`ConfigureServices`，尝试进行身份验证将导致*ArgumentException:必须提供 SignInScheme 选项*。 在本教程中使用的项目模板可确保，此操作。
 * 如果尚未通过应用初始迁移创建站点数据库，则会收到*处理请求时，数据库操作失败*错误。 点击**应用迁移**创建数据库，并刷新以忽略错误继续。
 
 ## <a name="next-steps"></a>后续步骤

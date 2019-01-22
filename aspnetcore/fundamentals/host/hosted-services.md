@@ -5,14 +5,14 @@ description: 了解如何在 ASP.NET Core 中使用托管服务实现后台任�
 monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 02/15/2018
+ms.date: 11/28/2018
 uid: fundamentals/host/hosted-services
-ms.openlocfilehash: 92905d86cb963d01f1806f08d07b270a7f6d8563
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: de419357d4d96a6e348a77055e67c0fcd190ae42
+ms.sourcegitcommit: 0fc89b80bb1952852ecbcf3c5c156459b02a6ceb
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207402"
+ms.lasthandoff: 11/29/2018
+ms.locfileid: "52618137"
 ---
 # <a name="background-tasks-with-hosted-services-in-aspnet-core"></a>在 ASP.NET Core 中使用托管服务实现后台任务
 
@@ -39,11 +39,25 @@ ms.locfileid: "50207402"
 
 托管服务实现 <xref:Microsoft.Extensions.Hosting.IHostedService> 接口。 该接口为主机托管的对象定义了两种方法：
 
-* [StartAsync(CancellationToken)](xref:Microsoft.Extensions.Hosting.IHostedService.StartAsync*) - `StartAsync` 包含启动后台任务的逻辑。 当使用 [Web 主机](xref:fundamentals/host/web-host)时，会在启动服务器并触发 [IApplicationLifetime.ApplicationStarted](xref:Microsoft.AspNetCore.Hosting.IApplicationLifetime.ApplicationStarted*) 后调用 `StartAsync`。 当使用[通用主机](xref:fundamentals/host/generic-host)时，会在触发 `ApplicationStarted` 之前调用 `StartAsync`。
+* [StartAsync(CancellationToken)](xref:Microsoft.Extensions.Hosting.IHostedService.StartAsync*) &ndash; `StartAsync` 包含启动后台任务的逻辑。 当使用 [Web 主机](xref:fundamentals/host/web-host)时，会在启动服务器并触发 [IApplicationLifetime.ApplicationStarted](xref:Microsoft.AspNetCore.Hosting.IApplicationLifetime.ApplicationStarted*) 后调用 `StartAsync`。 当使用[通用主机](xref:fundamentals/host/generic-host)时，会在触发 `ApplicationStarted` 之前调用 `StartAsync`。
 
-* [StopAsync(CancellationToken)](xref:Microsoft.Extensions.Hosting.IHostedService.StopAsync*) - 主机正常关闭时触发。 `StopAsync` 包含结束后台任务和处理任何非托管资源的逻辑。 如果应用意外关闭（例如，应用的进程失败），则可能不会调用 `StopAsync`。
+* [StopAsync(CancellationToken)](xref:Microsoft.Extensions.Hosting.IHostedService.StopAsync*) &ndash; 主机正常关闭时触发。 `StopAsync` 包含结束后台任务的逻辑。 实现 <xref:System.IDisposable> 和[终结器（析构函数）](/dotnet/csharp/programming-guide/classes-and-structs/destructors)以处置任何非托管资源。
 
-托管服务在应用启动时激活一次，在应用关闭时正常关闭。 实现 <xref:System.IDisposable> 后，可在处置服务容器时处理资源。 如果在执行后台任务期间引发错误，即使未调用 `StopAsync`，也应调用 `Dispose`。
+  默认情况下，取消令牌会有五秒超时，以指示关闭进程不再正常。 在令牌上请求取消时：
+
+  * 应中止应用正在执行的任何剩余后台操作。
+  * `StopAsync` 中调用的任何方法都应及时返回。
+
+  但是，在请求取消后，将不会放弃任务 &mdash; 调用方等待所有任务完成。
+
+  如果应用意外关闭（例如，应用的进程失败），则可能不会调用 `StopAsync`。 因此，在 `StopAsync` 中执行的任何方法或操作都可能不会发生。
+
+  若要延长默认值为 5 秒的关闭超时值，请设置：
+
+  * 使用泛型主机时为 <xref:Microsoft.Extensions.Hosting.HostOptions.ShutdownTimeout*>。 有关更多信息，请参见<xref:fundamentals/host/generic-host#shutdown-timeout>。
+  * 使用 Web 主机时为关闭超时值主机配置设置。 有关更多信息，请参见<xref:fundamentals/host/web-host#shutdown-timeout>。
+
+托管服务在应用启动时激活一次，在应用关闭时正常关闭。 如果在执行后台任务期间引发错误，即使未调用 `StopAsync`，也应调用 `Dispose`。
 
 ## <a name="timed-background-tasks"></a>计时的后台任务
 

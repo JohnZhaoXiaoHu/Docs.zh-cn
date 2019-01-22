@@ -4,13 +4,14 @@ author: CamSoper
 description: 提供有关为托管在 Azure 中的 ASP.NET Core 应用构建 DevOps 管道的端到端指导的指南。
 ms.author: casoper
 ms.date: 08/07/2018
+ms.custom: seodec18
 uid: azure/devops/index
-ms.openlocfilehash: 53667831f5e33107178a947f23d957ff22e8c1a0
-ms.sourcegitcommit: 57eccdea7d89a62989272f71aad655465f1c600a
+ms.openlocfilehash: 6b6f17fd917f32b9e0682414febee10643cf3d13
+ms.sourcegitcommit: 49faca2644590fc081d86db46ea5e29edfc28b7b
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/10/2018
-ms.locfileid: "44340090"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53121188"
 ---
 # <a name="devops-with-aspnet-core-and-azure"></a>通过 ASP.NET Core 和 Azure 实现 DevOps
 

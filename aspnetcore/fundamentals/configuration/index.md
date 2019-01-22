@@ -4,14 +4,14 @@ author: guardrex
 description: 理解如何使用配置 API 配置 ASP.NET Core 应用。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/09/2018
+ms.date: 12/07/2018
 uid: fundamentals/configuration/index
-ms.openlocfilehash: 6dd478770d4eae4d497da576c17fbe7d2c133b89
-ms.sourcegitcommit: 2d3e5422d530203efdaf2014d1d7df31f88d08d0
+ms.openlocfilehash: 6f0378ffc4f9a1efa95c8f70d70e7799abef130b
+ms.sourcegitcommit: 1872d2e6f299093c78a6795a486929ffb0bbffff
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/05/2018
-ms.locfileid: "51021737"
+ms.lasthandoff: 12/11/2018
+ms.locfileid: "53216893"
 ---
 # <a name="configuration-in-aspnet-core"></a>ASP.NET Core 中的配置
 
@@ -508,7 +508,7 @@ public static void Main(string[] args)
 
 创建交换映射字典后，它将包含下表所示的数据。
 
-| 键       | “值”             |
+| 键       | 值             |
 | --------- | ----------------- |
 | `-CLKey1` | `CommandLineKey1` |
 | `-CLKey2` | `CommandLineKey2` |
@@ -521,7 +521,7 @@ dotnet run -CLKey1=value1 -CLKey2=value2
 
 运行上述命令后，配置包含下表中显示的值。
 
-| 键               | “值”    |
+| 键               | 值    |
 | ----------------- | -------- |
 | `CommandLineKey1` | `value1` |
 | `CommandLineKey2` | `value2` |
@@ -538,10 +538,11 @@ dotnet run -CLKey1=value1 -CLKey2=value2
 
 ::: moniker range=">= aspnetcore-2.0"
 
-使用 <xref:Microsoft.AspNetCore.WebHost.CreateDefaultBuilder*> 初始化新的 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilder> 时会自动调用 `AddEnvironmentVariables`。 有关详细信息，请参阅 [Web 主机：设置主机](xref:fundamentals/host/web-host#set-up-a-host)。
+初始化一个新的 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilder> 时，对于前缀为 `ASPNETCORE_` 的环境变量，会自动调用 `AddEnvironmentVariables`。 有关详细信息，请参阅 [Web 主机：设置主机](xref:fundamentals/host/web-host#set-up-a-host)。
 
 此外，`CreateDefaultBuilder` 也会加载：
 
+* 来自没有前缀的环境变量的应用配置，方法是通过调用不带前缀的 `AddEnvironmentVariables`。
 * appsettings.json 和 appsettings.{Environment}.json 的可选配置。
 * [用户机密 (Secret Manager)](xref:security/app-secrets)（在开发环境中）。
 * 命令行参数。
@@ -554,7 +555,7 @@ dotnet run -CLKey1=value1 -CLKey2=value2
 
 构建主机时调用 <xref:Microsoft.Extensions.Hosting.HostBuilder.ConfigureAppConfiguration*> 以指定应用的配置。
 
-前缀为 `ASPNETCORE_` 的环境变量的 `AddEnvironmentVariables` 已被 `CreateDefaultBuilder` 调用。 如果需要从其他环境变量提供应用配置，请在 <xref:Microsoft.Extensions.Hosting.HostBuilder.ConfigureAppConfiguration*> 中调用应用的其他提供程序，并使用前缀调用 `AddEnvironmentVariables`。
+如果需要从其他环境变量提供应用配置，请在 <xref:Microsoft.Extensions.Hosting.HostBuilder.ConfigureAppConfiguration*> 中调用应用的其他提供程序，并使用前缀调用 `AddEnvironmentVariables`。
 
 ```csharp
 public class Program
@@ -585,7 +586,7 @@ public class Program
 
 在 <xref:Microsoft.Extensions.Configuration.ConfigurationBuilder> 的实例上调用 `AddEnvironmentVariables` 扩展方法。 使用 <xref:Microsoft.AspNetCore.Hosting.HostingAbstractionsWebHostBuilderExtensions.UseConfiguration*> 方法将配置应用到 <xref:Microsoft.AspNetCore.Hosting.WebHostBuilder>。
 
-前缀为 `ASPNETCORE_` 的环境变量的 `AddEnvironmentVariables` 已被 `CreateDefaultBuilder` 调用。 如果需要从其他环境变量提供应用配置，请在 <xref:Microsoft.Extensions.Hosting.HostBuilder.ConfigureAppConfiguration*> 中调用应用的其他提供程序，并使用前缀调用 `AddEnvironmentVariables`。
+如果需要从其他环境变量提供应用配置，请在 <xref:Microsoft.Extensions.Hosting.HostBuilder.ConfigureAppConfiguration*> 中调用应用的其他提供程序，并使用前缀调用 `AddEnvironmentVariables`。
 
 ```csharp
 public class Program
@@ -1136,6 +1137,8 @@ XML 配置文件可以为重复节使用不同的元素名称：
 * 配置源的 `Action<KeyPerFileConfigurationSource>` 委托。
 * 目录是否可选以及目录的路径。
 
+双下划线字符 (`__`) 用作文件名中的配置键分隔符。 例如，文件名 `Logging__LogLevel__System` 生成配置键 `Logging:LogLevel:System`。
+
 构建主机时调用 <xref:Microsoft.Extensions.Hosting.HostBuilder.ConfigureAppConfiguration*> 以指定应用的配置：
 
 ```csharp
@@ -1402,7 +1405,7 @@ var sectionExists = _config.GetSection("section2:subsection2").Exists();
 
 创建以下配置键值对：
 
-| 键                   | “值”                                             |
+| 键                   | 值                                             |
 | --------------------- | ------------------------------------------------- |
 | starship:name         | USS Enterprise                                    |
 | starship:registry     | NCC-1701                                          |
@@ -1510,7 +1513,7 @@ viewModel.TvShow = tvShow;
 
 请考虑下表中所示的配置键和值。
 
-| 键             | “值”  |
+| 键             | 值  |
 | :-------------: | :----: |
 | array:entries:0 | value0 |
 | array:entries:1 | value1 |
@@ -1617,7 +1620,7 @@ config.AddJsonFile("missing_value.json", optional: false, reloadOnChange: false)
 
 将表中所示的键值对加载到配置中。
 
-| 键             | “值”  |
+| 键             | 值  |
 | :-------------: | :----: |
 | array:entries:3 | value3 |
 
@@ -1650,7 +1653,7 @@ config.AddJsonFile("missing_value.json", optional: false, reloadOnChange: false)
 
 JSON 配置提供程序将配置数据读入以下键值对：
 
-| 键                     | “值”  |
+| 键                     | 值  |
 | ----------------------- | :----: |
 | json_array:key          | valueA |
 | json_array:subsection:0 | valueB |

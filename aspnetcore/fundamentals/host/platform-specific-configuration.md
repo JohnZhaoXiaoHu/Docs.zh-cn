@@ -1,22 +1,22 @@
 ---
-title: 在 ASP.NET Core 中使用 IHostingStartup 从外部程序集增强应用
+title: 在 ASP.NET Core 中使用承载启动程序集
 author: guardrex
 description: 了解如何使用 IHostingStartup 从外部程序集增强 ASP.NET Core 应用。
 monikerRange: '>= aspnetcore-2.0'
 ms.author: riande
-ms.custom: mvc
-ms.date: 08/13/2018
+ms.custom: mvc, seodec18
+ms.date: 11/22/2018
 uid: fundamentals/configuration/platform-specific-configuration
-ms.openlocfilehash: a06c2da04c1631f5811a535c891ca5190b0d8864
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: cf7114698635ab2d61fa19eb15b6a8c61a751e5b
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207532"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284716"
 ---
-# <a name="enhance-an-app-from-an-external-assembly-in-aspnet-core-with-ihostingstartup"></a>在 ASP.NET Core 中使用 IHostingStartup 从外部程序集增强应用
+# <a name="use-hosting-startup-assemblies-in-aspnet-core"></a>在 ASP.NET Core 中使用承载启动程序集
 
-作者：[Luke Latham](https://github.com/guardrex)
+作者：[Luke Latham](https://github.com/guardrex) 和 [Pavel Krymets](https://github.com/pakrym)
 
 通过 [IHostingStartup](/dotnet/api/microsoft.aspnetcore.hosting.ihostingstartup)（承载启动）实现，在启动时从外部程序集向应用添加增强功能。 例如，外部库可使用承载启动实现为应用提供其他配置提供程序或服务。 ASP.NET Core 2.0 或更高版本中提供了 `IHostingStartup`。
 
@@ -113,14 +113,21 @@ HostingStartupApp/Pages/Index.cshtml.cs：
 
 此方法仅适用于 .NET Core 应用，不适用于 .NET Framework。
 
-可在无入口点的控制台应用中提供动态承载启动增强功能，该功能无需编译时引用进行激活。 应用包含 `HostingStartup` 属性。 创建动态承载启动：
+可在包含 `HostingStartup` 属性的无入口点的控制台应用中提供动态承载启动增强功能，该功能无需编译时引用进行激活。 发布控制台应用会生成可从运行时存储中使用的承载启动程序集。
 
-1. 从包含 `IHostingStartup` 实现的类创建实现库。 实现库被视为常规包。
-1. 无入口点的控制台应用引用实现库包。 使用控制台应用，因为：
-   * 依赖项文件是可运行的应用资产，因此库无法提供依赖项文件。
-   * 无法直接将库添加到[运行时包存储](/dotnet/core/deploying/runtime-store)，该过程需要一个以已共享运行时为目标的可运行项目。
-1. 发布控制台应用，获取承载启动的依赖项。 发布控制台应用的结果是从依赖项文件中删除了未使用的依赖项。
-1. 应用及其依赖项文件位于运行时包存储中。 要发现承载启动程序集及其依赖项文件，它们将在一对环境变量中引用。
+此过程中使用没有入口点的控制台应用，因为：
+
+* 需要依赖项文件来使用承载启动程序集中的承载启动。 依赖项文件是一种可运行的应用资产，它通过发布应用而不是库来生成。
+* 无法直接将库添加到[运行时包存储](/dotnet/core/deploying/runtime-store)，该过程需要一个以已共享运行时为目标的可运行项目。
+
+创建动态承载启动过程中：
+
+* 从控制台应用创建承载启动程序集，无需以下入口点：
+  * 包含 `IHostingStartup` 实现的类。
+  * 包含用于识别 `IHostingStartup` 实现类的 [HostingStartup](/dotnet/api/microsoft.aspnetcore.hosting.hostingstartupattribute) 属性。
+* 发布控制台应用，获取承载启动的依赖项。 发布控制台应用的结果是从依赖项文件中删除了未使用的依赖项。
+* 修改依赖项文件以设置承载启动程序集的运行时位置。
+* 承载启动程序集及其依赖项文件位于运行时包存储中。 要发现承载启动程序集及其依赖项文件，它们将在一对环境变量中列出。
 
 控制台应用引用 [Microsoft.AspNetCore.Hosting.Abstractions](https://www.nuget.org/packages/Microsoft.AspNetCore.Hosting.Abstractions/) 包：
 
@@ -167,187 +174,98 @@ HostingStartupLibrary;HostingStartupPackage;StartupDiagnostics
 
 承载启动实现位于[运行时存储](/dotnet/core/deploying/runtime-store)中。 增强型应用无需对程序集进行编译时引用。
 
-构建承载启动后，承载启动的项目文件可作为 [dotnet store](/dotnet/core/tools/dotnet-store) 命令的清单文件。
+构建承载启动后，使用清单项目文件和 [dotnet store](/dotnet/core/tools/dotnet-store) 命令生成运行时存储。
 
 ```console
-dotnet store --manifest <PROJECT_FILE> --runtime <RUNTIME_IDENTIFIER>
+dotnet store --manifest {MANIFEST FILE} --runtime {RUNTIME IDENTIFIER} --output {OUTPUT LOCATION} --skip-optimization
 ```
 
-此命令将承载启动程序集和不属于共享框架的其他依赖项置于用户配置文件的运行时存储中：
+在示例应用（*RuntimeStore* 项目）中，使用以下命令：
 
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-```
-%USERPROFILE%\.dotnet\store\x64\<TARGET_FRAMEWORK_MONIKER>\<ENHANCEMENT_ASSEMBLY_NAME>\<ENHANCEMENT_VERSION>\lib\<TARGET_FRAMEWORK_MONIKER>\
+``` console
+dotnet store --manifest store.manifest.csproj --runtime win7-x64 --output ./deployment/store --skip-optimization
 ```
 
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
-
-```
-/Users/<USER>/.dotnet/store/x64/<TARGET_FRAMEWORK_MONIKER>/<ENHANCEMENT_ASSEMBLY_NAME>/<ENHANCEMENT_VERSION>/lib/<TARGET_FRAMEWORK_MONIKER>/
-```
-
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
-
-```
-/Users/<USER>/.dotnet/store/x64/<TARGET_FRAMEWORK_MONIKER>/<ENHANCEMENT_ASSEMBLY_NAME>/<ENHANCEMENT_VERSION>/lib/<TARGET_FRAMEWORK_MONIKER>/
-```
-
----
-
-如果希望将程序集和依赖项放在可供全局使用的位置，请使用以下路径将 `-o|--output` 选项添加到 `dotnet store` 命令：
-
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-```
-%PROGRAMFILES%\dotnet\store\x64\<TARGET_FRAMEWORK_MONIKER>\<ENHANCEMENT_ASSEMBLY_NAME>\<ENHANCEMENT_VERSION>\lib\<TARGET_FRAMEWORK_MONIKER>\
-```
-
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
-
-```
-/usr/local/share/dotnet/store/x64/<TARGET_FRAMEWORK_MONIKER>/<ENHANCEMENT_ASSEMBLY_NAME>/<ENHANCEMENT_VERSION>/lib/<TARGET_FRAMEWORK_MONIKER>/
-```
-
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
-
-```
-/usr/local/share/dotnet/store/x64/<TARGET_FRAMEWORK_MONIKER>/<ENHANCEMENT_ASSEMBLY_NAME>/<ENHANCEMENT_VERSION>/lib/<TARGET_FRAMEWORK_MONIKER>/
-```
-
----
+对于发现运行时存储的运行时，运行时存储的位置将添加到 `DOTNET_SHARED_STORE` 环境变量中。
 
 **修改并放置承载启动的依赖项文件**
 
-运行时位置在 \*.deps.json 文件中指定。 若要激活增强功能，`runtime` 元素必须指定增强功能运行时程序集的位置。 将 `runtime` 位置的前缀设为 `lib/<TARGET_FRAMEWORK_MONIKER>/`：
+要在未包引用增强功能的情况下激活增强功能，请使用 `additionalDeps` 为运行时指定附加依赖项。 使用 `additionalDeps`，你可以：
 
-[!code-json[](platform-specific-configuration/samples-snapshot/2.x/StartupEnhancement2.deps.json?range=2-13&highlight=8)]
+* 通过提供一组附加的 *\*.deps.json* 文件来扩展应用的库图，以便在启动时与应用自身的 *\*.deps.json* 文件合并。
+* 使承载启动程序集可被发现并可加载。
 
-在示例代码（StartupDiagnostics 项目）中，\*.deps.json 文件的修改由 [PowerShell](/powershell/scripting/powershell-scripting) 脚本执行。 PowerShell 脚本由项目文件中的生成目标自动触发。
+生成附加依赖项文件的推荐方法是：
 
-该实现的 \*.deps.json 文件必须位于可访问的位置。
+ 1. 对上一节中引用的运行时存储清单文件执行 `dotnet publish`。
+ 1. 从库中删除清单引用，以及生成的 *\*deps.json* 文件的 `runtime` 部分。
 
-若要实现按用户使用，将文件置于用户配置文件 `.dotnet` 设置的 additonalDeps 文件夹中：
+在示例项目中，`store.manifest/1.0.0` 属性已从 `targets` 和 `libraries` 部分中删除：
 
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-```
-%USERPROFILE%\.dotnet\x64\additionalDeps\<ENHANCEMENT_ASSEMBLY_NAME>\shared\Microsoft.NETCore.App\<SHARED_FRAMEWORK_VERSION>\
-```
-
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
-
-```
-/Users/<USER>/.dotnet/x64/additionalDeps/<ENHANCEMENT_ASSEMBLY_NAME>/shared/Microsoft.NETCore.App/<SHARED_FRAMEWORK_VERSION>/
-```
-
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
-
-```
-/Users/<USER>/.dotnet/x64/additionalDeps/<ENHANCEMENT_ASSEMBLY_NAME>/shared/Microsoft.NETCore.App/<SHARED_FRAMEWORK_VERSION>/
-```
-
----
-
-若要实现全局使用，将文件置于 .NET Core 安装的 additonalDeps 文件夹中：
-
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-```
-%PROGRAMFILES%\dotnet\additionalDeps\<ENHANCEMENT_ASSEMBLY_NAME>\shared\Microsoft.NETCore.App\<SHARED_FRAMEWORK_VERSION>\
-```
-
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
-
-```
-/usr/local/share/dotnet/additionalDeps/<ENHANCEMENT_ASSEMBLY_NAME>/shared/Microsoft.NETCore.App/<SHARED_FRAMEWORK_VERSION>/
-```
-
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
-
-```
-/usr/local/share/dotnet/additionalDeps/<ENHANCEMENT_ASSEMBLY_NAME>/shared/Microsoft.NETCore.App/<SHARED_FRAMEWORK_VERSION>/
-```
-
----
-
-共享框架版本反映目标应用使用的共享运行时的版本。 共享运行时显示在 \*.runtimeconfig.json 文件中。 在示例应用 (HostingStartupApp) 中，共享运行时在 HostingStartupApp.runtimeconfig.json 文件中指定。
-
-**列出承载启动的依赖项文件**
-
-`DOTNET_ADDITIONAL_DEPS` 环境变量中列出了实现的 \*.deps.json 文件的位置。
-
-如果文件放在用户配置文件的 .dotnet 文件夹中，请将环境变量的值设置为：
-
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-```
-%USERPROFILE%\.dotnet\x64\additionalDeps\
+```json
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.1",
+    "signature": "4ea77c7b75ad1895ae1ea65e6ba2399010514f99"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.1": {
+      "store.manifest/1.0.0": {
+        "dependencies": {
+          "StartupDiagnostics": "1.0.0"
+        },
+        "runtime": {
+          "store.manifest.dll": {}
+        }
+      },
+      "StartupDiagnostics/1.0.0": {
+        "runtime": {
+          "lib/netcoreapp2.1/StartupDiagnostics.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "store.manifest/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "StartupDiagnostics/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oiQr60vBQW7+nBTmgKLSldj06WNLRTdhOZpAdEbCuapoZ+M2DJH2uQbRLvFT8EGAAv4TAKzNtcztpx5YOgBXQQ==",
+      "path": "startupdiagnostics/1.0.0",
+      "hashPath": "startupdiagnostics.1.0.0.nupkg.sha512"
+    }
+  }
+}
 ```
 
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
+将 *\*.deps.json* 文件放入以下位置：
 
 ```
-/Users/<USER>/.dotnet/x64/additionalDeps/
+{ADDITIONAL DEPENDENCIES PATH}/shared/{SHARED FRAMEWORK NAME}/{SHARED FRAMEWORK VERSION}/{ENHANCEMENT ASSEMBLY NAME}.deps.json
 ```
 
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
+* `{ADDITIONAL DEPENDENCIES PATH}` &ndash; 添加到 `DOTNET_ADDITIONAL_DEPS` 环境变量中的位置。
+* `{SHARED FRAMEWORK NAME}` &ndash; 此附加依赖项文件所需的共享框架。
+* `{SHARED FRAMEWORK VERSION}` &ndash; 最小共享框架版本。
+* `{ENHANCEMENT ASSEMBLY NAME}` &ndash; 增强功能的程序集名称。
+
+在示例应用（*RuntimeStore*  项目）中，附加依赖项文件放于以下位置：
 
 ```
-/Users/<USER>/.dotnet/x64/additionalDeps/
+additionalDeps/shared/Microsoft.AspNetCore.App/2.1.0/StartupDiagnostics.deps.json
 ```
 
----
+对于发现运行时存储位置的运行时，附加依赖项文件位置将添加到 `DOTNET_ADDITIONAL_DEPS` 环境变量中。
 
-如果将文件放置在 .NET Core 安装中以实现全局使用，则提供该文件的完整路径：
-
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-```
-%PROGRAMFILES%\dotnet\additionalDeps\<ENHANCEMENT_ASSEMBLY_NAME>\shared\Microsoft.NETCore.App\<SHARED_FRAMEWORK_VERSION>\<ENHANCEMENT_ASSEMBLY_NAME>.deps.json
-```
-
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
-
-```
-/usr/local/share/dotnet/additionalDeps/<ENHANCEMENT_ASSEMBLY_NAME>/shared/Microsoft.NETCore.App/<SHARED_FRAMEWORK_VERSION>/<ENHANCEMENT_ASSEMBLY_NAME>.deps.json
-```
-
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
-
-```
-/usr/local/share/dotnet/additionalDeps/<ENHANCEMENT_ASSEMBLY_NAME>/shared/Microsoft.NETCore.App/<SHARED_FRAMEWORK_VERSION>/<ENHANCEMENT_ASSEMBLY_NAME>.deps.json
-```
-
----
-
-对于用于查找依赖项文件 (HostingStartupApp.runtimeconfig.json) 的示例应用 (HostingStartupApp)，依赖项文件位于用户的配置文件中。
-
-# <a name="windowstabwindows"></a>[Windows](#tab/windows)
-
-将 `DOTNET_ADDITIONAL_DEPS` 环境变量设置为以下值：
-
-```
-%UserProfile%\.dotnet\x64\additionalDeps\StartupDiagnostics\
-```
-
-# <a name="macostabmacos"></a>[macOS](#tab/macos)
-
-将 `DOTNET_ADDITIONAL_DEPS` 环境变量设置为以下值：
-
-```
-/Users/<USER>/.dotnet/x64/additionalDeps/StartupDiagnostics/
-```
-
-# <a name="linuxtablinux"></a>[Linux](#tab/linux)
-
-将 `DOTNET_ADDITIONAL_DEPS` 环境变量设置为以下值：
-
-```
-/Users/<USER>/.dotnet/x64/additionalDeps/StartupDiagnostics/
-```
-
----
+在示例应用（*RuntimeStore* 项目）中，使用 [PowerShell](/powershell/scripting/powershell-scripting) 脚本完成构建运行时存储并生成附加依赖项文件。
 
 有关如何设置各种操作系统的环境变量的示例，请参阅[使用多个环境](xref:fundamentals/environments)。
 
@@ -355,9 +273,9 @@ dotnet store --manifest <PROJECT_FILE> --runtime <RUNTIME_IDENTIFIER>
 
 为了便于在多计算机环境中部署托承载启动，示例应用在已发布的输出中创建一个“deployment”文件夹，其中包含：
 
-* 承载启动程序集。
+* 承载启动运行时存储。
 * 承载启动依赖项文件。
-* PowerShell 脚本，用于创建或修改 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES` 和 `DOTNET_ADDITIONAL_DEPS` 以支持激活承载启动。 从部署系统上的管理 PowerShell 命令提示符运行脚本。
+* PowerShell 脚本，用于创建或修改 `ASPNETCORE_HOSTINGSTARTUPASSEMBLIES`、`DOTNET_SHARED_STORE` 和 `DOTNET_ADDITIONAL_DEPS` 以支持激活承载启动。 从部署系统上的管理 PowerShell 命令提示符运行脚本。
 
 ### <a name="nuget-package"></a>NuGet 程序包
 

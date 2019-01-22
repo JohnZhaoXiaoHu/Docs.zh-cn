@@ -5,64 +5,70 @@ description: 将模型添加到简单的 ASP.NET Core 应用。
 ms.author: riande
 ms.date: 12/8/2017
 uid: tutorials/first-mvc-app/adding-model
-ms.openlocfilehash: 5a820789ee3a761025d09aa78f3c42e59fc5fa38
-ms.sourcegitcommit: b2723654af4969a24545f09ebe32004cb5e84a96
+ms.openlocfilehash: 630b4b0549a8549d9570d701fb1691310ec442c3
+ms.sourcegitcommit: 4e87712029de2aceb1cf2c52e9e3dda8195a5b8e
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 09/18/2018
-ms.locfileid: "46011373"
+ms.lasthandoff: 12/14/2018
+ms.locfileid: "53381850"
 ---
-[!INCLUDE [adding-model](~/Includes/mvc-intro/adding-model1.md)]
+# <a name="add-a-model-to-an-aspnet-core-mvc-app"></a>将模型添加到 ASP.NET Core MVC 应用
 
-右键单击 Models 文件夹，然后单击“添加” > “类”。 将类命名为“Movie”，并添加以下属性：
+作者：[Rick Anderson](https://twitter.com/RickAndMSFT) 和 [Tom Dykstra](https://github.com/tdykstra)
 
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Models/MovieNoEF.cs?name=snippet_1)]
+在本部分中将添加用于管理数据库中的电影的类。 这些类将是 MVC 应用的“Model”部分。
 
-数据库需要 `ID` 字段以获取主键。 
+可以结合 [Entity Framework Core](/ef/core) (EF Core) 使用这些类来处理数据库。 EF Core 是对象关系映射 (ORM) 框架，可以简化需要编写的数据访问代码。
 
-生成项目以验证有没有任何错误存在。 现在 MVC 应用中已具有模型。
+要创建的模型类称为 POCO 类（源自“简单传统 CLR 对象”），因为它们与 EF Core 没有任何依赖关系。 它们只定义将存储在数据库中的数据的属性。
 
-## <a name="scaffolding-a-controller"></a>搭建控制器基架
+在本教程中，首先要编写模型类，然后 EF Core 将创建数据库。 有一种备选方法（此处未介绍）：从现有数据库生成模型类。 有关此方法的信息，请参阅 [ASP.NET Core - Existing Database](/ef/core/get-started/aspnetcore/existing-db)（ASP.NET Core - 现有数据库）。
 
-::: moniker range=">= aspnetcore-2.1"
+## <a name="add-a-data-model-class"></a>添加数据模型类
+
+<!-- VS -------------------------->
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+右键单击 Models 文件夹，然后单击“添加” > “类”。 将类命名“Movie”。
+
+[!INCLUDE [model 1b](~/includes/mvc-intro/model1b.md)]
+
+<!-- Code -------------------------->
+# <a name="visual-studio-code--visual-studio-for-mactabvisual-studio-codevisual-studio-mac"></a>[Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+
+* 将类添加到名为“Movie.cs”的“Models”文件夹。
+
+[!INCLUDE [model 1b](~/includes/mvc-intro/model1b.md)]
+[!INCLUDE [model 2](~/includes/mvc-intro/model2.md)]
+
+---  
+<!-- End of VS tabs -->
+
+## <a name="scaffold-the-movie-model"></a>搭建“电影”模型的基架
+
+在此部分，将搭建“电影”模型的基架。 确切地说，基架工具将生成页面，用于对“电影”模型执行创建、读取、更新和删除 (CRUD) 操作。
+
+<!-- VS -------------------------->
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
 
 在解决方案资源管理器中，右键单击“Controllers”文件夹 >“添加”>“新搭建基架的项目”。
 
 ![上述步骤的视图](adding-model/_static/add_controller21.png)
 
-在“添加基架”对话框中，点击“包含视图的 MVC 控制器(使用 Entity Framework)”>“添加”。
+在“添加基架”对话框中，选择“包含视图的 MVC 控制器(使用 Entity Framework)”>“添加”。
 
 ![“添加基架”对话框](adding-model/_static/add_scaffold21.png)
 
-::: moniker-end
-
-::: moniker range="<= aspnetcore-2.0"
-
-在“解决方案资源管理器”中，右键单击“控制器”文件夹，然后单击“添加”>“控制器”。
-
-![上述步骤的视图](adding-model/_static/add_controller.png)
-
-如果出现“添加 MVC 依赖项”对话框：
-
-* [将 Visual Studio 更新到最新版本](https://www.visualstudio.com/downloads/)。 15.5 之前的 Visual Studio 版本显示此对话框。
-* 如果无法更新，请选择“添加”，然后再次按照添加控制器步骤操作。
-
-在“添加基架”对话框中，点击“包含视图的 MVC 控制器(使用 Entity Framework)”>“添加”。
-
-![“添加基架”对话框](adding-model/_static/add_scaffold2.png)
-
-::: moniker-end
-
 填写“添加控制器”对话框：
 
-* 模型类：Movie（MvcMovie.Models）
-* 数据上下文类：选择 + 图标并添加默认的 MvcMovie.Models.MvcMovieContext 
+* 模型类：Movie (MvcMovie.Models)
+* 数据上下文类：选择 + 图标并添加默认的 MvcMovie.Models.MvcMovieContext
 
 ![“添加数据”上下文](adding-model/_static/dc.png)
 
 * 视图：将每个选项保持为默认选中状态
 * 控制器名称：保留默认的 MoviesController
-* 点击“添加”
+* 选择“添加”
 
 ![“添加控制器”对话框](adding-model/_static/add_controller2.png)
 
@@ -72,7 +78,51 @@ Visual Studio 将创建：
 * 电影控制器 (Controllers/MoviesController.cs)
 * “创建”、“删除”、“详细信息”、“编辑”和“索引”页面的 Razor 视图文件 (Views/Movies/&ast;.cshtml)
 
-自动创建数据库上下文和 [CRUD](https://wikipedia.org/wiki/Create,_read,_update_and_delete)（创建、读取、更新和删除）操作方法和视图的过程称为“搭建基架”。 你很快将具有功能完整的 Web 应用程序，可使用此应用程序管理电影数据库。
+自动创建数据库上下文和 [CRUD](https://wikipedia.org/wiki/Create,_read,_update_and_delete)（创建、读取、更新和删除）操作方法和视图的过程称为“搭建基架”。
+
+<!-- Code -------------------------->
+# <a name="visual-studio-codetabvisual-studio-code"></a>[Visual Studio Code](#tab/visual-studio-code)
+
+<!--  Until https://github.com/aspnet/Scaffolding/issues/582 is fixed windows needs backslash or the namespace is namespace RazorPagesMovie.Pages_Movies rather than namespace RazorPagesMovie.Pages.Movies
+-->
+
+* 打开项目目录（包含 Program.cs、Startup.cs 和 .csproj 文件的目录）中的命令窗口。
+* 安装基架工具：
+
+  ```console
+   dotnet tool install --global dotnet-aspnet-codegenerator
+   ```
+
+* 运行下面的命令：
+
+  ```console
+     dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc MvcMovieContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+  ```
+
+[!INCLUDE [explains scaffold generated params](~/includes/mvc-intro/model4.md)]
+
+<!-- Mac -------------------------->
+
+# <a name="visual-studio-for-mactabvisual-studio-mac"></a>[Visual Studio for Mac](#tab/visual-studio-mac)
+
+* 打开项目目录（包含 Program.cs、Startup.cs 和 .csproj 文件的目录）中的命令窗口。
+* 安装基架工具：
+
+  ```console
+   dotnet tool install --global dotnet-aspnet-codegenerator
+   ```
+
+* 运行下面的命令：
+
+  ```console
+     dotnet aspnet-codegenerator controller -name MoviesController -m Movie -dc MvcMovieContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries
+  ```
+
+[!INCLUDE [explains scaffold gen params](~/includes/RP/model4.md)]
+
+---
+
+<!-- End of VS tabs                  -->
 
 如果运行应用并单击“Mvc 电影”链接，则会出现以下类似的错误：
 
@@ -82,92 +132,189 @@ An unhandled exception occurred while processing the request.
 SqlException: Cannot open database "MvcMovieContext-<GUID removed>" requested by the login. The login failed.
 Login failed for user 'Rick'.
 
-System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString 
+System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString
 ```
 
 你需要创建数据库，并且使用 EF Core [迁移](xref:data/ef-mvc/migrations)功能来执行此操作。 通过迁移可创建与数据模型匹配的数据库，并在数据模型更改时更新数据库架构。
 
-## <a name="add-ef-tooling-and-perform-initial-migration"></a>添加 EF 工具并执行初始迁移
+<a name="pmc"></a>
 
-在本部分中，将使用包管理器控制台 (PMC) 执行以下操作：
+## <a name="initial-migration"></a>初始迁移
 
-* 添加 Entity Framework Core 工具包。 添加迁移并更新数据库需要此工具包。
+<!-- VS -------------------------->
+
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+在此部分中，程序包管理器控制台 (PMC) 用于：
+
 * 添加初始迁移。
 * 使用初始迁移来更新数据库。
 
-从“工具”菜单中，选择“NuGet 包管理器”>“包管理器控制台”。
+从“工具”菜单中，选择“NuGet 包管理器” > “包管理器控制台”。
 
-<!-- following image shared with uid: tutorials/razor-pages/model --> ![PMC 菜单](adding-model/_static/pmc.png)
+  ![PMC 菜单](~/tutorials/first-mvc-app/adding-model/_static/pmc.png)
 
 在 PMC 中，输入以下命令：
 
-::: moniker range=">= aspnetcore-2.1"
-
-``` PMC
+```PMC
 Add-Migration Initial
 Update-Database
 ```
 
-忽略以下错误消息，我们将在下一教程中修复：
+`Add-Migration` 命令生成用于创建初始数据库架构的代码。
+<!-- Code -------------------------->
 
-*Microsoft.EntityFrameworkCore.Model.Validation[30000]*  
-      未对实体类型“Movie”上的十进制列“Price”指定任何类型。当值不符合默认精确度和小数位数时，会在无提示的情况下截断该值。使用“ForHasColumnType()”显式指定可以容纳所有值的 SQL Server 列类型。
+# <a name="visual-studio-code--visual-studio-for-mactabvisual-studio-codevisual-studio-mac"></a>[Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
 
-::: moniker-end
+[!INCLUDE [initial migration](~/includes/RP/model3.md)]
+`ef migrations add InitialCreate` 命令生成用于创建初始数据库架构的代码。
 
-::: moniker range="<= aspnetcore-2.0"
+---  
+<!-- End of VS tabs -->
 
-``` PMC
-Install-Package Microsoft.EntityFrameworkCore.Tools
-Add-Migration Initial
-Update-Database
+此架构以（Models/MvcMovieContext.cs 文件中的）`DbContext` 中指定的模型为基础。 `InitialCreate` 参数用于为迁移命名。 可以使用任何名称，但是按照惯例，会选择可说明迁移的名称。
+
+`ef database update` 命令在 Migrations/\<time-stamp>_InitialCreate.cs 文件中运行 `Up` 方法。 `Up` 方法会创建数据库。
+
+<!-- VS -------------------------->
+
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+## <a name="examine-the-context-registered-with-dependency-injection"></a>检查通过依赖关系注入注册的上下文
+
+ASP.NET Core 通过[依赖关系注入](xref:fundamentals/dependency-injection)进行生成。 服务（例如 EF Core 数据库上下文）在应用程序启动期间通过依赖关系注入进行注册。 需要这些服务（如 Razor 页面）的组件通过构造函数提供相应服务。 本教程的后续部分介绍了用于获取 DB 上下文实例的构造函数代码。
+
+基架工具自动创建 DB 上下文并将其注册到依赖关系注入容器。
+
+检查 `Startup.ConfigureServices` 方法。 基架添加了突出显示的行：
+
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Startup.cs?name=snippet_ConfigureServices&highlight=15-18)]
+
+`MvcMovieContext` 为 `Movie` 模型协调 EF Core 功能（创建、读取、更新、删除等）。 数据上下文 (`MvcMovieContext`) 派生自 [Microsoft.EntityFrameworkCore.DbContext](/dotnet/api/microsoft.entityframeworkcore.dbcontext)。 数据上下文指定数据模型中包含哪些实体：
+
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Data/MvcMovieContext.cs)]
+
+前面的代码为实体集创建 [`DbSet<Movie>`](/dotnet/api/microsoft.entityframeworkcore.dbset-1) 属性。 在实体框架术语中，实体集通常与数据表相对应。 实体对应表中的行。
+
+通过调用 [DbContextOptions](/dotnet/api/microsoft.entityframeworkcore.dbcontextoptions) 对象中的一个方法将连接字符串名称传递到上下文。 进行本地开发时， [ASP.NET Core 配置系统](xref:fundamentals/configuration/index) 在 *appsettings.json* 文件中读取数据库连接字符串。
+<!-- Code -------------------------->
+
+# <a name="visual-studio-code--visual-studio-for-mactabvisual-studio-codevisual-studio-mac"></a>[Visual Studio Code / Visual Studio for Mac](#tab/visual-studio-code+visual-studio-mac)
+
+ASP.NET Core 通过[依赖关系注入](xref:fundamentals/dependency-injection)进行生成。 服务（例如 EF Core 数据库上下文）在应用程序启动期间通过依赖关系注入进行注册。 需要这些服务（如 Razor 页面）的组件通过构造函数提供相应服务。 本教程的后续部分介绍了用于获取 DB 上下文实例的构造函数代码。
+
+创建 DB 上下文并将其注册到依赖项注入容器。
+
+---
+
+此架构基于在 Data/MvcMovieContext.cs 文件中的 `MvcMovieContext` 中指定的模型。 `Initial` 参数用于为迁移命名。 可以使用任何名称，但是按照惯例，会使用可说明迁移的名称。 有关详细信息，请参阅[迁移简介](xref:data/ef-mvc/migrations#introduction-to-migrations)。
+
+`Update-Database` 命令在用于创建数据库的 Migrations/{time-stamp}_InitialCreate.cs 文件中运行 `Up` 方法。
+
+<a name="test"></a>
+
+### <a name="test-the-app"></a>测试应用
+
+* 运行应用并将 `/Movies` 追加到浏览器中的 URL (`http://localhost:port/movies`)。
+
+如果收到如下所示数据库异常：
+
+```console
+SqlException: Cannot open database "MvcMovieContext-GUID" requested by the login. The login failed.
+Login failed for user 'User-name'.
 ```
 
-请注意：如果在使用 `Install-Package` 命令时收到错误，请打开 NuGet 包管理器并搜索 `Microsoft.EntityFrameworkCore.Tools` 包。 通过此操作，可以安装包或检查是否已安装包。 或者，如果 PMC 存在任何问题，请参阅 [CLI 方法](#cli)。
+缺少[迁移步骤](#pmc)。
 
-::: moniker-end
+* 测试“创建”链接。
 
-`Add-Migration` 命令创建代码以创建初始数据库架构。 此架构基于（Data/MvcMovieContext.cs 文件中的）`DbContext` 中指定的模型。 `Initial` 参数用于为迁移命名。 可以使用任意名称，但是按照惯例应选择描述迁移的名称。 有关详细信息，请参阅[迁移简介](xref:data/ef-mvc/migrations#introduction-to-migrations)。
+  > [!NOTE]
+  > 可能无法在 `Price` 字段中输入十进制逗号。 若要使 [jQuery 验证](https://jqueryvalidation.org/)支持使用逗号（“,”）表示小数点的非英语区域设置，以及支持非美国英语日期格式，应用必须进行全球化。 有关全球化的说明，请参阅[此 GitHub 问题](https://github.com/aspnet/Docs/issues/4076#issuecomment-326590420)。
 
-`Update-Database` 命令在用于创建数据库的 Migrations/\<time-stamp>_Initial.cs 文件中运行 `Up` 方法。
+* 测试“编辑”、“详细信息”和“删除”链接。
 
-<a name="cli"></a> 还可以使用命令行接口 (CLI) 来执行前面的步骤，而不使用 PMC：
+检查 `Startup` 类：
 
-* 将 [EF Core 工具](xref:data/ef-mvc/migrations#entity-framework-core-nuget-packages-for-migrations)添加到 .csproj 文件。
-* 从控制台（在项目目录中）运行以下命令：
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Startup.cs?name=snippet_ConfigureServices&highlight=13-99)]
 
-  ```console
-  dotnet ef migrations add Initial
-  dotnet ef database update
-  ```
+上面突出显示的代码显示了要添加到[依赖关系注入](xref:fundamentals/dependency-injection)容器的电影数据库上下文：
 
-  如果运行应用并收到错误消息：
+* `services.AddDbContext<MvcMovieContext>(options =>` 指定要使用的数据库和连接字符串。
+* `=>` 是 [lambda 运算符](/dotnet/articles/csharp/language-reference/operators/lambda-operator)
 
-  ```text
-  SqlException: Cannot open database "Movie" requested by the login.
-  The login failed.
-  Login failed for user 'user name'.
-  ```
+打开 Controllers/MoviesController.cs 文件并检查构造函数：
 
-可能尚未运行 `dotnet ef database update`。
+<!-- l.. Make copy of Movies controller because we comment out the initial index method and update it later  -->
 
-[!INCLUDE [adding-model](~/Includes/mvc-intro/adding-model3.md)]
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Controllers/MC1.cs?name=snippet_1)]
 
-::: moniker range=">= aspnetcore-2.1"
+构造函数使用[依赖关系注入](xref:fundamentals/dependency-injection)将数据库上下文 (`MvcMovieContext `) 注入到控制器中。 数据库上下文将在控制器中的每个 [CRUD](https://wikipedia.org/wiki/Create,_read,_update_and_delete) 方法中使用。
 
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie21/Startup.cs?name=ConfigureServices&highlight=13-99)]
+<a name="strongly-typed-models-keyword-label"></a>
+<a name="strongly-typed-models-and-the--keyword"></a>
 
-::: moniker-end
+## <a name="strongly-typed-models-and-the-model-keyword"></a>强类型模型和 @model 关键词
 
-::: moniker range="<= aspnetcore-2.0"
+在本教程之前的内容中，已经介绍了控制器如何使用 `ViewData` 字典将数据或对象传递给视图。 `ViewData` 字典是一个动态对象，提供了将信息传递给视图的方便的后期绑定方法。
 
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Startup.cs?name=ConfigureServices&highlight=6-7)]
+MVC 还提供将强类型模型对象传递给视图的功能。 凭借此强类型方法可更好地对代码进行编译时检查。 基架机制在创建方法和视图时，通过 `MoviesController` 类和视图使用了此方法（即传递强类型模型）。
 
-::: moniker-end
+检查 Controllers/MoviesController.cs 文件中生成的 `Details` 方法：
 
-[!INCLUDE [adding-model](~/Includes/mvc-intro/adding-model4.md)]
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Controllers/MC1.cs?name=snippet_details)]
 
-![Model 项上的 Intellisense 上下文菜单，列出了 ID、价格、发布日期和标题的可用属性](adding-model/_static/ints.png)
+`id` 参数通常作为路由数据传递。 例如 `https://localhost:5001/movies/details/1` 的设置如下：
+
+* 控制器被设置为 `movies` 控制器（第一个 URL 段）。
+* 操作被设置为 `details`（第二个 URL 段）。
+* ID 被设置为 1（最后一个 URL 段）。
+
+还可以使用查询字符串传入 `id`，如下所示：
+
+`https://localhost:5001/movies/details?id=1`
+
+在未提供 ID 值的情况下，`id` 参数可定义为[可以为 null 的类型](/dotnet/csharp/programming-guide/nullable-types/index) (`int?`)。
+
+[Lambda 表达式](/dotnet/articles/csharp/programming-guide/statements-expressions-operators/lambda-expressions)会被传入 `FirstOrDefaultAsync` 以选择与路由数据或查询字符串值相匹配的电影实体。
+
+```csharp
+var movie = await _context.Movie
+    .FirstOrDefaultAsync(m => m.Id == id);
+```
+
+如果找到了电影，`Movie` 模型的实例则会被传递到 `Details` 视图：
+
+```csharp
+return View(movie);
+   ```
+
+检查 Views/Movies/Details.cshtml 文件的内容：
+
+[!code-html[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Views/Movies/DetailsOriginal.cshtml)]
+
+通过将 `@model` 语句包括在视图文件的顶端，可以指定视图期望的对象类型。 创建电影控制器时，会自动在 Details.cshtml 文件的顶端包括以下 `@model` 语句：
+
+```HTML
+@model MvcMovie.Models.Movie
+   ```
+
+此 `@model` 指令使你能够使用强类型的 `Model` 对象访问控制器传递给视图的电影。 例如，在 Details.cshtml 视图中，代码通过强类型的 `Model` 对象将每个电影字段传递给 `DisplayNameFor` 和 `DisplayFor`HTML 帮助程序。 `Create` 和 `Edit` 方法以及视图也传递一个 `Movie` 模型对象。
+
+检查电影控制器中的 Index.cshtml 视图和 `Index` 方法。 请注意代码在调用 `View` 方法时是如何创建 `List` 对象的。 代码将此 `Movies` 列表从 `Index` 操作方法传递给视图：
+
+[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Controllers/MC1.cs?name=snippet_index)]
+
+创建电影控制器时，基架会自动在 Index.cshtml 文件的顶端包含以下 `@model` 语句：
+
+<!-- Copy Index.cshtml to IndexOriginal.cshtml -->
+
+[!code-html[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Views/Movies/IndexOriginal.cshtml?range=1)]
+
+`@model` 指令使你能够使用强类型的 `Model` 对象访问控制器传递给视图的电影列表。 例如，在 Index.cshtml 视图中，代码使用 `foreach` 语句通过强类型 `Model` 对象对电影进行循环遍历：
+
+[!code-html[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie22/Views/Movies/IndexOriginal.cshtml?highlight=1,31,34,37,40,43,46-48)]
+
+因为 `Model` 对象为强类型（作为 `IEnumerable<Movie>` 对象），因此循环中的每个项都被类型化为 `Movie`。 除其他优点之外，这意味着可对代码进行编译时检查：
 
 ## <a name="additional-resources"></a>其他资源
 

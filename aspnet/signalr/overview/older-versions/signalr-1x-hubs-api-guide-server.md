@@ -8,16 +8,18 @@ ms.date: 04/17/2013
 ms.assetid: 03e4b9f5-0fea-4d94-959f-014b2762a301
 msc.legacyurl: /signalr/overview/older-versions/signalr-1x-hubs-api-guide-server
 msc.type: authoredcontent
-ms.openlocfilehash: f21f458e790b0103beb5c315bd7c1192e8866da3
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: a51a2077e0b6cde80bc679e3a310c0c804d19d68
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41830457"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53288016"
 ---
 <a name="aspnet-signalr-hubs-api-guide---server-signalr-1x"></a>ASP.NET SignalR 中心 API 指南-服务器 (SignalR 1.x)
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档提供了简介 SignalR 1.1 版中，ASP.NET SignalR 中心 API 的服务器端编程的代码示例演示常见的选项。
 > 
@@ -86,7 +88,7 @@ API 参考主题的链接将指向.NET 4.5 版本的 API。 如果使用的.NET 
 
 [!code-csharp[Main](signalr-1x-hubs-api-guide-server/samples/sample2.cs?highlight=5)]
 
-如果要添加到 ASP.NET MVC 应用程序的 SignalR 功能，请确保 SignalR 路由在其他路由之前添加。 有关详细信息，请参阅[教程： 开始使用 SignalR 和 MVC 4](index.md)。
+如果要添加到 ASP.NET MVC 应用程序的 SignalR 功能，请确保 SignalR 路由在其他路由之前添加。 有关详细信息，请参阅[教程：开始使用 SignalR 和 MVC 4](index.md)。
 
 <a id="signalrurl"></a>
 

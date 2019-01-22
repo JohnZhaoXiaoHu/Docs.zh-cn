@@ -5,13 +5,14 @@ description: 了解如何设置双因素身份验证 (2FA) 与 ASP.NET Core 应�
 monikerRange: < aspnetcore-2.0
 ms.author: riande
 ms.date: 09/22/2018
+ms.custom: seodec18
 uid: security/authentication/2fa
-ms.openlocfilehash: 5b0866ecf15381b040e3646eecc22374b6b0c9e2
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 48bfc50378fc0ec212f5b9d4e7ce05bb4fc97b9d
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50205881"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098881"
 ---
 # <a name="two-factor-authentication-with-sms-in-aspnet-core"></a>在 ASP.NET Core SMS 的双因素身份验证
 
@@ -26,11 +27,11 @@ ms.locfileid: "50205881"
 
 ## <a name="create-a-new-aspnet-core-project"></a>创建新的 ASP.NET Core 项目
 
-创建新的 ASP.NET Core web 应用名为`Web2FA`与单个用户帐户。 按照中的说明[在 ASP.NET Core 应用程序强制实施 SSL](xref:security/enforcing-ssl)才能设置，并且需要 SSL。
+创建新的 ASP.NET Core web 应用名为`Web2FA`与单个用户帐户。 按照中的说明<xref:security/enforcing-ssl>设置并要求使用 HTTPS。
 
 ### <a name="create-an-sms-account"></a>创建 SMS 帐户
 
-创建一个 SMS 帐户，例如，从[twilio](https://www.twilio.com/)或[ASPSMS](https://www.aspsms.com/asp.net/identity/core/testcredits/)。 记录身份验证凭据 (twilio: accountSid 和 authToken 的 ASPSMS： 用户密钥和密码)。
+创建一个 SMS 帐户，例如，从[twilio](https://www.twilio.com/)或[ASPSMS](https://www.aspsms.com/asp.net/identity/core/testcredits/)。 记录身份验证凭据 (twilio: accountSid 和 authToken 的 ASPSMS:用户密钥和密码）。
 
 #### <a name="figuring-out-sms-provider-credentials"></a>找出 SMS 提供程序凭据
 
@@ -44,7 +45,7 @@ ms.locfileid: "50205881"
 
 **Twilio:** 从数字选项卡，将复制你的 Twilio**电话号码**。
 
-**ASPSMS:** 在解锁始发者的菜单中，取消锁定一个或多个原始发件人或选择字母数字发信方 （不支持的所有网络）。
+**ASPSMS:** 在解锁始发者的菜单中，解锁一个或多个原始发件人或选择字母数字发信方 （不支持的所有网络）。
 
 我们稍后将存储此值与中密钥的机密管理器工具`SMSAccountFrom`。
 
@@ -97,7 +98,7 @@ info: Successfully saved SMSAccountIdentification = 12345 to the secret store.
 
 * 点击您的用户名称，这便激活`Index`管理控制器中的操作方法。 然后点击的电话号码**添加**链接。
 
-![管理视图](2fa/_static/login2fa2.png)
+![管理视图-点击"添加"链接](2fa/_static/login2fa2.png)
 
 * 添加电话号码，它将接收验证代码，并点击**发送验证码**。
 
@@ -111,11 +112,11 @@ info: Successfully saved SMSAccountIdentification = 12345 to the secret store.
 
 * 管理视图显示已成功添加你的电话号码。
 
-![管理视图](2fa/_static/login2fa5.png)
+![管理视图-已成功添加电话号码](2fa/_static/login2fa5.png)
 
 * 点击**启用**若要启用双因素身份验证。
 
-![管理视图](2fa/_static/login2fa6.png)
+![管理视图： 启用双因素身份验证](2fa/_static/login2fa6.png)
 
 ### <a name="test-two-factor-authentication"></a>测试双因素身份验证
 
@@ -135,7 +136,7 @@ info: Successfully saved SMSAccountIdentification = 12345 to the secret store.
 
 ## <a name="account-lockout-for-protecting-against-brute-force-attacks"></a>用于防范暴力破解攻击的帐户锁定
 
-帐户锁定，建议使用 2FA。 用户登录后通过本地帐户或社交帐户，存储在 2FA 每次失败的尝试。 如果达到最大的失败的访问尝试，则用户锁定 (默认值： 5 分钟锁定 5 失败访问尝试后)。 成功的身份验证失败的访问尝试计数重置并重置时钟。 最大失败访问尝试，可使用设置锁定时间[MaxFailedAccessAttempts](/dotnet/api/microsoft.aspnetcore.identity.lockoutoptions.maxfailedaccessattempts)并[DefaultLockoutTimeSpan](/dotnet/api/microsoft.aspnetcore.identity.lockoutoptions.defaultlockouttimespan)。 以下 10 分钟后访问尝试失败 10 次配置帐户锁定：
+帐户锁定，建议使用 2FA。 用户登录后通过本地帐户或社交帐户，存储在 2FA 每次失败的尝试。 如果达到最大的失败的访问尝试，则用户锁定 (默认值：5 分钟后锁定 5 失败访问尝试）。 成功的身份验证失败的访问尝试计数重置并重置时钟。 最大失败访问尝试，可使用设置锁定时间[MaxFailedAccessAttempts](/dotnet/api/microsoft.aspnetcore.identity.lockoutoptions.maxfailedaccessattempts)并[DefaultLockoutTimeSpan](/dotnet/api/microsoft.aspnetcore.identity.lockoutoptions.defaultlockouttimespan)。 以下 10 分钟后访问尝试失败 10 次配置帐户锁定：
 
 [!code-csharp[](2fa/sample/Web2FA/Startup.cs?name=snippet2&highlight=13-17)]
 

@@ -1,6 +1,6 @@
 ---
 uid: signalr/overview/getting-started/real-time-web-applications-with-signalr
-title: 动手实验： 使用 SignalR 的实时 Web 应用程序 |Microsoft Docs
+title: 动手实验：使用 SignalR 实时 Web 应用程序 |Microsoft Docs
 author: rick-anderson
 description: 实时 Web 应用程序功能推送服务器端的情况下，实时连接的客户端到内容的功能。 对于 ASP.NET 开发人员，ASP...
 ms.author: riande
@@ -8,16 +8,19 @@ ms.date: 07/16/2014
 ms.assetid: ba07958c-42e1-4da0-81db-ba6925ed6db0
 msc.legacyurl: /signalr/overview/getting-started/real-time-web-applications-with-signalr
 msc.type: authoredcontent
-ms.openlocfilehash: 59831fb8497c86ec5e02de3912b36a15f416597c
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: de2f2349fc284e167bd8227ae55da79b9f1f4549
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48913225"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287996"
 ---
-<a name="hands-on-lab-real-time-web-applications-with-signalr"></a>动手实验： 使用 SignalR 的实时 Web 应用程序
+<a name="hands-on-lab-real-time-web-applications-with-signalr"></a>动手实验：使用 SignalR 实时 Web 应用程序
 ====================
+
 通过[Web 训练营团队](https://twitter.com/webcamps)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 [下载 Web 训练营培训工具包](http://aka.ms/webcamps-training-kit)
 
@@ -25,7 +28,7 @@ ms.locfileid: "48913225"
 > 
 > **SignalR**还执行服务器到客户端 RPC 提供简单、 高级 API （在客户端的浏览器从服务器端.NET 代码中调用 JavaScript 函数） 在 ASP.NET 应用程序，以及添加有用的挂钩，以便连接管理例如，连接/断开连接事件、 分组连接和授权。
 > 
-> **SignalR**通过某些要求进行客户端和服务器之间的实时工作的传输的是一种抽象。 一个**SignalR**连接为 HTTP，将启动，然后升级到**WebSocket**如果可用的连接。 **WebSocket**是用于的理想之选传输**SignalR**，因为这会导致服务器内存的最有效地使用具有最低的延迟，并且具有最基础的功能 (例如客户端之间的全双工通信和服务器），但它还具有最严格的要求： **WebSocket**要求要使用的服务器**Windows Server 2012**或**Windows 8**，以及 **.NET framework 4.5**。 如果不满足这些要求， **SignalR**将尝试使用其他传输，以使其连接 (如*Ajax 长轮询*)。
+> **SignalR**通过某些要求进行客户端和服务器之间的实时工作的传输的是一种抽象。 一个**SignalR**连接为 HTTP，将启动，然后升级到**WebSocket**如果可用的连接。 **WebSocket**是用于的理想之选传输**SignalR**，因为这会导致服务器内存的最有效地使用具有最低的延迟，并且具有最基础的功能 (例如客户端之间的全双工通信和服务器），但它还具有最严格的要求：**WebSocket**要求要使用的服务器**Windows Server 2012**或**Windows 8**，连同 **.NET Framework 4.5**。 如果不满足这些要求， **SignalR**将尝试使用其他传输，以使其连接 (如*Ajax 长轮询*)。
 > 
 > **SignalR** API 包含客户端和服务器之间进行通信的两个模型：**持久连接**并**中心**。 一个**连接**表示一个简单的终结点发送单一接收方组合在一起，或广播消息。 一个**中心**是基于连接 API，从而使您的客户端和服务器直接相互调用方法的更多高级管道。
 > 
@@ -84,14 +87,14 @@ ms.locfileid: "48913225"
 1. [使用 SignalR 的实时数据处理](#Exercise1)
 2. [向外扩展使用的 SQL Server](#Exercise2)
 
-估计的时间才能完成此实验： **60 分钟**
+估计的时间才能完成此实验：**60 分钟**
 
 > [!NOTE]
 > 在首次启动 Visual Studio，您必须选择一个预定义的设置集合。 每个预定义的集合旨在符合特定的开发风格，并确定窗口布局、 编辑器行为、 IntelliSense 代码段和对话框选项。 此实验中的过程描述了完成给定的任务在 Visual Studio 中使用时所需的操作**常规开发设置**集合。 如果您为您的开发环境选择不同的设置集合，可能会中应考虑到的步骤有所不同。
 
 
 <a id="Exercise1"></a>
-### <a name="exercise-1-working-with-real-time-data-using-signalr"></a>练习 1： 使用使用 SignalR 的实时数据
+### <a name="exercise-1-working-with-real-time-data-using-signalr"></a>练习 1:使用 SignalR 的实时数据处理
 
 尽管聊天通常用作示例，您可以为一个整体很多更多的实时 Web 功能。 每当用户刷新网页可看到新数据或页面实现 Ajax 长轮询以检索新数据，可以使用 SignalR。
 
@@ -248,7 +251,7 @@ SignalR 支持**服务器推送**或**广播**功能; 它会自动处理的连�
     *刷新后答案的统计信息页*
 
 <a id="Exercise2"></a>
-### <a name="exercise-2-scaling-out-using-sql-server"></a>练习 2： 向外扩展使用的 SQL Server
+### <a name="exercise-2-scaling-out-using-sql-server"></a>练习 2:向外扩展使用的 SQL Server
 
 Web 应用程序时，您通常可以之间*纵向*并*向外扩展*选项。 *纵向扩展*意味着使用更大的服务器，具有更多的资源 （CPU、 RAM、 等） 时*横向扩展*意味着添加更多服务器来处理负载。 后者的问题是，可以获取客户端路由到不同的服务器。 连接到一个服务器的客户端不会收到从另一台服务器发送的消息。
 
@@ -269,9 +272,9 @@ Web 应用程序时，您通常可以之间*纵向*并*向外扩展*选项。 *�
 > [!NOTE]
 > 有某些情况下，其中底板可能成为瓶颈。 下面是一些典型的 SignalR 方案：
 > 
-> - [服务器广播](tutorial-server-broadcast-with-signalr.md)（例如，股票行情）： 背板适合此方案中，因为服务器控制发送消息的速率。
-> - [客户端到客户端](tutorial-getting-started-with-signalr.md)（如聊天）： 在此方案中，基架可能如果成为瓶颈的消息数会随着客户端的数量; 即，如果消息的速率增长按比例更多客户端将加入。
-> - [高频率实时功能](tutorial-high-frequency-realtime-with-signalr.md)（例如，实时游戏）： 底板不建议用于此方案。
+> - [服务器广播](tutorial-server-broadcast-with-signalr.md)（例如，股票行情）：背板适合此方案中，因为服务器控制发送消息的速率。
+> - [客户端到客户端](tutorial-getting-started-with-signalr.md)（如聊天）：在此方案中，基架可能如果成为瓶颈的消息数会随着客户端; 的数量也就是说，如果消息的速率增长按比例更多客户端加入。
+> - [高频率实时功能](tutorial-high-frequency-realtime-with-signalr.md)（例如，实时游戏）：基架不建议用于此方案。
 
 
 在此练习中，您将使用**SQL Server**分发跨消息**极客测验**应用程序。 若要了解如何设置配置，但是，为了获取完整的效果单一测试计算机上运行这些任务，将需要 SignalR 应用程序部署到两个或多个服务器。 其中一台服务器，或单独的专用服务器上，还必须安装 SQL Server。
@@ -346,7 +349,7 @@ Web 应用程序时，您通常可以之间*纵向*并*向外扩展*选项。 *�
     ![查询服务代理状态](real-time-web-applications-with-signalr/_static/image25.png "查询服务代理状态")
 
     *查询服务代理状态*
-8. 如果的值**是\_broker\_启用**您的数据库中的列&quot;0&quot;，使用以下命令来启用它。 替换**&lt;YOUR DATABASE&gt;** 具有创建数据库时设置的名称 (例如： SignalR)。
+8. 如果的值**是\_broker\_启用**您的数据库中的列&quot;0&quot;，使用以下命令来启用它。 替换**&lt;YOUR DATABASE&gt;** 具有创建数据库时设置的名称 (例如：SignalR)。
 
     [!code-sql[Main](real-time-web-applications-with-signalr/samples/sample12.sql)]
 
@@ -375,7 +378,7 @@ Web 应用程序时，您通常可以之间*纵向*并*向外扩展*选项。 *�
 5. 同样， **Visual Studio**将启动的两个实例**极客测验**中不同的端口。 将一个浏览器固定到左侧和右侧屏幕的其他和您的凭据进行登录。 在左侧保留琐碎内容页并转到**统计信息**页面调入正确的浏览器。
 6. 开始回答问题在左侧浏览器中。 这一次，**统计信息**得益于底板更新页面。 应用程序之间切换 (**统计信息**现已在左侧，并**琐碎内容**位于右侧) 和重复执行测试以验证它是否正常工作的两个实例。 底板充当*共享缓存*的消息的每个连接的服务器，且每个服务器会将消息存储在其自己的本地缓存要分发到连接的客户端中。
 7. 返回到 Visual Studio 和停止调试。
-8. SQL Server 底板组件会自动生成上指定的数据库所需的表。 在中**SQL Server 对象资源管理器**面板中，打开为基架创建的数据库 (例如： SignalR) 展开其表。 你应该会看到以下表：
+8. SQL Server 底板组件会自动生成上指定的数据库所需的表。 在中**SQL Server 对象资源管理器**面板中，打开为基架创建的数据库 (例如：SignalR) 展开其表。 你应该会看到以下表：
 
     ![基架生成的表](real-time-web-applications-with-signalr/_static/image27.png)
 

@@ -1,6 +1,6 @@
 ---
 uid: signalr/overview/older-versions/tutorial-getting-started-with-signalr
-title: 教程： 开始使用 SignalR 1.x |Microsoft Docs
+title: 教程：开始使用 SignalR 1.x |Microsoft Docs
 author: pfletcher
 description: 使用 ASP.NET SignalR 生成 HTML 页中的实时聊天应用程序。
 ms.author: riande
@@ -8,16 +8,18 @@ ms.date: 02/18/2013
 ms.assetid: fdc3599a-5217-44c1-951f-0eec9812dce7
 msc.legacyurl: /signalr/overview/older-versions/tutorial-getting-started-with-signalr
 msc.type: authoredcontent
-ms.openlocfilehash: d541dad19d8fd547d61e8850d64e514ea5db7fcf
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 720a4879f5fbe3c0c2b4c7809cb94c22547329c3
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48912418"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287348"
 ---
-<a name="tutorial-getting-started-with-signalr-1x"></a>教程： 开始使用 SignalR 1.x
+<a name="tutorial-getting-started-with-signalr-1x"></a>教程：开始使用 SignalR 1.x
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tim Teebken](https://github.com/timlt)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本教程介绍如何使用 SignalR 创建实时聊天应用程序。 将 SignalR 添加到空的 ASP.NET web 应用程序，并创建 HTML 页以发送和显示的消息。
 
@@ -165,7 +167,7 @@ HTML 页中的代码示例演示如何使用 SignalR jQuery 库与 SignalR 中�
 
 您学习了 SignalR 是一个框架，用于构建实时 web 应用程序。 您还学习了几个 SignalR 开发任务： 如何将 SignalR 添加到 ASP.NET 应用程序、 如何创建 hub 类以及如何发送和接收来自中心的消息。
 
-您可以提供的示例应用程序在本教程中或其他 SignalR 应用程序通过 Internet 将它们部署到托管提供商。 Microsoft 提供了免费的 web 承载的最多 10 个 web 站点中的免费[Windows Azure 试用帐户](https://www.windowsazure.com/pricing/free-trial/?WT.mc_id=A443DD604)。 有关如何部署示例 SignalR 应用程序的演练，请参阅[发布 SignalR 入门示例作为 Windows Azure 网站](https://blogs.msdn.com/b/timlee/archive/2013/02/27/deploy-the-signalr-getting-started-sample-as-a-windows-azure-web-site.aspx)。 有关如何将 Visual Studio web 项目部署到 Windows Azure 网站的详细信息，请参阅[部署 ASP.NET 应用程序到 Windows Azure 网站](https://docs.microsoft.com/azure/app-service-web/app-service-web-get-started-dotnet)。 (注意： WebSocket 传输当前不支持适用于 Windows Azure 网站。 当 WebSocket 传输不可用，SignalR 使用的其他可用的传输中的传输部分所述[SignalR 主题简介](index.md)。)
+您可以提供的示例应用程序在本教程中或其他 SignalR 应用程序通过 Internet 将它们部署到托管提供商。 Microsoft 提供了免费的 web 承载的最多 10 个 web 站点中的免费[Windows Azure 试用帐户](https://www.windowsazure.com/pricing/free-trial/?WT.mc_id=A443DD604)。 有关如何部署示例 SignalR 应用程序的演练，请参阅[发布 SignalR 入门示例作为 Windows Azure 网站](https://blogs.msdn.com/b/timlee/archive/2013/02/27/deploy-the-signalr-getting-started-sample-as-a-windows-azure-web-site.aspx)。 有关如何将 Visual Studio web 项目部署到 Windows Azure 网站的详细信息，请参阅[部署 ASP.NET 应用程序到 Windows Azure 网站](https://docs.microsoft.com/azure/app-service-web/app-service-web-get-started-dotnet)。 （注意：WebSocket 传输当前不支持适用于 Windows Azure 网站。 当 WebSocket 传输不可用，SignalR 使用的其他可用的传输中的传输部分所述[SignalR 主题简介](index.md)。)
 
 若要了解更高级的 SignalR 开发概念，请访问以下站点 SignalR 源代码和资源：
 

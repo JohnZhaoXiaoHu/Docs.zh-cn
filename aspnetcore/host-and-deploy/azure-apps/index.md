@@ -2,16 +2,17 @@
 title: 将 ASP.NET Core 应用部署到 Azure 应用服务
 author: guardrex
 description: 本文包含 Azure 主机和部署资源的链接。
+monikerRange: '>= aspnetcore-2.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/24/2018
+ms.date: 12/18/2018
 uid: host-and-deploy/azure-apps/index
-ms.openlocfilehash: c55a5202643bb947b3f38f67aec55ee5cf7b1496
-ms.sourcegitcommit: c43a6f1fe72d7c2db4b5815fd532f2b45d964e07
+ms.openlocfilehash: c70363c9cff94a682553745aba7fd4e396721f4e
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50244744"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637672"
 ---
 # <a name="deploy-aspnet-core-apps-to-azure-app-service"></a>将 ASP.NET Core 应用部署到 Azure 应用服务
 
@@ -24,7 +25,7 @@ Azure 应用文档、教程、示例、操作指南和其他资源由 Azure [Web
 [快速入门：在 Azure 中创建 ASP.NET Core Web 应用](/azure/app-service/app-service-web-get-started-dotnet)  
 使用 Visual Studio 创建 ASP.NET Core Web 应用，并将其部署到 Windows 上的 Azure 应用服务。
 
-[快速入门：在 Linux 上的应用服务中创建 .NET Core Web 应用](/azure/app-service/containers/quickstart-dotnetcore)  
+[快速入门：在 Linux 应用服务中创建 .NET Core Web 应用](/azure/app-service/containers/quickstart-dotnetcore)  
 使用命令行创建 ASP.NET Core Web 应用，并将其部署到 Linux 上的 Azure 应用服务。
 
 ASP.NET Core 文档中提供以下文章：
@@ -41,23 +42,35 @@ ASP.NET Core 文档中提供以下文章：
 [Azure Web 应用沙盒](https://github.com/projectkudu/kudu/wiki/Azure-Web-App-sandbox)  
 探索 Azure Apps 平台强制实施的 Azure 应用服务运行时执行限制。
 
-::: moniker range=">= aspnetcore-2.0"
-
 ## <a name="application-configuration"></a>应用程序配置
 
-以下 NuGet 包可为部署到 Azure 应用服务的应用提供自动日志记录功能：
+### <a name="platform"></a>平台
+
+::: moniker range=">= aspnetcore-2.2"
+
+64 位 (x64) 和 32 位 (x86) 应用的运行时存在于 Azure 应用服务上。 应用服务上提供的 [.NET Core SDK](/dotnet/core/sdk) 为 32 位，但可以使用 [Kudu](https://github.com/projectkudu/kudu/wiki) 控制台或通过[使用 Visual Studio 发布配置文件或 CLI 命令的 MSDeploy](xref:host-and-deploy/visual-studio-publish-profiles) 来部署 64 位应用。
+
+::: moniker-end
+
+::: moniker range="< aspnetcore-2.2"
+
+对于具有本机依赖项的应用，32 位 (x86) 应用的运行时存在于 Azure 应用服务上。 应用服务上提供的 [.NET Core SDK](/dotnet/core/sdk) 为 32 位。
+
+::: moniker-end
+
+### <a name="packages"></a>包
+
+包含以下 NuGet 包，以便为部署到 Azure 应用服务的应用提供自动日志记录功能：
 
 * [Microsoft.AspNetCore.AzureAppServices.HostingStartup](https://www.nuget.org/packages/Microsoft.AspNetCore.AzureAppServices.HostingStartup/) 使用 [IHostingStartup](xref:fundamentals/configuration/platform-specific-configuration) 提供 ASP.NET Core 与 Azure 应用服务的启动集成。 添加的日志记录功能由 `Microsoft.AspNetCore.AzureAppServicesIntegration` 包提供。
 * [Microsoft.AspNetCore.AzureAppServicesIntegration](https://www.nuget.org/packages/Microsoft.AspNetCore.AzureAppServicesIntegration/) 执行 [AddAzureWebAppDiagnostics](/dotnet/api/microsoft.extensions.logging.azureappservicesloggerfactoryextensions.addazurewebappdiagnostics)，在 `Microsoft.Extensions.Logging.AzureAppServices` 包中添加 Azure 应用服务诊断日志记录提供程序。
 * [Microsoft.Extensions.Logging.AzureAppServices](https://www.nuget.org/packages/Microsoft.Extensions.Logging.AzureAppServices/) 提供记录器实现，支持 Azure 应用服务诊断日志和日志流式处理功能。
 
-如果面向 .NET Core 且引用 [Microsoft.AspNetCore.All 元包](xref:fundamentals/metapackage)，则将包括前面的包。 [Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)中没有这些包。 如果面向 .NET Framework 或引用 `Microsoft.AspNetCore.App` 元包，请引用单个登录包。
-
-::: moniker-end
+[Microsoft.AspNetCore.App 元包](xref:fundamentals/metapackage-app)中不提供前述包。 面向 .NET Framework 或引用 `Microsoft.AspNetCore.App` 元包的应用必须显式引用应用的项目文件中的各个包。
 
 ## <a name="override-app-configuration-using-the-azure-portal"></a>使用 Azure 门户重写应用配置
 
-“应用程序设置”边栏选项卡的“应用设置”区域允许你为应用设置环境变量。 可以通过[环境变量配置提供程序](xref:fundamentals/configuration/index#environment-variables-configuration-provider)来使用环境变量。
+Azure 门户中的应用设置允许为应用设置环境变量。 可以通过[环境变量配置提供程序](xref:fundamentals/configuration/index#environment-variables-configuration-provider)来使用环境变量。
 
 在 Azure 门户中创建或修改应用设置并选择“保存”按钮时，Azure 应用将重启。 服务重启后，应用即可使用环境变量。
 
@@ -70,6 +83,8 @@ ASP.NET Core 文档中提供以下文章：
 配置转发头中间件的 IIS 集成中间件和 ASP.NET Core 模块将配置为转发方案 (HTTP/HTTPS) 和发出请求的远程 IP 地址。 对于托管在其他代理服务器和负载均衡器后方的应用，可能需要附加配置。 有关详细信息，请参阅[配置 ASP.NET Core 以使用代理服务器和负载均衡器](xref:host-and-deploy/proxy-load-balancer)。
 
 ## <a name="monitoring-and-logging"></a>监视和日志记录
+
+部署到应用服务的 ASP.NET Core 应用自动接收应用服务扩展“ASP.NET Core 日志记录扩展”。 此扩展启用 Azure 日志记录。
 
 有关监视、日志记录和故障排除的信息，请参阅以下文章：
 
@@ -113,48 +128,36 @@ ASP.NET Core 文档中提供以下文章：
 
 如果使用预览站点扩展时遇到问题，请在 [GitHub](https://github.com/aspnet/azureintegration/issues/new) 上打开相应的问题。
 
-1. 从 Azure 门户导航到“应用服务”边栏选项卡。
+1. 从 Azure 门户导航到“应用服务”。
 1. 选择 Web 应用。
-1. 在搜索框中键入“ex”或向下滚动管理部分列表，到达“开发工具”。
-1. 选择“开发工具” > “扩展”。
+1. 在搜索框中键入“ex”以筛选“扩展”，或向下滚动管理工具列表。
+1. 选择“扩展”。
 1. 选择“添加”。
-1. 从列表选择“ASP.NET Core &lt;x.y&gt; (x86) 运行时”扩展，其中 `<x.y>` 是 ASP.NET Core 预览版本（例如，ASP.NET Core 2.2 (x86) 运行时）。 x86 运行时适用于[依赖框架的部署](/dotnet/core/deploying/#framework-dependent-deployments-fdd)，这种部署依赖于 ASP.NET Core 模块的进程外托管。
+1. 从列表选择“ASP.NET Core {X.Y} ({x64|x86}) 运行时”扩展，其中 `{X.Y}` 是 ASP.NET Core 预览版本，并且 `{x64|x86}` 指定平台。
 1. 选择“确定”以接受法律条款。
 1. 选择“确定”安装扩展。
 
 操作完成时，即表示已安装最新的 .NET Core 预览版。 验证安装：
 
-1. 选择“开发工具”下的“高级工具”。
-1. 在“高级工具”边栏选项卡上，选择“转到”。
+1. 选择“高级工具”。
+1. 选择“高级工具”中的“Go”。
 1. 选择“调试控制台” > “PowerShell”菜单项。
-1. 从 PowerShell 命令提示符处执行以下命令。 在以下命令中，将 ASP.NET Core 运行时版本替换为 `<x.y>` ：
+1. 从 PowerShell 命令提示符处执行以下命令。 在以下命令中，将 ASP.NET Core 运行时版本替换为 `{X.Y}`，并将平台替换为 `{PLATFORM}`：
 
    ```powershell
-   Test-Path D:\home\SiteExtensions\AspNetCoreRuntime.<x.y>.x86\
-   ```
-   如果已安装的预览版运行时为 ASP.NET Core 2.2，则命令是：
-   ```powershell
-   Test-Path D:\home\SiteExtensions\AspNetCoreRuntime.2.2.x86\
+   Test-Path D:\home\SiteExtensions\AspNetCoreRuntime.{X.Y}.{PLATFORM}\
    ```
    如果安装 x64 预览版运行时，该命令将返回`True`。
 
-::: moniker range=">= aspnetcore-2.2"
-
 > [!NOTE]
-> 对于在 A 系列计算机上或更高级托管层上托管的应用，可在“常规设置”下的“应用程序设置”中设置应用服务应用的平台体系结构 (x86/x64)。 如果应用在进程内模式下运行并且平台体系结构配置为 64 位 (x64)，则 ASP.NET Core 模块会使用 64 位预览版运行时（如存在）。 安装 ASP.NET Core &lt;x.y&gt; (x64) 运行时扩展 （例如，ASP.NET Core 2.2 (x64) 运行时）。
+> 对于在 A 系列计算机上或更高级托管层上托管的应用，可在 Azure 门户中的应用设置中设置应用服务应用的平台体系结构 (x86/x64)。 如果应用在进程内模式下运行并且平台体系结构配置为 64 位 (x64)，则 ASP.NET Core 模块会使用 64 位预览版运行时（如存在）。 安装“ASP.NET Core {X.Y} (x64) 运行时”扩展。
 >
-> 安装 x64 预览版运行时后，在 Kudu PowerShell 命令窗口中运行以下命令以验证该安装。 在以下命令中，将 ASP.NET Core 运行时版本替换为 `<x.y>` ：
+> 安装 x64 预览版运行时后，在 Kudu PowerShell 命令窗口中运行以下命令以验证该安装。 在以下命令中，将 ASP.NET Core 运行时版本替换为 `{X.Y}` ：
 >
 > ```powershell
-> Test-Path D:\home\SiteExtensions\AspNetCoreRuntime.<x.y>.x64\
-> ```
-> 如果已安装的预览版运行时为 ASP.NET Core 2.2，则命令是：
-> ```powershell
-> Test-Path D:\home\SiteExtensions\AspNetCoreRuntime.2.2.x64\
+> Test-Path D:\home\SiteExtensions\AspNetCoreRuntime.{X.Y}.x64\
 > ```
 > 如果安装 x64 预览版运行时，该命令将返回`True`。
-
-::: moniker-end
 
 > [!NOTE]
 > ASP.NET Core 扩展可为 Azure 应用服务上的 ASP.NET Core 启用附加功能，例如启用 Azure 日志记录。 从 Visual Studio 进行部署时，将自动安装该扩展。 如果未安装该扩展，请为应用安装它。
@@ -210,20 +213,20 @@ ASP.NET Core 文档中提供以下文章：
 
 ## <a name="protocol-settings-https"></a>协议设置 (HTTPS)
 
-借助安全的协议绑定，可在通过 HTTPS 响应请求时指定要使用的证书。 若要绑定，需要一个为特定主机名颁发的有效专用证书 (*.pfx*)。 有关详细信息，请参阅[将现有自定义 SSL 证书绑定到 Azure Web 应用](/azure/app-service/app-service-web-tutorial-custom-ssl)。
+借助安全的协议绑定，可在通过 HTTPS 响应请求时指定要使用的证书。 若要绑定，需要一个为特定主机名颁发的有效专用证书 (*.pfx*)。 有关详细信息，请参阅[教程：将现有自定义 SSL 证书绑定到 Azure Web 应用](/azure/app-service/app-service-web-tutorial-custom-ssl)。
 
 ## <a name="additional-resources"></a>其他资源
 
 * [Web 应用概述（5 分钟概述视频）](/azure/app-service/app-service-web-overview)
-* [Azure 应用服务：托管 .NET 应用的最佳位置（55 分钟概述视频）](https://channel9.msdn.com/events/dotnetConf/2017/T222)
-* [Azure Friday：Azure 应用服务诊断和故障排除体验（12 分钟视频）](https://channel9.msdn.com/Shows/Azure-Friday/Azure-App-Service-Diagnostic-and-Troubleshooting-Experience)
+* [Azure 应用服务：托管 .NET 应用的最佳位置（55 分钟概览视频）](https://channel9.msdn.com/events/dotnetConf/2017/T222)
+* [Azure Friday：Azure 应用服务诊断和疑难解答体验（12 分钟视频）](https://channel9.msdn.com/Shows/Azure-Friday/Azure-App-Service-Diagnostic-and-Troubleshooting-Experience)
 * [Azure 应用服务诊断概述](/azure/app-service/app-service-diagnostics)
 * <xref:host-and-deploy/web-farm>
 
 Windows Server 上的 Azure 应用服务使用 [Internet Information Services (IIS)](https://www.iis.net/)。 以下是基础 IIS 技术的相关主题：
 
 * <xref:host-and-deploy/iis/index>
-* <xref:fundamentals/servers/aspnet-core-module>
+* <xref:host-and-deploy/aspnet-core-module>
 * <xref:host-and-deploy/aspnet-core-module>
 * <xref:host-and-deploy/iis/modules>
 * [Microsoft TechNet 库：Windows Server](/windows-server/windows-server-versions)

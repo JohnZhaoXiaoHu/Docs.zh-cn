@@ -4,18 +4,18 @@ author: rick-anderson
 description: 了解如何使用 Visual Studio 将 ASP.NET Core 应用发布到 Azure 应用服务。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/24/2018
+ms.date: 12/06/2018
 uid: tutorials/publish-to-azure-webapp-using-vs
-ms.openlocfilehash: a5a02112d87563a47d5e2dab355359fa39da9a89
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: e71cb8badbbc852685c845e6bbb0bbb12ab5499f
+ms.sourcegitcommit: 68a3081dd175d6518d1bfa31b4712bd8a2dd3864
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090350"
+ms.lasthandoff: 12/18/2018
+ms.locfileid: "53577807"
 ---
 # <a name="publish-an-aspnet-core-app-to-azure-with-visual-studio"></a>使用 Visual Studio 将 ASP.NET Core 应用发布到 Azure
 
-作者：[Rick Anderson](https://twitter.com/RickAndMSFT) 、[Cesar Blum Silveira](https://github.com/cesarbs) 和 [Rachel Appel](https://twitter.com/rachelappel)
+作者：[Rick Anderson](https://twitter.com/RickAndMSFT)、[Cesar Blum Silveira](https://github.com/cesarbs)
 
 [!INCLUDE [Azure App Service Preview Notice](../includes/azure-apps-preview-notice.md)]
 
@@ -33,7 +33,7 @@ ms.locfileid: "50090350"
 
 ![“文件”菜单](publish-to-azure-webapp-using-vs/_static/file_new_project.png)
 
-完成“新建项目”对话框：
+填写“新建项目”对话框：
 
 * 在左侧窗格中，选择“.NET Core”。
 * 在中间窗格中，选择“ASP.NET Core Web 应用程序”。
@@ -68,10 +68,10 @@ Visual Studio 随即创建解决方案。
 
 * 选择“注册”并注册新用户。 可使用虚构电子邮件地址。 提交时，页面上会显示以下错误：
 
-    “内部服务器错误: 处理请求时，数据库操作失败。SQL 异常: 无法打开数据库。可通过向应用程序数据库上下文应用现有迁移解决此问题。”
+    “内部服务器错误:处理请求时，数据库操作失败。SQL 异常:无法打开数据库。可通过向应用程序数据库上下文应用现有迁移解决此问题。”
 * 选择“应用迁移”，并在页面更新后刷新页面。
 
-![内部服务器错误: 处理请求时，数据库操作失败。 SQL 异常: 无法打开数据库。 可能可通过向应用程序数据库上下文应用现有迁移解决此问题。](publish-to-azure-webapp-using-vs/_static/mig.png)
+![内部服务器错误:处理请求时，数据库操作失败。 SQL 异常:无法打开数据库。 可能可通过向应用程序数据库上下文应用现有迁移解决此问题。](publish-to-azure-webapp-using-vs/_static/mig.png)
 
 应用将显示用于注册新用户的电子邮件和一个“注销”链接。
 
@@ -154,7 +154,9 @@ Visual Studio 在 Azure 上创建 Web 应用和 SQL Server。 此步骤可能需
 
 ### <a name="update-the-app"></a>更新应用
 
-* 编辑“Pages/About.cshtml”Razor 页面并更改其内容。 例如，可以将段落修改为显示“Hello ASP.NET Core!”：[!code-html[About](publish-to-azure-webapp-using-vs/sample/about.cshtml?highlight=9&range=1-9)]
+* 编辑“Pages/About.cshtml”Razor 页面并更改其内容。 例如，可以将段落修改为显示“Hello ASP.NET Core!”：
+
+    [!code-html[About](publish-to-azure-webapp-using-vs/sample/about.cshtml?highlight=9&range=1-9)]
 
 * 右键单击项目，然后再次选择“发布...”。
 
@@ -174,7 +176,7 @@ Visual Studio 在 Azure 上创建 Web 应用和 SQL Server。 此步骤可能需
 
 * 在“资源组”页面中，选择“删除”。
 
-![Azure 门户：“资源组”页面](publish-to-azure-webapp-using-vs/_static/rgd.png)
+![Azure 门户：“资源组”页](publish-to-azure-webapp-using-vs/_static/rgd.png)
 
 * 输入资源组的名称并选择“删除”。 现已从 Azure 中删除了本教程中创建的应用和其他所有资源。
 
@@ -187,4 +189,5 @@ Visual Studio 在 Azure 上创建 Web 应用和 SQL Server。 此步骤可能需
 * [Azure 应用服务](/azure/app-service/app-service-web-overview)
 * [Azure 资源组](/azure/azure-resource-manager/resource-group-overview#resource-groups)
 * [Azure SQL 数据库](/azure/sql-database/)
+* <xref:host-and-deploy/visual-studio-publish-profiles>
 * <xref:host-and-deploy/azure-apps/troubleshoot>

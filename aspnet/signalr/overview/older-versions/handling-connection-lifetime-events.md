@@ -8,16 +8,18 @@ ms.date: 06/05/2013
 ms.assetid: e608e263-264d-448b-b0eb-6eeb77713b22
 msc.legacyurl: /signalr/overview/older-versions/handling-connection-lifetime-events
 msc.type: authoredcontent
-ms.openlocfilehash: 5a0e912540bf24abd8a7e91c73c87ed9213be487
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: f965c38e18c442268f9bb1d7ffb5e98a135efade
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41831234"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287671"
 ---
 <a name="understanding-and-handling-connection-lifetime-events-in-signalr-1x"></a>了解和处理 SignalR 中的连接生存期事件 1.x
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文概述了可以处理的 SignalR 连接、 重新连接和断开连接事件以及可以配置的超时和保持连接设置。
 > 
@@ -63,7 +65,7 @@ API 参考主题的链接将指向.NET 4.5 版本的 API。 如果使用的.NET 
 本文将区分*SignalR 连接*，*传输连接*，并*物理连接*:
 
 - **SignalR 连接**指的是客户端和服务器 URL，由 SignalR API 维护并由连接 ID 唯一标识之间的逻辑关系 有关此关系的数据由 SignalR 维护，用于建立传输连接。 数据的客户端调用时释放的关系端和 SignalR `Stop` SignalR 尝试重新建立丢失的传输连接时达到方法或超时限制。
-- **传输连接**客户端和维护四个传输 Api 之一的服务器之间的逻辑关系是指： Websocket 服务器发送事件，下去帧，或者长轮询。 SignalR 使用传输 API 以创建传输的连接，并传输 API 取决于要创建传输连接的物理网络连接存在。 传输连接结束时 SignalR 将终止该进程，或当传输 API 检测到物理连接已断开。
+- **传输连接**指的是客户端和维护四个传输 Api 之一的服务器之间的逻辑关系：Websocket、 服务器发送事件、 永久帧或很长的轮询。 SignalR 使用传输 API 以创建传输的连接，并传输 API 取决于要创建传输连接的物理网络连接存在。 传输连接结束时 SignalR 将终止该进程，或当传输 API 检测到物理连接已断开。
 - **物理连接**指的是物理网络链接--电线，无线信号，路由器，等等-，便于您的客户端计算机和服务器计算机之间的通信。 物理连接必须存在才能建立传输连接，并且必须建立的 SignalR 连接建立的传输连接。 但是，重大的物理连接并不一定会立即结束传输连接或 SignalR 连接，如本主题稍后将对此进行解释。
 
 在下图中，SignalR 连接由中心 API 和 PersistentConnection API SignalR 层、 由传输层，表示传输连接和服务器之间的直线表示的物理连接和的客户端。

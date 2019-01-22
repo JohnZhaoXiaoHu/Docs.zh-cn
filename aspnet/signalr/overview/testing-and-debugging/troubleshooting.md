@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: 4b559e6c-4fb0-4a04-9812-45cf08ae5779
 msc.legacyurl: /signalr/overview/testing-and-debugging/troubleshooting
 msc.type: authoredcontent
-ms.openlocfilehash: bdb0562955f3bde56a95ce937c27fdbe4aa94823
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: e41061f0310c021b10dc6667a5c3297788213b0a
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911673"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287944"
 ---
 <a name="signalr-troubleshooting"></a>SignalR 疑难解答
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档介绍使用 signalr 实现的常见故障排除问题。
 >
@@ -71,7 +73,7 @@ SignalR 需要 JSON 分析器必须存在要序列化的服务器和客户端之
 
 ### <a name="mixing-hub-and-persistentconnection-syntax"></a>混合使用中心 PersistentConnection 语法
 
-SignalR 使用两个通信模型： 中心和 PersistentConnections。 调用这两种通信模型的语法中是不同的客户端代码。 如果在服务器代码中添加了一个中心，验证所有客户端代码中使用正确的中心语法。
+SignalR 使用两个通信模型：中心和 PersistentConnections。 调用这两种通信模型的语法中是不同的客户端代码。 如果在服务器代码中添加了一个中心，验证所有客户端代码中使用正确的中心语法。
 
 **在 JavaScript 客户端中创建 PersistentConnection 的 JavaScript 客户端代码**
 
@@ -135,7 +137,7 @@ SignalR 将自动使用 JSON 进行序列化您的方法参数-这不需要自�
 
 此行为是有意安排的。 当用户尝试通过导航离开的页面包含的活动的 SignalR 连接时，SignalR 客户端然后将最大努力尝试向服务器通知客户端连接将被停止。 如果 SignalR 客户端的最大努力尝试无法连接到服务器，服务器将释放后可配置连接`DisconnectTimeout`更高版本，在这段时间`OnDisconnected`会触发事件。 如果 SignalR 客户端的最大程度的尝试不成功，`OnDisconnected`会立即触发事件。
 
-有关设置的信息`DisconnectTimeout`设置，请参见[处理连接生存期事件： DisconnectTimeout](../guide-to-the-api/handling-connection-lifetime-events.md#disconnecttimeout)。
+有关设置的信息`DisconnectTimeout`设置，请参阅[处理连接生存期事件：DisconnectTimeout](../guide-to-the-api/handling-connection-lifetime-events.md#disconnecttimeout)。
 
 ### <a name="connection-limit-reached"></a>已达到连接限制
 
@@ -189,8 +191,8 @@ SignalR 服务器不知道是否客户端是死信或不，它们就是依赖于
 
 - **集线器代理地址引用的格式不正确：** 如果对生成的中心代理地址的引用的格式不正确，则通常会出现此错误。 验证可以正确地完成对中心地址的引用。 请参阅[如何引用动态生成的代理](../guide-to-the-api/hubs-api-guide-javascript-client.md#dynamicproxy)有关详细信息。
 - **将路由添加到应用程序，然后添加中心路由：** 如果应用程序使用其他路由，请验证添加的第一个路由是对的调用`MapSignalR`。
-- **使用无扩展名 url 的 IIS 7 或 7.5 而无需更新：** 使用 IIS 7 或 7.5 需要更新针对无扩展名 Url，以便服务器可以提供访问权限的中心定义在`/signalr/hubs`。 可以找到更新[此处](https://support.microsoft.com/kb/980368)。
-- **IIS 缓存已过期或已损坏：** 若要验证缓存内容不是已过期，请输入以下命令在 PowerShell 窗口中清除的缓存：
+- **使用无扩展名 url 的 IIS 7 或 7.5 而无需更新：** 使用 IIS 7 或 7.5，以便服务器可以提供访问权限在中心定义针对无扩展名 Url 需要更新`/signalr/hubs`。 可以找到更新[此处](https://support.microsoft.com/kb/980368)。
+- **IIS 缓存过期或已损坏：** 若要验证缓存内容不是已过期，请在 PowerShell 窗口中清除的缓存输入以下命令：
 
     [!code-powershell[Main](troubleshooting/samples/sample11.ps1)]
 
@@ -200,7 +202,7 @@ SignalR 服务器不知道是否客户端是死信或不，它们就是依赖于
 
 如果防火墙或代理配置不正确，导致要重写的请求标头，则通常也会出现此错误。 解决方案是确保，在防火墙或代理上启用端口 80。
 
-### <a name="unexpected-response-code-500"></a>"意外的响应代码： 500"
+### <a name="unexpected-response-code-500"></a>"意外的响应代码：500"
 
 如果应用程序中使用的.NET framework 的版本与在 Web.Config 中指定的版本不匹配，则可能出现此错误。解决方案是验证在应用程序设置和 Web.Config 文件中使用.NET 4.5。
 
@@ -212,7 +214,7 @@ SignalR 服务器不知道是否客户端是死信或不，它们就是依赖于
 
 验证发送到你的方法的参数不包括非可序列化类型 （如文件句柄或数据库连接）。 如果你需要在不想要发送到客户端 （不管是安全或者序列化的原因），使用服务器端对象上使用成员`JSONIgnore`属性。
 
-### <a name="protocol-error-unknown-transport-error"></a>"协议错误： 未知的传输"错误
+### <a name="protocol-error-unknown-transport-error"></a>"协议错误：未知的传输"错误
 
 如果客户端不支持 SignalR 使用的传输，则可能出现此错误。 请参阅[传输和回退](../getting-started/introduction-to-signalr.md#transports)与 SignalR 可以在其上使用浏览器的信息。
 
@@ -224,11 +226,11 @@ SignalR 服务器不知道是否客户端是死信或不，它们就是依赖于
 
 如果正在使用身份验证，并且客户端已注销，停止连接之前，可能会出现此错误。 解决方案是停止 SignalR 连接之前注销客户端。
 
-### <a name="uncaught-error-signalr-jquery-not-found-please-ensure-jquery-is-referenced-before-the-signalrjs-file-error"></a>"未捕获的错误： SignalR： 找不到 jQuery。 请确保前 SignalR.js 文件引用 jQuery"错误
+### <a name="uncaught-error-signalr-jquery-not-found-please-ensure-jquery-is-referenced-before-the-signalrjs-file-error"></a>"未捕获的错误：SignalR： 找不到 jQuery。 请确保前 SignalR.js 文件引用 jQuery"错误
 
 SignalR JavaScript 客户端需要 jQuery 来运行。 验证你对 jQuery 的引用正确，所用的路径有效，以及对 jQuery 的引用是对 SignalR 的引用之前。
 
-### <a name="uncaught-typeerror-cannot-read-property-ltpropertygt-of-undefined-error"></a>"未捕获的 TypeError： 无法读取属性&lt;属性&gt;未定义的"错误
+### <a name="uncaught-typeerror-cannot-read-property-ltpropertygt-of-undefined-error"></a>"未捕获的 TypeError:无法读取属性&lt;属性&gt;未定义的"错误
 
 防止不 jQuery 或引用正确的中心代理产生此错误。 验证引用与 jQuery 和中心代理正确，所用的路径有效，以及对 jQuery 的引用是对中心代理的引用之前。 集线器代理的默认引用应如下所示：
 
@@ -282,7 +284,7 @@ jQuery Mobile`initializePage`函数强制重新执行，每个页面中的脚本
 
 这是一个已知的问题，所述[此处](https://github.com/SignalR/SignalR/issues/1963)。 这种现象，可能会看到使用最新的 JQuery 库;解决方法是降级到 JQuery 1.8.2 应用程序。
 
-### <a name="invalidoperationexception-not-a-valid-web-socket-request"></a>"InvalidOperationException： 不是有效的 web 套接字请求。
+### <a name="invalidoperationexception-not-a-valid-web-socket-request"></a>"InvalidOperationException:不是有效的 web 套接字请求。
 
 如果使用的 WebSocket 协议，但网络代理正在修改的请求标头，则可能出现此错误。 解决方案是将代理配置为允许端口 80 上的 WebSocket。
 

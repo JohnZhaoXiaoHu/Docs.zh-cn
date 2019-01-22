@@ -8,4 +8,4 @@
 
     `dotnet ef database update`
 
-* 在项目中启用 SSL
+* 在项目中启用 HTTPS

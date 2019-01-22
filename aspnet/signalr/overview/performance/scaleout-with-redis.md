@@ -8,23 +8,25 @@ ms.date: 06/10/2014
 ms.assetid: 6ecd08c1-e364-4cd7-ad4c-806521911585
 msc.legacyurl: /signalr/overview/performance/scaleout-with-redis
 msc.type: authoredcontent
-ms.openlocfilehash: ebb61e4296f78bcd74622b729a10d45b60ebb724
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 5151c718c82408fdcb75de16211b55488ca513d2
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48912782"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287730"
 ---
 <a name="signalr-scaleout-with-redis"></a>使用 Redis 的 SignalR 横向扩展
 ====================
-通过[Mike Wasson](https://github.com/MikeWasson)， [Patrick Fletcher](https://github.com/pfletcher)
+通过[Mike Wasson](https://github.com/MikeWasson)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > ## <a name="software-versions-used-in-this-topic"></a>本主题中使用的软件版本
 >
 >
 > - [Visual Studio 2013](https://my.visualstudio.com/Downloads?q=visual%20studio%202013)
 > - .NET 4.5
-> - SignalR 版本 2
+> - SignalR 版本 2.4
 >
 >
 >
@@ -65,7 +67,8 @@ Redis 是内存中键 / 值存储。 它还支持发布/订阅模型的消息传
 2. 将以下 NuGet 包添加到你的应用程序：
 
     - [Microsoft.AspNet.SignalR](http://nuget.org/packages/Microsoft.AspNet.SignalR)
-    - [Microsoft.AspNet.SignalR.Redis](http://nuget.org/packages/Microsoft.AspNet.SignalR.Redis)
+    - [Microsoft.AspNet.SignalR.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.AspNet.SignalR.StackExchangeRedis)
+    
 3. 创建 SignalR 应用程序。
 4. 将以下代码添加到 Startup.cs 配置基架：
 
@@ -112,7 +115,7 @@ Redis 是内存中键 / 值存储。 它还支持发布/订阅模型的消息传
 - [SignalR 2.0 入门](../getting-started/tutorial-getting-started-with-signalr.md)
 - [SignalR 2.0 和 MVC 5 入门](../getting-started/tutorial-getting-started-with-signalr-and-mvc.md)
 
-接下来，我们将修改聊天应用程序，以支持采用 Redis 的扩展。 首先，将 SignalR.Redis NuGet 包添加到你的项目。 在 Visual Studio 中，从**工具**菜单中，选择**NuGet 包管理器**，然后选择**程序包管理器控制台**。 在包管理器控制台窗口中，输入以下命令：
+接下来，我们将修改聊天应用程序，以支持采用 Redis 的扩展。 首先，添加`Microsoft.AspNet.SignalR.StackExchangeRedis`到你的项目的 NuGet 包。 在 Visual Studio 中，从**工具**菜单中，选择**NuGet 包管理器**，然后选择**程序包管理器控制台**。 在包管理器控制台窗口中，输入以下命令：
 
 [!code-powershell[Main](scaleout-with-redis/samples/sample5.ps1)]
 

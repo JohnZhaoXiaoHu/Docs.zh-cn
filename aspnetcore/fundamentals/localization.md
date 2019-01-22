@@ -184,7 +184,7 @@ using Microsoft.Extensions.Localization;
 
 ## <a name="culture-fallback-behavior"></a>区域性回退行为
 
-在搜索资源时，本地化会进行“区域性回退”。 从所请求的区域性开始，如果未能找到，则还原至该区域性的父区域性。 另外，[CultureInfo.Parent](/dotnet/api/system.globalization.cultureinfo.parent) 属性代表父区域性。 这通常（但并不是总是）意味着从 ISO 中移除区域签名。 例如，墨西哥的西班牙语方言为“es-MX”。 它具备一个父级“es”西班牙，没有特别指定国家。
+在搜索资源时，本地化会进行“区域性回退”。 从所请求的区域性开始，如果未能找到，则还原至该区域性的父区域性。 另外，[CultureInfo.Parent](/dotnet/api/system.globalization.cultureinfo.parent) 属性代表父区域性。 这通常（但并不是总是）意味着从 ISO 中移除区域签名。 例如，墨西哥的西班牙语方言为“es-MX”。 它具备一个父级“es”西班牙，没有特别指定国家/地区。
 
 假设你的站点接收到了一个区域性为“fr-CA”的“Welcome”资源的请求。 本地化系统按顺序查找以下资源，并选择第一个匹配项：
 

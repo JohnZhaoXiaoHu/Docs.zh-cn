@@ -4,14 +4,14 @@ author: rick-anderson
 description: 获取 ASP.NET Core 的简介，它是一个跨平台的高性能开源框架，用于生成基于云且连接 Internet 的新式应用程序。
 ms.author: riande
 ms.custom: mvc
-ms.date: 11/10/2018
+ms.date: 01/15/2019
 uid: index
-ms.openlocfilehash: 1699acc0086dfd50c573afc239bc8f37eb9e7af9
-ms.sourcegitcommit: 408921a932448f66cb46fd53c307a864f5323fe5
+ms.openlocfilehash: e7c81ff82e5206a5aca217417f6cb1c339d72e89
+ms.sourcegitcommit: 42a8164b8aba21f322ffefacb92301bdfb4d3c2d
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/12/2018
-ms.locfileid: "51569983"
+ms.lasthandoff: 01/16/2019
+ms.locfileid: "54341402"
 ---
 # <a name="introduction-to-aspnet-core"></a>ASP.NET Core 简介
 
@@ -19,7 +19,7 @@ ms.locfileid: "51569983"
 
 ASP.NET Core 是一个跨平台的高性能[开源](https://github.com/aspnet/home)框架，用于生成基于云且连接 Internet 的新式应用程序。 使用 ASP.NET Core，您可以：
 
-* 建置 Web 应用程序和服务、[IoT](https://www.microsoft.com/internet-of-things/) 应用和移动后端。
+* 创建 Web 应用程序和服务、[IoT](https://www.microsoft.com/internet-of-things/) 应用和移动后端。
 * 在 Windows、macOS 和 Linux 上使用喜爱的开发工具。
 * 部署到云或本地。
 * 在 [.NET Core 或 .NET Framework](/dotnet/articles/standard/choosing-core-framework-server) 上运行。
@@ -35,7 +35,7 @@ ASP.NET Core 是一个跨平台的高性能[开源](https://github.com/aspnet/ho
 ASP.NET Core MVC 提供生成 [Web API](xref:tutorials/first-web-api) 和 [Web 应用](xref:tutorials/razor-pages/index)所需的功能：
 
 * [Model-View-Controller (MVC) 模式](xref:mvc/overview) 使 Web API 和 Web 应用可测试。
-* ASP.NET Core 2.0 中新增的 [Razor 页面](xref:razor-pages/index)是基于页面的编程模型，可简化 Web UI 生成并提高工作效率。
+* [Razor Pages](xref:razor-pages/index) 是基于页面的编程模型，它让 Web UI 的生成更加简单高效。
 * [Razor 标记](xref:mvc/views/razor)提供了适用于 [Razor 页面](xref:razor-pages/index)和 [MVC 视图](xref:mvc/views/overview)的高效语法。
 * [标记帮助程序](xref:mvc/views/tag-helpers/intro)使服务器端代码可以在 Razor 文件中参与创建和呈现 HTML 元素。
 * 内置的[多数据格式和内容协商](xref:web-api/advanced/formatting)支持使 Web API 可访问多种客户端，包括浏览器和移动设备。
@@ -62,7 +62,7 @@ ASP.NET Core 3.0 以及更高版本只能在 .NET Core 中运行。 有关此更
 面向 .NET Core 有以下几个优势，并且这些优势会随着每次发布增加。 与 .NET Framework 相比，.NET Core 的部分优势包括：
 
 * 跨平台。 在 macOS、Linux 和 Windows 上运行。
-* 提高的性能
+* 增强的性能
 * 并行版本控制
 * 新 API
 * 开源
@@ -77,7 +77,9 @@ ASP.NET Core 3.0 以及更高版本只能在 .NET Core 中运行。 有关此更
 1. 解压缩 Docs-master.zip 文件。
 1. 使用示例链接中的 URL 帮助你导航到示例目录。
 
-若要演示多个方案，示例应用将利用 `#define` 和 `#if-#else/#elif-#endif` C# 语句来选择性地编译和运行不同的示例代码段。 对于那些利用此方法的示例，请将 C# 文件顶部的 `#define` 语句设置为与你想要运行的方案相关联的符号。 示例可能需要你设置多个文件顶部的符号，才能运行方案。
+### <a name="preprocessor-directives-in-sample-code"></a>示例代码中的预处理器指令
+
+为了演示多个方案，示例应用将使用 `#define` 和 `#if-#else/#elif-#endif` C# 语句选择性地编译和运行不同的示例代码段。 对于那些利用此方法的示例，请将 C# 文件顶部的 `#define` 语句设置为与你想要运行的方案相关联的符号。 一些示例要求在多个文件的顶部设置符号才能运行方案。
 
 例如，以下 `#define` 符号列表指示四个方案可用（每个符号一个方案）。 当前示例配置运行 `TemplateCode` 方案：
 
@@ -92,6 +94,33 @@ ASP.NET Core 3.0 以及更高版本只能在 .NET Core 中运行。 有关此更
 ```
 
 若要详细了解如何使用 [C# 预处理器指令](/dotnet/csharp/language-reference/preprocessor-directives/)选择性地编译代码段，请参阅 [#define（C# 参考）](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-define)和 [#if（C# 参考）](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-if)。
+
+### <a name="regions-in-sample-code"></a>示例代码中的区域
+
+一些示例应用包含由 [#region](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-region) 和 [#endregion](/dotnet/csharp/language-reference/preprocessor-directives/preprocessor-endregion) C# 语句包围的代码片段。 文档生成系统会将这些区域注入到所呈现的文档主题中。  
+
+区域名称通常包含“代码段”一词。 下面的示例显示了一个名为 `snippet_FilterInCode` 的区域：
+
+```csharp
+#region snippet_FilterInCode
+WebHost.CreateDefaultBuilder(args)
+    .UseStartup<Startup>()
+    .ConfigureLogging(logging =>
+        logging.AddFilter("System", LogLevel.Debug)
+            .AddFilter<DebugLoggerProvider>("Microsoft", LogLevel.Trace))
+            .Build();
+#endregion
+```
+
+主题的 markdown 文件在以下行中应用了前面的 C# 代码段：
+
+```
+[!code-csharp[](sample/SampleApp/Program.cs?name=snippet_FilterInCode)]
+```
+
+你可放心忽略（或删除）代码两侧的 `#region` 和 `#endregion` 语句。 如果计划运行主题中所述的示例方案，请不要更改这些语句中的代码。 试用其他方案时，可随时更改代码。
+
+有关详细信息，请参阅[参与 ASP.NET 文档：代码片段](https://github.com/aspnet/Docs/blob/master/CONTRIBUTING.md#code-snippets)。
 
 ## <a name="next-steps"></a>后续步骤
 

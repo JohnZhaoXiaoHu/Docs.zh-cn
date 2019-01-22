@@ -6,12 +6,12 @@ ms.author: riande
 ms.custom: mvc
 ms.date: 10/11/2018
 uid: security/anti-request-forgery
-ms.openlocfilehash: c4a512e5518380f5f0a43d08cd0bcba2f8c26141
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 3c1ea8f41eb6ed847bf24141ef0ae0c7e03d8a79
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207662"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099216"
 ---
 # <a name="prevent-cross-site-request-forgery-xsrfcsrf-attacks-in-aspnet-core"></a>在 ASP.NET Core 防止跨站点请求伪造 (XSRF/CSRF) 攻击
 
@@ -225,7 +225,7 @@ services.AddAntiforgery(options =>
 | [CookiePath](/dotnet/api/microsoft.aspnetcore.antiforgery.antiforgeryoptions.cookiepath) | 设置 cookie 的路径。 此属性已过时，将在未来版本中删除。 建议的替代项是 Cookie.Path。 |
 | [FormFieldName](/dotnet/api/microsoft.aspnetcore.antiforgery.antiforgeryoptions.formfieldname) | 防伪系统用于呈现防伪令牌在视图中的隐藏的窗体字段的名称。 |
 | [HeaderName](/dotnet/api/microsoft.aspnetcore.antiforgery.antiforgeryoptions.headername) | 防伪系统使用的标头的名称。 如果`null`，系统会认为只有窗体数据。 |
-| [RequireSsl](/dotnet/api/microsoft.aspnetcore.antiforgery.antiforgeryoptions.requiressl) | 指定由防伪系统是否需要 SSL。 如果`true`，非 SSL 请求会失败。 默认为 `false`。 此属性已过时，将在未来版本中删除。 建议的替代项是设置 Cookie.SecurePolicy。 |
+| [RequireSsl](/dotnet/api/microsoft.aspnetcore.antiforgery.antiforgeryoptions.requiressl) | 指定是否由防伪系统需要 HTTPS。 如果`true`，非 HTTPS 发出的请求失败。 默认为 `false`。 此属性已过时，将在未来版本中删除。 建议的替代项是设置 Cookie.SecurePolicy。 |
 | [SuppressXFrameOptionsHeader](/dotnet/api/microsoft.aspnetcore.antiforgery.antiforgeryoptions.suppressxframeoptionsheader) | 指定是否禁止显示生成`X-Frame-Options`标头。 默认情况下，值为"SAMEORIGIN"生成标头。 默认为 `false`。 |
 
 ::: moniker-end
@@ -302,7 +302,7 @@ ASP.NET Core 应用不生成 antiforgery 令牌进行安全的 HTTP 方法 （GE
 * 选项
 * TRACE
 
-我们建议使用`AutoValidateAntiforgeryToken`广泛用于非 API 方案。 这可确保默认被保护 POST 操作。 替代方法是忽略防伪令牌，默认情况下，除非`ValidateAntiForgeryToken`应用于各个操作方法。 它更有可能在此方案中保留的 POST 操作方法不受保护错误地使应用程序容易受到 CSRF 攻击。 所有帖子应都发送防伪令牌。
+我们建议使用`AutoValidateAntiforgeryToken`广泛用于非 API 方案。 这可确保默认被保护 POST 操作。 替代方法是忽略防伪令牌，默认情况下，除非`ValidateAntiForgeryToken`应用于各个操作方法。 它更有可能在此方案中保留的 POST 操作方法不受保护错误地使应用程序容易受到 CSRF 攻击。 所有Post请求都应发送防伪令牌。
 
 Api 没有发送令牌的非 cookie 一部分的自动机制。 实现可能取决于客户端代码实现。 一些示例如下所示：
 

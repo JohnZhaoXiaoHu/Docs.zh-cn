@@ -7,12 +7,12 @@ ms.author: tdykstra
 ms.custom: mvc
 ms.date: 11/14/2018
 uid: signalr/javascript-client
-ms.openlocfilehash: 7de7abd7176e160154a458a3b90f662ba8f47f8c
-ms.sourcegitcommit: 09bcda59a58019fdf47b2db5259fe87acf19dd38
+ms.openlocfilehash: acdb4d1a59d980010fe89fe381190425cbb12901
+ms.sourcegitcommit: 42a8164b8aba21f322ffefacb92301bdfb4d3c2d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/15/2018
-ms.locfileid: "51708382"
+ms.lasthandoff: 01/16/2019
+ms.locfileid: "54341445"
 ---
 # <a name="aspnet-core-signalr-javascript-client"></a>ASP.NET Core SignalR JavaScript 客户端
 
@@ -45,7 +45,7 @@ npm 安装中的包内容 *node_modules\\@aspnet\signalr\dist\browser* 文件夹
 
 下面的代码创建并启动连接。 在中心的名称是不区分大小写。
 
-[!code-javascript[Call hub methods](javascript-client/sample/wwwroot/js/chat.js?range=9-12,28)]
+[!code-javascript[Call hub methods](javascript-client/sample/wwwroot/js/chat.js?range=9-12)]
 
 ### <a name="cross-origin-connections"></a>跨域的连接
 
@@ -60,7 +60,7 @@ npm 安装中的包内容 *node_modules\\@aspnet\signalr\dist\browser* 文件夹
 JavaScript 客户端上中心通过调用公共方法[调用](/javascript/api/%40aspnet/signalr/hubconnection#invoke)方法[HubConnection](/javascript/api/%40aspnet/signalr/hubconnection)。 `invoke`方法接受两个参数：
 
 * 集线器方法的名称。 在以下示例中，中心上的方法名称是`SendMessage`。
-* 在集线器方法中定义的任何参数。 在以下示例中，参数名称是`message`。
+* 在集线器方法中定义的任何参数。 在以下示例中，参数名称是`message`。 示例代码使用的除 Internet Explorer 的所有主要浏览器的当前版本中支持的箭头函数语法。
 
   [!code-javascript[Call hub methods](javascript-client/sample/wwwroot/js/chat.js?range=24)]
 
@@ -86,7 +86,7 @@ SignalR 确定要进行匹配的方法名称来调用的客户端方法和参数
 
 链`catch`方法的末尾`start`方法以处理客户端错误。 使用`console.error`向浏览器的控制台输出错误。
 
-[!code-javascript[Error handling](javascript-client/sample/wwwroot/js/chat.js?range=28)]
+[!code-javascript[Error handling](javascript-client/sample/wwwroot/js/chat.js?range=43-45)]
 
 通过传递要进行连接时记录的记录器和事件类型的安装程序客户端的日志跟踪。 使用指定的日志级别和更高版本记录的消息。 可用日志级别为按如下所示：
 
@@ -106,14 +106,16 @@ SignalR JavaScript 客户端不会自动重新连接。 必须编写代码将手
 1. 一个函数 (在这种情况下，`start`函数) 创建以启动连接。
 1. 调用`start`中的连接函数`onclose`事件处理程序。
 
-[!code-javascript[Reconnect the JavaScript client](javascript-client/sample/wwwroot/js/chat.js?range=30-42)]
+[!code-javascript[Reconnect the JavaScript client](javascript-client/sample/wwwroot/js/chat.js?range=28-40)]
 
 实际的实现会使用指数退让或重试的次数后放弃了指定的次数。 
 
 ## <a name="additional-resources"></a>其他资源
 
 * [JavaScript API 参考](/javascript/api/?view=signalr-js-latest)
+* [JavaScript 教程](xref:tutorials/signalr)
+* [WebPack 和 TypeScript 教程](xref:tutorials/signalr-typescript-webpack)
 * [中心](xref:signalr/hubs)
 * [.NET 客户端](xref:signalr/dotnet-client)
 * [发布到 Azure](xref:signalr/publish-to-azure-web-app)
-* [启用 ASP.NET Core 中的跨源请求 (CORS)](xref:security/cors)
+* [跨域请求 (CORS)](xref:security/cors)

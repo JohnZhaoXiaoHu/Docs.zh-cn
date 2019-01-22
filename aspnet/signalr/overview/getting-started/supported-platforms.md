@@ -8,23 +8,24 @@ ms.date: 04/18/2018
 ms.assetid: eac31beb-0f46-4afa-9def-e80904dea4f0
 msc.legacyurl: /signalr/overview/getting-started/supported-platforms
 msc.type: authoredcontent
-ms.openlocfilehash: d522602c3523d97a12c74b2d901391bd00d4f2b9
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: e270f9a328f36854fdfb3e23b78e0b40cdda6411
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41833881"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287350"
 ---
 <a name="supported-platforms"></a>支持的平台
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文介绍通过 SignalR 支持哪些客户端和服务器。 
 > 
 > ## <a name="questions-and-comments"></a>问题和提出的意见
 > 
 > 请在你喜欢本教程的内容以及我们可以改进的页的底部的评论中留下反馈。 如果你有与本教程不直接相关的问题，你可以发布到[ASP.NET SignalR 论坛](https://forums.asp.net/1254.aspx/1?ASP+NET+SignalR)或[StackOverflow.com](http://stackoverflow.com/)。
-
 
 SignalR 支持到不同的服务器和客户端配置。 此外，每个传输选项具有一组其自身; 的要求如果传输的系统要求不可用，SignalR 会顺利地实现故障转移到其他传输。 SignalR 支持的传输的详细信息，请参阅[传输和回退](introduction-to-signalr.md#transports)。
 
@@ -89,9 +90,9 @@ SignalR 可在各种 web 浏览器，但通常情况下，支持的最新两个�
 | WebSockets | 10+ | 当前值-1 | 当前值-1 | 当前值-1 | 不可用 |
 | 服务器发送事件 | 不可用 | 当前值-1 | 当前值-1 | 当前值-1 | 不可用 |
 | ForeverFrame | 8+ | 不可用 | 不可用 | 不可用 | 4.1 |
-| 很长的轮询 | 8+ | 当前值-1 | 当前值-1 | 当前值-1 | 4.1 |
+| 长轮询 | 8+ | 当前值-1 | 当前值-1 | 当前值-1 | 4.1 |
 
-\*: 6 + 所需的全部功能。
+\*：6 + 所需的全部功能。
 
 #### <a name="unsupported-browsers"></a>不受支持的浏览器
 
@@ -113,7 +114,7 @@ SignalR 可在各种 web 浏览器，但通常情况下，支持的最新两个�
 | Web 套接字 | Windows 8 + 和.NET 4.5 + | 不可用 |
 | 永久帧 | 不可用 | 不可用 |
 | 服务器发送事件 | .NET 4 + | 5+ |
-| 很长的轮询 | .NET 4 + | 5+ |
+| 长轮询 | .NET 4 + | 5+ |
 
 <a id="android"></a>
 
@@ -128,7 +129,7 @@ SignalR 可在各种 web 浏览器，但通常情况下，支持的最新两个�
 | WebSockets | 不可用 | Win8 + | 8+ | 不可用 |
 | 永久帧 | 不可用 | Win8 + | 7.5+ | 不可用 |
 | 服务器发送事件 | Win8 + | 不可用 | 不可用 | 8+ |
-| 很长的轮询 | Win8 + | Win8 + | 7.5+ | 8+ |
+| 长轮询 | Win8 + | Win8 + | 7.5+ | 8+ |
 
 <a id="updates"></a>
 

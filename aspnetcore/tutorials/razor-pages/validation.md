@@ -2,17 +2,17 @@
 title: 将验证添加到 ASP.NET Core Razor 页面
 author: rick-anderson
 description: 了解如何将验证添加到 ASP.NET Core 中的 Razor 页面。
-monikerRange: '>= aspnetcore-2.0'
+monikerRange: '>= aspnetcore-2.2'
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/24/2018
+ms.date: 12/5/2018
 uid: tutorials/razor-pages/validation
-ms.openlocfilehash: d4cc0ab9de314c0c5a1a9016efd1e566ff1c47d2
-ms.sourcegitcommit: edb9d2d78c9a4d68b397e74ae2aff088b325a143
+ms.openlocfilehash: 87171beb7c214b1370d4d4144a79cb6d2c56098f
+ms.sourcegitcommit: 9bb58d7c8dad4bbd03419bcc183d027667fefa20
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/09/2018
-ms.locfileid: "51505773"
+ms.lasthandoff: 12/04/2018
+ms.locfileid: "52862364"
 ---
 # <a name="add-validation-to-an-aspnet-core-razor-page"></a>将验证添加到 ASP.NET Core Razor 页面
 
@@ -22,7 +22,10 @@ ms.locfileid: "51505773"
 
 ## <a name="validation"></a>验证
 
-软件开发的一个关键原则被称为 [DRY](https://wikipedia.org/wiki/Don%27t_repeat_yourself)（即“不要自我重复”）。 Razor 页面鼓励进行仅指定一次功能的开发，且功能在整个应用中反映。 DRY 有助于减少应用中的代码量。 DRY 使代码更加不易出错，且更易于测试和维护。
+软件开发的一个关键原则被称为 [DRY](https://wikipedia.org/wiki/Don%27t_repeat_yourself)（即“不要自我重复”）。 Razor 页面鼓励进行仅指定一次功能的开发，且功能在整个应用中反映。 DRY 可以帮助：
+
+* 减少应用中的代码量。
+* 使代码更加不易出错，且更易于测试和维护。
 
 Razor 页面和 Entity Framework 提供的验证支持是 DRY 原则的极佳示例。 验证规则在模型类中的某处以声明方式指定，且在应用的所有位置强制执行。
 
@@ -32,17 +35,7 @@ Razor 页面和 Entity Framework 提供的验证支持是 DRY 原则的极佳示
 
 更新 `Movie` 类以使用 `Required`、`StringLength`、`RegularExpression` 和 `Range` 验证特性。
 
-::: moniker range="= aspnetcore-2.0"
-
-[!code-csharp[](~/tutorials/first-mvc-app/start-mvc/sample/MvcMovie/Models/MovieDateRatingDA.cs?name=snippet1)]
-
-::: moniker-end
-
-::: moniker range=">= aspnetcore-2.1"
-
-[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie21/Models/MovieDateRatingDA.cs?name=snippet1)]
-
-::: moniker-end
+[!code-csharp[](~/tutorials/razor-pages/razor-pages-start/sample/RazorPagesMovie22/Models/MovieDateRatingDA.cs?name=snippet1)]
 
 验证特性用于指定模型属性上强制执行的行为：
 
@@ -113,11 +106,8 @@ Razor 页面和 Entity Framework 提供的验证支持是 DRY 原则的极佳示
 
 `DataType.Date` 不指定显示日期的格式。 默认情况下，数据字段根据基于服务器的 `CultureInfo` 的默认格式进行显示。
 
-::: moniker range=">= aspnetcore-2.1"
 
 要使 Entity Framework Core 能将 `Price` 正确地映射到数据库中的货币，则必须使用 `[Column(TypeName = "decimal(18, 2)")]` 数据注释。 有关详细信息，请参阅[数据类型](/ef/core/modeling/relational/data-types)。
-
-::: moniker-end
 
 `DisplayFormat` 特性用于显式指定日期格式：
 
@@ -144,17 +134,7 @@ public DateTime ReleaseDate { get; set; }
 
 以下代码显示组合在一行上的特性：
 
-::: moniker range="= aspnetcore-2.0"
-
-[!code-csharp[](razor-pages-start/sample/RazorPagesMovie/Models/MovieDateRatingDAmult.cs?name=snippet1)]
-
-::: moniker-end
-
-::: moniker range=">= aspnetcore-2.1"
-
-[!code-csharp[](razor-pages-start/sample/RazorPagesMovie21/Models/MovieDateRatingDAmult.cs?name=snippet1)]
-
-::: moniker-end
+[!code-csharp[](razor-pages-start/sample/RazorPagesMovie22/Models/MovieDateRatingDAmult.cs?name=snippet1)]
 
 [Razor Pages 和 EF Core 入门](xref:data/ef-rp/intro)显示了 Razor Pages 的高级 EF Core 操作。
 

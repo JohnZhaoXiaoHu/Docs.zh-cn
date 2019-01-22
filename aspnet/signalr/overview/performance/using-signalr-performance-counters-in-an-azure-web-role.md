@@ -9,30 +9,32 @@ ms.date: 10/03/2018
 ms.assetid: 2a127d3b-21ed-4cc9-bec0-cdab4e742a25
 msc.legacyurl: /signalr/overview/performance/using-signalr-performance-counters-in-an-azure-web-role
 msc.type: authoredcontent
-ms.openlocfilehash: 7304ff17bb53f94bdee1e90602d206bf32184e37
-ms.sourcegitcommit: 7890dfb5a8f8c07d813f166d3ab0c263f893d0c6
+ms.openlocfilehash: bdd875201895c6eaf155b54582d0898c2570d93c
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/04/2018
-ms.locfileid: "48795455"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287691"
 ---
 # <a name="using-signalr-performance-counters-in-an-azure-web-role"></a>在 Azure Web 角色中使用 SignalR 性能计数器
 
 作者：[Luke Latham](https://github.com/guardrex)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 SignalR 性能计数器用于监视 Azure Web 角色中的应用程序的性能。 Microsoft Azure 诊断捕获计数器。 与在 Azure 上安装 SignalR 性能计数器*signalr.exe*，用于独立或在本地应用相同的工具。 Azure 角色是暂时的因为你将配置应用以安装并注册 SignalR 在启动时的性能计数器。
 
 ## <a name="prerequisites"></a>系统必备
 
 * Visual Studio 2015 或[2017年](https://visualstudio.microsoft.com/downloads/?utm_medium=microsoft&utm_source=docs.microsoft.com&utm_campaign=button+cta&utm_content=download+vs2017)
-* [Microsoft Azure SDK for Visual Studio](https://azure.microsoft.com/downloads/) **注意： 安装 SDK 之后重新启动计算机。**
-* Microsoft Azure 订阅： 若要注册一个免费 Azure 试用帐户，请参阅[Azure 免费试用](https://azure.microsoft.com/free/)。
+* [用于 Visual Studio 的 Microsoft Azure SDK](https://azure.microsoft.com/downloads/) **注意：安装 SDK 之后重新启动计算机。**
+* Microsoft Azure 订阅：若要注册一个免费 Azure 试用帐户，请参阅[Azure 免费试用](https://azure.microsoft.com/free/)。
 
 ## <a name="creating-an-azure-web-role-application-that-exposes-signalr-performance-counters"></a>创建 Azure Web 角色应用程序公开 SignalR 性能计数器
 
 1. 打开 Visual Studio。
 
-2. 在 Visual Studio 中，选择**文件** > **新建** > **项目**。
+2. 在 Visual Studio 中，选择“文件” > “新建” > “项目”。
 
 3. 在**新的项目**对话框中，选择**Visual C#** > **云**左边的类别，然后选择**Azure 云服务**模板。 命名应用程序**SignalRPerfCounters** ，然后选择**确定**。
 

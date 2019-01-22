@@ -1,17 +1,17 @@
 ---
-title: 使用 ASP.NET Core 和 Azure DevOps |将应用部署到应用服务
+title: 将应用部署到应用服务-使用 ASP.NET Core 和 Azure 进行开发运营
 author: CamSoper
-description: 提供有关为托管在 Azure 中的 ASP.NET Core 应用构建 DevOps 管道的端到端指导的指南。
+description: 将 ASP.NET Core 应用部署到 Azure 应用服务中，使用 ASP.NET Core 和 Azure 进行开发运营的第一步。
 ms.author: casoper
-ms.custom: mvc
+ms.custom: mvc, seodec18
 ms.date: 10/24/2018
 uid: azure/devops/deploy-to-app-service
-ms.openlocfilehash: 33026ed510aae63a9e580aa5d708f94aad778fca
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: 9fe17c9e210d4dda9b74818104fc52a60d4f0077
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090932"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284534"
 ---
 # <a name="deploy-an-app-to-app-service"></a>将应用部署到应用服务
 
@@ -35,7 +35,7 @@ ms.locfileid: "50090932"
 
 从命令行界面，下载的代码、 生成项目时，和运行它，如下所示。
 
-> *注意： Linux/macOS 用户应更改相应的路径，例如，使用正斜杠 (`/`) 而不是反斜杠 (`\`)。*
+> *注意：Linux/macOS 用户应更改相应的路径，例如，使用正斜杠 (`/`) 而不是反斜杠 (`\`)。*
 
 1. 代码克隆到本地计算机上的文件夹。
 
@@ -73,7 +73,7 @@ ms.locfileid: "50090932"
 
 若要部署应用程序，你将需要创建应用服务[Web 应用](/azure/app-service/app-service-web-overview)。 创建后的 Web 应用，你将部署到它从使用 Git 在本地计算机。
 
-1. 登录到[Azure Cloud Shell](https://shell.azure.com/bash)。 注意： 在登录时第一次，Cloud Shell 会提示创建配置文件的存储帐户。 接受默认值或提供唯一的名称。
+1. 登录到[Azure Cloud Shell](https://shell.azure.com/bash)。 注意:在登录时第一次，Cloud Shell 会提示创建配置文件的存储帐户。 接受默认值或提供唯一的名称。
 
 2. 对于以下步骤使用 Cloud Shell。
 
@@ -141,7 +141,7 @@ ms.locfileid: "50090932"
 
 ## <a name="deployment-with-visual-studio"></a>使用 Visual Studio 部署
 
-> *注意： 本部分仅适用于 Windows。Linux 和 macOS 用户应进行下面的步骤 2 中所述的更改。保存该文件，并将更改提交到本地存储库与`git commit`。最后，推送将更改与`git push`，如下所示的第一个部分。*
+> *注意：本部分仅适用于 Windows。Linux 和 macOS 用户应进行下面的步骤 2 中所述的更改。保存该文件，并将更改提交到本地存储库与`git commit`。最后，推送将更改与`git push`，如下所示的第一个部分。*
 
 已从命令行界面部署应用程序。 让我们使用 Visual Studio 的集成的工具将更新部署到应用。 在后台，Visual Studio 的功能完全相同命令行工具，但在 Visual Studio 的熟悉用户界面内。
 
@@ -150,12 +150,12 @@ ms.locfileid: "50090932"
 3. 按**Ctrl**+**Shift**+**B**生成的应用。
 4. 在解决方案资源管理器，右键单击项目并单击**发布**。
 
-    ![右键单击发布](./media/deploying-to-app-service/publish.png)
+    ![显示单击鼠标右键，发布的屏幕截图](./media/deploying-to-app-service/publish.png)
 5. Visual Studio 可以创建新的应用服务资源，但此更新将发布对现有部署。 在**选取发布目标**对话框中，选择**应用服务**从列表中的左侧，然后选择**选择现有**。 单击“发布” 。
 6. 在中**应用服务**对话框中，确认已显示在右上方的 Microsoft 或组织帐户用于创建你的 Azure 订阅。 如果不是这样，单击下拉列表，并将其添加。
 7. 确认正确的 Azure**订阅**处于选中状态。 有关**视图**，选择**资源组**。 展开**AzureTutorial**资源组，然后选择现有的 web 应用。 单击 **“确定”**。
 
-    ![发布应用服务对话框](./media/deploying-to-app-service/publish-dialog.png)
+    ![屏幕截图显示发布的应用服务对话框](./media/deploying-to-app-service/publish-dialog.png)
 
 Visual Studio 生成，并将该应用部署到 Azure。 浏览到 web 应用 URL。 验证`<h2>`元素修改处于活动状态。
 
@@ -211,7 +211,7 @@ Visual Studio 生成，并将该应用部署到 Azure。 浏览到 web 应用 UR
 
 6. 若要验证 V3 已部署到过渡槽，请打开两个浏览器窗口。 在一个窗口中，导航到原始的 web 应用 URL。 在其他窗口中，导航到过渡 web 应用 URL。 生产 URL 提供服务的应用程序的 V2。 过渡 URL 提供服务的应用程序的 V3。
 
-    ![比较浏览器窗口](./media/deploying-to-app-service/ready-to-swap.png)
+    ![比较浏览器窗口的屏幕截图](./media/deploying-to-app-service/ready-to-swap.png)
 
 7. 在 Cloud Shell 中，验证/上做好准备的增加将过渡槽交换到生产环境。
 

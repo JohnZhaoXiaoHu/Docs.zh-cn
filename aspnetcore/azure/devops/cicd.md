@@ -1,16 +1,17 @@
 ---
-title: 使用 ASP.NET Core 和 Azure DevOps |持续集成和部署
+title: 持续集成和部署-使用 ASP.NET Core 和 Azure 进行开发运营
 author: CamSoper
-description: 提供有关为托管在 Azure 中的 ASP.NET Core 应用构建 DevOps 管道的端到端指导的指南。
+description: 持续集成和 DevOps 中使用 ASP.NET Core 和 Azure 的部署
 ms.author: scaddie
 ms.date: 10/24/2018
+ms.custom: seodec18
 uid: azure/devops/cicd
-ms.openlocfilehash: edaf2c2e1428e5e82104786d94584a4ef08f9ee3
-ms.sourcegitcommit: 408921a932448f66cb46fd53c307a864f5323fe5
+ms.openlocfilehash: e5bddde41291c9573f58d749bbf830de9ea9319d
+ms.sourcegitcommit: 49faca2644590fc081d86db46ea5e29edfc28b7b
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/12/2018
-ms.locfileid: "51570082"
+ms.lasthandoff: 12/09/2018
+ms.locfileid: "53121582"
 ---
 # <a name="continuous-integration-and-deployment"></a>持续集成和部署
 
@@ -30,7 +31,7 @@ ms.locfileid: "51570082"
 ## <a name="publish-the-apps-code-to-github"></a>将应用程序的代码发布到 GitHub
 
 1. 打开浏览器窗口，并导航到`https://github.com`。
-1. 单击**+** 标头中的下拉列表中，选择**新的存储库**:
+1. 单击 **+** 标头中的下拉列表中，选择**新的存储库**:
 
     ![新的 GitHub 存储库选项](media/cicd/github-new-repo.png)
 
@@ -123,7 +124,7 @@ ms.locfileid: "51570082"
 
     ![保存生成定义的模式对话框](media/cicd/vsts-save-modal.png)
 
-    使用的默认文件夹*\\*，然后单击**保存**按钮。
+    使用的默认文件夹 *\\*，然后单击**保存**按钮。
 
 ### <a name="create-the-release-pipeline"></a>创建发布管道
 
@@ -235,15 +236,15 @@ ms.locfileid: "51570082"
 
 单击生成定义**摘要**链接以查看与定义的生成历史记录：
 
-![生成定义历史记录](media/cicd/build-definition-summary.png)
+![屏幕截图显示生成定义历史记录](media/cicd/build-definition-summary.png)
 
 在结果页上，单击与唯一的内部版本号对应的链接：
 
-![生成定义摘要页](media/cicd/build-definition-completed.png)
+![屏幕截图显示生成定义摘要页](media/cicd/build-definition-completed.png)
 
 显示此特定生成的摘要。 单击**项目**选项卡，并请注意*drop*列出由生成内容生成的文件夹：
 
-![生成定义项目的放置文件夹](media/cicd/build-definition-artifacts.png)
+![显示生成定义项目的放置文件夹的屏幕截图](media/cicd/build-definition-artifacts.png)
 
 使用**下载**并**浏览**检查已发布的项目的链接。
 
@@ -251,25 +252,25 @@ ms.locfileid: "51570082"
 
 发布管道已创建了同名*MyFirstProject ASP.NET Core CD*:
 
-![发布管道概述](media/cicd/release-definition-overview.png)
+![屏幕截图显示发行管道概述](media/cicd/release-definition-overview.png)
 
 发布管道的两个主要组件是**项目**并**环境**。 单击框中的**项目**部分会显示以下窗格：
 
-![发布管道项目](media/cicd/release-definition-artifacts.png)
+![屏幕截图显示发布管道项目](media/cicd/release-definition-artifacts.png)
 
 **源 （生成定义）** 值表示此发布管道链接到生成定义。 *.Zip*成功运行的生成定义所生成文件提供给*生产*环境以部署到 Azure。 单击*1 阶段，2 个任务*中的链接*生产*环境，若要查看发布管道任务：
 
-![发布管道任务](media/cicd/release-definition-tasks.png)
+![屏幕截图显示发布管道任务](media/cicd/release-definition-tasks.png)
 
 发布管道的两个任务组成：*将 Azure 应用服务部署槽*并*管理 Azure 应用服务-槽交换*。 单击第一个任务将显示下面的任务配置：
 
-![发布管道部署任务](media/cicd/release-definition-task1.png)
+![屏幕截图显示发布管道部署任务](media/cicd/release-definition-task1.png)
 
 Azure 订阅、 服务类型、 web 应用名称、 资源组和部署槽部署任务中定义。 **包或文件夹**文本框中保留 *.zip*要提取并部署到的文件路径*暂存*槽*mywebapp\<唯一数目 （_n)\>*  web 应用。
 
 单击该槽交换任务将显示下面的任务配置：
 
-![发布管道槽交换任务](media/cicd/release-definition-task2.png)
+![屏幕截图显示发布管道槽交换任务](media/cicd/release-definition-task2.png)
 
 提供订阅、 资源组、 服务类型、 web 应用名称和部署槽详细信息。 **与生成交换**选中复选框。 因此，将位部署到*暂存*槽交换到生产环境。
 

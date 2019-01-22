@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: 3751f5e7-59db-4be0-a290-50abc24e5c84
 msc.legacyurl: /signalr/overview/performance/signalr-performance
 msc.type: authoredcontent
-ms.openlocfilehash: 269c10d7a73f181eaceac1c43ad51f3933d6711c
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 9346f0ff9720361f07afe196f59305f0f38ffe8a
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911852"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287762"
 ---
 <a name="signalr-performance"></a>SignalR 性能
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本主题介绍如何设计、 测量和提高性能的 SignalR 应用程序中。
 >
@@ -88,7 +90,7 @@ SignalR 性能和缩放上的最新演示文稿，请参阅[缩放使用 ASP.NET
 
 **SignalR 配置设置**
 
-- **DefaultMessageBufferSize**： 默认情况下，SignalR 将保留在内存中的每个中心的每个连接的 1000 条消息。 如果使用大型消息时，这可能会造成内存问题，这可以通过减小此值来缓解这。 此设置可以设置`Application_Start`事件处理程序在 ASP.NET 应用程序，或在`Configuration`自承载的应用程序中的 OWIN 启动类的方法。 下面的示例演示如何以减少应用程序，以减少使用的服务器内存量的内存占用减小此值：
+- **DefaultMessageBufferSize**:默认情况下，SignalR 将保留在内存中的每个中心的每个连接的 1000 条消息。 如果使用大型消息时，这可能会造成内存问题，这可以通过减小此值来缓解这。 此设置可以设置`Application_Start`事件处理程序在 ASP.NET 应用程序，或在`Configuration`自承载的应用程序中的 OWIN 启动类的方法。 下面的示例演示如何以减少应用程序，以减少使用的服务器内存量的内存占用减小此值：
 
     **.NET 服务器代码在 Startup.cs 中减少默认消息缓冲区大小**
 
@@ -96,10 +98,10 @@ SignalR 性能和缩放上的最新演示文稿，请参阅[缩放使用 ASP.NET
 
 **IIS 配置设置**
 
-- **每个应用程序的最大并发请求**： 增加并发 IIS 的请求会增加可用于为请求提供服务的服务器资源。 默认值为 5000;若要增加此设置，请在提升的命令提示符中执行以下命令：
+- **每个应用程序的最大并发请求**:增加并发 IIS 请求会增加可用于为请求提供服务的服务器资源。 默认值为 5000;若要增加此设置，请在提升的命令提示符中执行以下命令：
 
     [!code-console[Main](signalr-performance/samples/sample4.cmd)]
-- **ApplicationPool QueueLength**： 这是最大 Http.sys 队列为应用程序池的请求数。 如果队列已满，新的请求将收到 503"服务不可用"响应。 默认值为 1000。
+- **ApplicationPool QueueLength**:这是最大 Http.sys 队列为应用程序池的请求数。 如果队列已满，新的请求将收到 503"服务不可用"响应。 默认值为 1000。
 
     缩短工作进程中托管你的应用程序的应用程序池的队列长度将节省内存资源。 有关详细信息，请参阅[管理、 优化和配置应用程序池](https://technet.microsoft.com/library/cc745955.aspx)。
 
@@ -112,10 +114,10 @@ SignalR 性能和缩放上的最新演示文稿，请参阅[缩放使用 ASP.NET
 
 可能会提高 SignalR 性能的 ASP.NET 设置包括：
 
-- **每个 CPU 的最大并发请求**： 增加此设置可能会缓解性能瓶颈。 若要增加此设置，添加以下配置设置来`aspnet.config`文件：
+- **每个 CPU 的最大并发请求**:增加此设置可能会缓解性能瓶颈。 若要增加此设置，添加以下配置设置来`aspnet.config`文件：
 
     [!code-xml[Main](signalr-performance/samples/sample5.xml?highlight=4)]
-- **请求队列限制**： 当连接总数超过`maxConcurrentRequestsPerCPU`设置，ASP.NET 将开始限制使用队列的请求。 若要增加队列的大小，可以增加`requestQueueLimit`设置。 若要执行此操作，将添加到以下配置设置`processModel`中的节点`config/machine.config`(而非`aspnet.config`):
+- **请求队列限制**:当连接总数超过`maxConcurrentRequestsPerCPU`设置，ASP.NET 将开始限制使用队列的请求。 若要增加队列的大小，可以增加`requestQueueLimit`设置。 若要执行此操作，将添加到以下配置设置`processModel`中的节点`config/machine.config`(而非`aspnet.config`):
 
     [!code-xml[Main](signalr-performance/samples/sample6.xml)]
 
@@ -197,14 +199,14 @@ SignalR 性能和缩放上的最新演示文稿，请参阅[缩放使用 ASP.NET
 
 以下指标测量生成的 SignalR 消息通信错误。 **集线器解析**中心或中心方法无法解析时出现错误。 **集线器调用**错误是调用集线器方法时引发的异常。 **传输**错误是在 HTTP 请求或响应过程中引发的连接错误。
 
-- **错误： 所有总数**
-- **错误： All/秒**
-- **错误： 中心解决方法总数**
-- **错误： 集线器解析/秒**
-- **错误： 中心调用总数**
-- **错误： 中心调用数/秒**
-- **错误： 传输总数**
-- **错误： 传输/秒**
+- **错误：所有总数**
+- **错误：所有/秒**
+- **错误：中心解决方法总数**
+- **错误：每秒集线器解析**
+- **错误：集线器调用总数**
+- **错误：每秒集线器调用**
+- **错误：传输总数**
+- **错误：传输/秒**
 
 <a id="scaleout_metrics"></a>
 

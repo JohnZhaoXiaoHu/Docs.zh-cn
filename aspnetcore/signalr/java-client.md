@@ -5,14 +5,14 @@ description: 了解如何使用 ASP.NET Core SignalR Java 客户端。
 monikerRange: '>= aspnetcore-2.2'
 ms.author: mimengis
 ms.custom: mvc
-ms.date: 11/06/2018
+ms.date: 11/07/2018
 uid: signalr/java-client
-ms.openlocfilehash: 4ee4e61fc301ebeec4d95b1167f94f16c38f3ac5
-ms.sourcegitcommit: fc7eb4243188950ae1f1b52669edc007e9d0798d
+ms.openlocfilehash: d0eff38c1f622b896ed1dc3002238aec7b6bfd38
+ms.sourcegitcommit: 8a65f6c2cbe290fb2418eed58f60fb74c95392c8
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/07/2018
-ms.locfileid: "51225416"
+ms.lasthandoff: 12/05/2018
+ms.locfileid: "52892089"
 ---
 # <a name="aspnet-core-signalr-java-client"></a>ASP.NET Core SignalR Java 客户端
 
@@ -26,13 +26,12 @@ Java 客户端，包括 Android 应用程序的 Java 代码中连接到 ASP.NET 
 
 ## <a name="install-the-signalr-java-client-package"></a>SignalR Java 客户端程序包安装
 
-*Signalr 1.0.0-preview3 35501* JAR 文件允许客户端连接到 SignalR 集线器。 若要查找最新的 JAR 文件版本号，请参阅[Maven 搜索结果](https://search.maven.org/search?q=g:com.microsoft.signalr%20AND%20a:signalr)。
+*Signalr 1.0.0* JAR 文件允许客户端连接到 SignalR 集线器。 若要查找最新的 JAR 文件版本号，请参阅[Maven 搜索结果](https://search.maven.org/search?q=g:com.microsoft.signalr%20AND%20a:signalr)。
 
 如果使用 Gradle，添加下面的代码行`dependencies`一部分您*build.gradle*文件：
 
 ```gradle
-implementation 'com.microsoft.signalr:signalr:1.0.0-preview3-35501'
-implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+implementation 'com.microsoft.signalr:signalr:1.0.0'
 ```
 
 如果使用 Maven，添加以下行`<dependencies>`的元素在*pom.xml*文件：
@@ -75,6 +74,12 @@ SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further detail
 
 这可以安全地忽略。
 
+## <a name="android-development-notes"></a>Android 开发说明
+
+与 SignalR 客户端功能的 Android SDK 兼容性时，请考虑以下各项指定你的目标 Android SDK 版本：
+
+* SignalR Java 客户端将运行 Android API 级别 16 和更高版本。
+* 通过 Azure SignalR 服务连接将需要 20 及更高版本的 Android API 级别因为[Azure SignalR 服务](/azure/azure-signalr/signalr-overview)需要 TLS 1.2，并且不支持基于 SHA-1 的密码套件。 Android[添加支持 SHA-256 （和更高版本） 的密码套件](https://developer.android.com/reference/javax/net/ssl/SSLSocket)API 20 级中。
 
 ## <a name="configure-bearer-token-authentication"></a>配置持有者令牌身份验证
 
@@ -89,8 +94,6 @@ HubConnection hubConnection = HubConnectionBuilder.create("YOUR HUB URL HERE")
 ```
 
 ## <a name="known-limitations"></a>已知限制
-
-这是预览版本的 Java 客户端。 不支持某些功能：
 
 * 支持仅 JSON 协议。
 * 支持仅 Websocket 传输。

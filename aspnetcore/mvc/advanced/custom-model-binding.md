@@ -3,14 +3,14 @@ title: ASP.NET Core 中的自定义模型绑定
 author: ardalis
 description: 了解如何通过模型绑定，使控制器操作能够直接使用 ASP.NET Core 中的模型类型。
 ms.author: riande
-ms.date: 04/10/2017
+ms.date: 11/13/2018
 uid: mvc/advanced/custom-model-binding
-ms.openlocfilehash: dc901aea3c20e7f2e955f39d923216de70ef015b
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: 1da42829270e8ff4a626a45aec4d4e825062bd4f
+ms.sourcegitcommit: f202864efca81a72ea7120c0692940c40d9d0630
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090402"
+ms.lasthandoff: 11/14/2018
+ms.locfileid: "51635285"
 ---
 # <a name="custom-model-binding-in-aspnet-core"></a>ASP.NET Core 中的自定义模型绑定
 
@@ -87,11 +87,14 @@ public IModelBinder GetBinder(ModelBinderProviderContext context)
 
 [!code-csharp[](custom-model-binding/sample/CustomModelBindingSample/Data/Author.cs?highlight=10)]
 
-在前面的代码中，`ModelBinder` 属性指定应当用于绑定 `Author` 操作参数的 `IModelBinder` 的类型。 
+在前面的代码中，`ModelBinder` 属性指定应当用于绑定 `Author` 操作参数的 `IModelBinder` 的类型。
 
-通过 Entity Framework Core 和 `authorId` 提取数据源中的实体，可使用 `AuthorEntityBinder` 来绑定 `Author` 参数：
+以下 `AuthorEntityBinder` 类通过 Entity Framework Core 和 `authorId` 提取数据源中的实体来绑定 `Author` 参数：
 
 [!code-csharp[](custom-model-binding/sample/CustomModelBindingSample/Binders/AuthorEntityBinder.cs?name=demo)]
+
+> [!NOTE]
+> 前面的 `AuthorEntityBinder` 类旨在说明自定义模型绑定器。 该类不是意在说明查找方案的最佳做法。 对于查找，请绑定 `authorId` 并在操作方法中查询数据库。 此方法将模型绑定故障与 `NotFound` 案例分开。
 
 以下代码显示如何在操作方法中使用 `AuthorEntityBinder`：
 
@@ -130,6 +133,7 @@ public IModelBinder GetBinder(ModelBinderProviderContext context)
 ## <a name="recommendations-and-best-practices"></a>建议和最佳做法
 
 自定义模型绑定：
+
 - 不应尝试设置状态代码或返回结果（例如 404 Not Found）。 如果模型绑定失败，那么该操作方法本身的[操作筛选器](xref:mvc/controllers/filters)或逻辑会处理失败。
 - 对于消除操作方法中的重复代码和跨领域问题最为有用。
 - 通常不应用其将字符串转换为自定义类型，而应选择用 [`TypeConverter`](/dotnet/api/system.componentmodel.typeconverter) 来完成此操作。

@@ -4,16 +4,16 @@ title: 检查 Edit 方法和编辑视图 |Microsoft Docs
 author: Rick-Anderson
 description: ''
 ms.author: riande
-ms.date: 05/22/2015
+ms.date: 01/06/2019
 ms.assetid: 52a4d5fe-aa31-4471-b3cb-a064f82cb791
 msc.legacyurl: /mvc/overview/getting-started/introduction/examining-the-edit-methods-and-edit-view
 msc.type: authoredcontent
-ms.openlocfilehash: 29ece7754bc6e25ea968c25a99a2f48ab837e12c
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 75fd3a7dd55107cbdb9095d5b54b616133b4f65e
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911526"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099391"
 ---
 <a name="examining-the-edit-methods-and-edit-view"></a>检查 Edit 方法和编辑视图
 ====================
@@ -83,15 +83,19 @@ ms.locfileid: "48911526"
 
 [ValidateAntiForgeryToken](https://msdn.microsoft.com/library/system.web.mvc.validateantiforgerytokenattribute(v=vs.108).aspx)特性验证[XSRF](../../security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages.md)生成令牌`@Html.AntiForgeryToken()`调用视图中。
 
-[ASP.NET MVC 模型绑定器](https://msdn.microsoft.com/library/dd410405.aspx)已发布的表单值，并创建`Movie`作为传递的对象`movie`参数。 `ModelState.IsValid` 方法验证表单中提交的数据是否可以用于修改（编辑或更新）`Movie` 对象。 如果数据有效，电影数据保存到`Movies`的集合`db(MovieDBContext`实例)。 新的电影数据保存到数据库上，通过调用`SaveChanges`方法的`MovieDBContext`。 保存数据后，代码将用户重定向到 `MoviesController` 类的 `Index` 操作方法，此方法显示电影集合，包括刚才所做的更改。
+[ASP.NET MVC 模型绑定器](https://msdn.microsoft.com/library/dd410405.aspx)已发布的表单值，并创建`Movie`作为传递的对象`movie`参数。 `ModelState.IsValid`验证是否在窗体中提交的数据可用于修改 （编辑或更新）`Movie`对象。 如果数据有效，电影数据保存到`Movies`的集合`db`(`MovieDBContext`实例)。 新的电影数据保存到数据库上，通过调用`SaveChanges`方法的`MovieDBContext`。 保存数据后，代码将用户重定向到 `MoviesController` 类的 `Index` 操作方法，此方法显示电影集合，包括刚才所做的更改。
 
-只要客户端验证确定字段的值均无效，将显示一条错误消息。 如果禁用 JavaScript，无法进行客户端验证，但服务器将检测到已发布的值不是有效，和错误消息将重新显示窗体值。 本教程的后面，我们介绍更多详细信息中的验证。
+只要客户端验证确定字段的值无效，将显示一条错误消息。 如果禁用 JavaScript，则禁用客户端验证。 但是，服务器检测到已发布的值不是有效，并且表单值将重新显示错误消息。
+
+本教程的后面，如果更详细地检查验证。
 
 `Html.ValidationMessageFor`中的帮助程序*Edit.cshtml*视图模板负责显示相应的错误消息。
 
 ![abcNotValid](examining-the-edit-methods-and-edit-view/_static/image4.png)
 
 所有`HttpGet`方法遵循类似的模式。 它们获取电影对象 (或列表中的大小写的对象， `Index`)，并将模型传递给视图。 `Create`方法将空的电影对象传递给 Create 视图。 在方法的 `HttpPost` 重载中，创建、编辑、删除或以其他方式修改数据的所有方法都执行此操作。 在 HTTP GET 方法中修改数据是安全风险，如博客文章文章中所述[ASP.NET MVC 提示 #46 – 不使用删除链接，因为他们创建的安全漏洞](http://stephenwalther.com/blog/archive/2009/01/21/asp.net-mvc-tip-46-ndash-donrsquot-use-delete-links-because.aspx)。 在 GET 方法中修改数据也违反了 HTTP 最佳做法和架构[REST](http://en.wikipedia.org/wiki/Representational_State_Transfer)模式，后者指定 GET 请求不应更改应用程序的状态。 换句话说，执行 GET 操作应是没有任何隐患的安全操作，也不会修改持久数据。
+
+## <a name="jquery-validation-for-non-english-locales"></a>非英语区域设置的 jQuery 验证
 
 如果使用的美国英语计算机，可以跳过此部分并转到下一步的教程。 您可以下载本教程的 Globalize 版本[此处](https://archive.msdn.microsoft.com/Project/Download/FileDownload.aspx?ProjectName=aspnetmvcsamples&amp;DownloadId=16475)。 关于国际化的精彩两个部分教程，请参阅[Nadeem 的 ASP.NET MVC 5 国际化](http://afana.me/post/aspnet-mvc-internationalization.aspx)。
 

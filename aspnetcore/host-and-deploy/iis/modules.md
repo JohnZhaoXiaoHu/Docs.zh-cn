@@ -4,14 +4,14 @@ author: guardrex
 description: 了解适用于 ASP.NET Core 应用的活动和非活动 IIS 模块以及如何管理 IIS 模块。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/12/2018
+ms.date: 11/30/2018
 uid: host-and-deploy/iis/modules
-ms.openlocfilehash: b417d479d0c3f8b3e739d4c72b52247de0e88e56
-ms.sourcegitcommit: 4bdf7703aed86ebd56b9b4bae9ad5700002af32d
+ms.openlocfilehash: c6a6cc9b6b3410267c6f5034f824648a1ebbe10f
+ms.sourcegitcommit: 9bb58d7c8dad4bbd03419bcc183d027667fefa20
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/15/2018
-ms.locfileid: "49325947"
+ms.lasthandoff: 12/04/2018
+ms.locfileid: "52862234"
 ---
 # <a name="iis-modules-with-aspnet-core"></a>IIS 模块与 ASP.NET Core
 
@@ -21,7 +21,7 @@ ms.locfileid: "49325947"
 
 ## <a name="native-modules"></a>本机模块
 
-该表指示在针对 ASP.NET Core 应用的反向代理请求中正常工作的本机 IIS 模块。
+该表指示在使用 ASP.NET Core 应用和 ASP.NET Core 模块时正常工作的本机 IIS 模块。
 
 | 模块 | 在 ASP.NET Core 应用内可用 | ASP.NET Core 选项 |
 | --- | :---: | --- |
@@ -30,14 +30,14 @@ ms.locfileid: "49325947"
 | **客户端证书映射身份验证**<br>`CertificateMappingAuthenticationModule`      | 是 | |
 | **CGI**<br>`CgiModule`                                                                           | 否  | |
 | **配置验证**<br>`ConfigurationValidationModule`                                  | 是 | |
-| **HTTP 错误**<br>`CustomErrorModule`                                                           | 否  | [状态代码页中间件](xref:fundamentals/error-handling#configure-status-code-pages) |
+| **HTTP 错误**<br>`CustomErrorModule`                                                           | No  | [状态代码页中间件](xref:fundamentals/error-handling#configure-status-code-pages) |
 | **自定义日志记录**<br>`CustomLoggingModule`                                                      | 是 | |
-| **默认文档**<br>`DefaultDocumentModule`                                                  | 否  | [默认文件中间件](xref:fundamentals/static-files#serve-a-default-document) |
+| **默认文档**<br>`DefaultDocumentModule`                                                  | No  | [默认文件中间件](xref:fundamentals/static-files#serve-a-default-document) |
 | **摘要式身份验证**<br>`DigestAuthenticationModule`                                        | 是 | |
-| **目录浏览**<br>`DirectoryListingModule`                                               | 否  | [目录浏览中间件](xref:fundamentals/static-files#enable-directory-browsing) |
+| **目录浏览**<br>`DirectoryListingModule`                                               | No  | [目录浏览中间件](xref:fundamentals/static-files#enable-directory-browsing) |
 | **动态压缩**<br>`DynamicCompressionModule`                                            | 是 | [响应压缩中间件](xref:performance/response-compression) |
 | **跟踪**<br>`FailedRequestsTracingModule`                                                     | 是 | [ASP.NET Core 日志记录](xref:fundamentals/logging/index#tracesource-provider) |
-| **文件缓存**<br>`FileCacheModule`                                                            | 否  | [响应缓存中间件](xref:performance/caching/middleware) |
+| **文件缓存**<br>`FileCacheModule`                                                            | No  | [响应缓存中间件](xref:performance/caching/middleware) |
 | **HTTP 缓存**<br>`HttpCacheModule`                                                            | 否  | [响应缓存中间件](xref:performance/caching/middleware) |
 | **HTTP 日志记录**<br>`HttpLoggingModule`                                                          | 是 | [ASP.NET Core 日志记录](xref:fundamentals/logging/index) |
 | **HTTP 重定向**<br>`HttpRedirectionModule`                                                  | 是 | [URL 重写中间件](xref:fundamentals/url-rewriting) |
@@ -49,9 +49,9 @@ ms.locfileid: "49325947"
 | **请求筛选**<br>`RequestFilteringModule`                                                | 是 | [URL 重写中间件`IRule`](xref:fundamentals/url-rewriting#irule-based-rule) |
 | **请求监视器**<br>`RequestMonitorModule`                                                    | 是 | |
 | **URL 重写**&#8224；<br>`RewriteModule`                                                      | 是 | [URL 重写中间件](xref:fundamentals/url-rewriting) |
-| **服务器端包括**<br>`ServerSideIncludeModule`                                            | 否  | |
-| **静态压缩**<br>`StaticCompressionModule`                                              | 否  | [响应压缩中间件](xref:performance/response-compression) |
-| **静态内容**<br>`StaticFileModule`                                                         | 否  | [静态文件中间件](xref:fundamentals/static-files) |
+| **服务器端包括**<br>`ServerSideIncludeModule`                                            | No  | |
+| **静态压缩**<br>`StaticCompressionModule`                                              | No  | [响应压缩中间件](xref:performance/response-compression) |
+| **静态内容**<br>`StaticFileModule`                                                         | No  | [静态文件中间件](xref:fundamentals/static-files) |
 | **令牌缓存**<br>`TokenCacheModule`                                                          | 是 | |
 | **URI 缓存**<br>`UriCacheModule`                                                              | 是 | |
 | **URL 授权**<br>`UrlAuthorizationModule`                                                | 是 | [ASP.NET Core 标识](xref:security/authentication/identity) |

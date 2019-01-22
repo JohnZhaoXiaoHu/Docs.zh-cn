@@ -8,12 +8,12 @@ ms.date: 10/17/2013
 ms.assetid: 4085de68-d243-4378-8a64-86236ea8d2da
 msc.legacyurl: /mvc/overview/getting-started/introduction/adding-a-new-field
 msc.type: authoredcontent
-ms.openlocfilehash: 87bb2c5f64e714268f5e2631b44fbb8a93a6a4b6
-ms.sourcegitcommit: 7b4e3936feacb1a8fcea7802aab3e2ea9c8af5b4
+ms.openlocfilehash: 950ae17ebd6b0f15520c2a4e9372703f5374dfbe
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/04/2018
-ms.locfileid: "48578078"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098683"
 ---
 <a name="adding-a-new-field"></a>添加新字段
 ====================
@@ -94,7 +94,7 @@ Code First 迁移创建另一个类文件中的*迁移*文件夹 (具有名称 *
 
 ![](adding-a-new-field/_static/image7.png)
 
-如果收到一个错误，指示表已存在，无法创建，则可能是因为删除了该数据库后，您在执行前运行应用程序`update-database`。 在这种情况下，删除*Movies.mdf*再次文件，然后重试`update-database`命令。 如果仍遇到错误，删除的 migrations 文件夹和内容，然后开始在此页顶部的说明进行操作 (这是 delete *Movies.mdf*文件，然后转到 Enable-migrations)。 如果仍收到项错误而失败，打开 SQL Server 对象资源管理器，并从列表中删除数据库。
+如果收到一个错误，指示表已存在，无法创建，则可能是因为删除了该数据库后，您在执行前运行应用程序`update-database`。 在这种情况下，删除*Movies.mdf*再次文件，然后重试`update-database`命令。 如果仍遇到错误，删除的 migrations 文件夹和内容，然后开始在此页顶部的说明进行操作 (这是 delete *Movies.mdf*文件，然后转到 Enable-migrations)。 如果仍遇到错误，打开 SQL Server 对象资源管理器，并从列表中删除数据库。
 
 运行应用程序并导航到 */Movies* URL。 将显示种子数据。
 

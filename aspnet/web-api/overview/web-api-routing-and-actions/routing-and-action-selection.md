@@ -4,16 +4,16 @@ title: 路由和 ASP.NET Web API 中的操作选择 |Microsoft Docs
 author: MikeWasson
 description: ''
 ms.author: riande
-ms.date: 07/27/2012
+ms.date: 12/14/2018
 ms.assetid: bcf2d223-cb7f-411e-be05-f43e96a14015
 msc.legacyurl: /web-api/overview/web-api-routing-and-actions/routing-and-action-selection
 msc.type: authoredcontent
-ms.openlocfilehash: b4912d3ee1e13651f2a63d54d7dbfd92e00f85f8
-ms.sourcegitcommit: 45ac74e400f9f2b7dbded66297730f6f14a4eb25
+ms.openlocfilehash: ce54181996376cb5dde3b91c10c16f33b3c6a570
+ms.sourcegitcommit: 6548c19f345850ee22b50f7ef9fca732895d9e08
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41833151"
+ms.lasthandoff: 12/14/2018
+ms.locfileid: "53425167"
 ---
 <a name="routing-and-action-selection-in-aspnet-web-api"></a>路由和 ASP.NET Web API 中的操作选择
 ====================
@@ -62,7 +62,7 @@ ms.locfileid: "41833151"
 
 [!code-csharp[Main](routing-and-action-selection/samples/sample4.cs)]
 
-URI"`http://localhost/api/products`"与此路由匹配。 "{Category}"段分配默认值"all"。
+Uri`http://localhost/api/products/all`和`http://localhost/api/products`匹配前面的路由。 在后一种 URI 中，缺少`{category}`段分配默认值`all`。
 
 ### <a name="route-dictionary"></a>路由字典
 
@@ -122,7 +122,7 @@ URI 路径的"api/产品"中，将包含路由字典：
 
 **HTTP 方法。** 框架仅选择匹配的请求，确定，如下所示的 HTTP 方法的操作：
 
-1. 可以使用属性指定的 HTTP 方法： **AcceptVerbs**， **HttpDelete**， **HttpGet**， **HttpHead**， **HttpOptions**， **HttpPatch**， **HttpPost**，或**HttpPut**。
+1. 可以使用属性来指定 HTTP 方法：**AcceptVerbs**， **HttpDelete**， **HttpGet**， **HttpHead**， **HttpOptions**， **HttpPatch**， **HttpPost**，或**HttpPut**。
 2. 否则，如果控制器方法的名称以"Get"、"Post"、"Put"、"删除"、"Head"、"选项"或"修补"开头，然后按照约定操作支持的 HTTP 方法。
 3. 如果上述任何订阅，该方法支持 POST。
 

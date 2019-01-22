@@ -1,17 +1,17 @@
 ---
-title: 使用 ASP.NET Core 和 Azure DevOps |监视和调试
+title: 监视和调试-使用 ASP.NET Core 和 Azure 进行开发运营
 author: CamSoper
-description: 提供有关为托管在 Azure 中的 ASP.NET Core 应用构建 DevOps 管道的端到端指导的指南。
+description: 监视和使用 ASP.NET Core 和 Azure DevOps 解决方案的一部分进行调试你的代码
 ms.author: casoper
-ms.custom: mvc
+ms.custom: mvc, seodec18
 ms.date: 10/24/2018
 uid: azure/devops/monitor
-ms.openlocfilehash: c4013de574fdf34114f2ae6c6a2150d72f807578
-ms.sourcegitcommit: 4d74644f11e0dac52b4510048490ae731c691496
+ms.openlocfilehash: 00489bd92dfff8fd80bd24c2e60193d32031d7c4
+ms.sourcegitcommit: b34b25da2ab68e6495b2460ff570468f16a9bf0d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/25/2018
-ms.locfileid: "50090173"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53284365"
 ---
 # <a name="monitor-and-debug"></a>监视和调试
 
@@ -35,17 +35,17 @@ ms.locfileid: "50090173"
 
 1. **概述**选项卡显示有用"眼"的信息，包括关系图显示最近的指标。
 
-    ![概述面板](./media/monitoring/overview.png)
+    ![屏幕截图显示概述面板](./media/monitoring/overview.png)
 
-    * **Http 5xx**： 服务器端错误的计数，通常是 ASP.NET Core 代码中的异常。
-    * **数据在**： 进入你的 web 应用的数据入口。
-    * **输出数据量**： 数据从 web 应用出口到客户端。
-    * **请求**： 计数的 HTTP 请求。
-    * **平均响应时间**： 的 web 应用响应 HTTP 请求的平均时间。
+    * **Http 5xx**:服务器端错误，通常在 ASP.NET Core 代码中的异常的计数。
+    * **中的数据**:数据入口进入你的 web 应用。
+    * **输出数据量**:数据流出量从 web 应用程序向客户端。
+    * **请求**:计数的 HTTP 请求。
+    * **平均响应时间**:Web 应用响应 HTTP 请求的平均时间。
 
     此外在此页上找到多个自助服务工具进行故障排除和优化。
 
-    ![自助服务工具](./media/monitoring/wizards.png)
+    ![屏幕截图显示自助服务工具](./media/monitoring/wizards.png)
 
     * **诊断并解决问题**是自助服务的故障排除程序。
     * **Application Insights**用于分析性能和应用程序行为，稍后在本部分中讨论。
@@ -103,7 +103,7 @@ Application Insights 提供有用的服务器端的信息，而无需其他配�
 1. 打开[Azure 门户](https://portal.azure.com)，并导航到*mywebapp\<unique_number\>* 应用服务。
 1. 在左侧菜单中，向下滚动到**监视**部分，并选择**日志流**。
 
-    ![日志流链接](./media/monitoring/log-stream.png)
+    ![显示日志流链接的屏幕截图](./media/monitoring/log-stream.png)
 
 也可以是日志[流式处理通过 Azure CLI 或 Azure PowerShell](/azure/app-service/web-sites-enable-diagnostic-log#streamlogs)，其中包括通过 Cloud Shell。
 
@@ -111,7 +111,7 @@ Application Insights 提供有用的服务器端的信息，而无需其他配�
 
 Azure 监视器还提供[实时警报](/azure/monitoring-and-diagnostics/insights-alerts-portal)基于度量值、 管理事件和其他条件。
 
-> *注意： 当前在 web 应用度量值均可收到警报仅在警报 （经典） 服务中。*
+> *注意：当前在 web 应用度量值均可收到警报仅在警报 （经典） 服务中。*
 
 [警报 （经典） 服务](/azure/monitoring-and-diagnostics/monitor-quick-resource-metric-alert-portal)在 Azure Monitor 或下可以找到**监视**部分中的应用服务设置。
 

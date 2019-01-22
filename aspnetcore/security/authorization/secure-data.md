@@ -3,14 +3,15 @@ title: 使用受授权的用户数据创建 ASP.NET Core 应用
 author: rick-anderson
 description: 了解如何使用受保护的授权的用户数据创建 Razor 页面应用。 包括 HTTPS、 身份验证、 安全性、 ASP.NET Core 标识。
 ms.author: riande
-ms.date: 7/24/2018
+ms.date: 12/18/2018
+ms.custom: seodec18
 uid: security/authorization/secure-data
-ms.openlocfilehash: 185628d4e06c9b5ae7f2685c10ea9e46dd5abe92
-ms.sourcegitcommit: 4a6bbe84db24c2f3dd2de065de418fde952c8d40
+ms.openlocfilehash: bdba706c1ef24ebe35129cb8bb2d9949196245a1
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/30/2018
-ms.locfileid: "50253216"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54098917"
 ---
 # <a name="create-an-aspnet-core-app-with-user-data-protected-by-authorization"></a>使用受授权的用户数据创建 ASP.NET Core 应用
 
@@ -38,33 +39,33 @@ ms.locfileid: "50253216"
 
 在下图中，用户 Rick (`rick@example.com`) 登录。 Rick 只能查看允许的联系人和**编辑**/**删除**/**新建**其联系人的链接。 只有最后一个记录，创建由 Rick，显示**编辑**并**删除**链接。 其他用户不会看到的最后一个记录，直到经理或管理员的状态更改为"已批准"。
 
-![前面的图像描述](secure-data/_static/rick.png)
+![屏幕截图显示 Rick 登录](secure-data/_static/rick.png)
 
 在下图中，`manager@contoso.com`在和中的管理器角色进行签名：
 
-![前面的图像描述](secure-data/_static/manager1.png)
+![屏幕截图显示manager@contoso.com登录](secure-data/_static/manager1.png)
 
 下图显示在管理器的联系人的详细信息视图：
 
-![前面的图像描述](secure-data/_static/manager.png)
+![联系人的经理的视图](secure-data/_static/manager.png)
 
 **批准**并**拒绝**按钮仅显示经理和管理员。
 
 在下图中，`admin@contoso.com`进行签名和管理员角色中：
 
-![前面的图像描述](secure-data/_static/admin.png)
+![屏幕截图显示admin@contoso.com登录](secure-data/_static/admin.png)
 
 管理员具有所有权限。 她可以读取、 编辑或删除任何联系，并更改联系人的状态。
 
-通过创建该应用[基架](xref:tutorials/first-mvc-app-xplat/adding-model#scaffold-the-moviecontroller)以下`Contact`模型：
+通过创建该应用[基架](xref:tutorials/first-mvc-app/adding-model#scaffold-the-movie-model)以下`Contact`模型：
 
-[!code-csharp[](secure-data/samples/starter2.1/Models/Contact.cs?name=snippet)]
+[!code-csharp[](secure-data/samples/starter2.1/Models/Contact.cs?name=snippet1)]
 
 此示例包含以下授权处理程序：
 
-* `ContactIsOwnerAuthorizationHandler`： 可确保用户只能编辑其数据。
-* `ContactManagerAuthorizationHandler`： 允许经理批准或拒绝的联系人。
-* `ContactAdministratorsAuthorizationHandler`： 允许管理员可以批准或拒绝联系人并将编辑/删除联系人。
+* `ContactIsOwnerAuthorizationHandler`：可确保用户只能编辑其数据。
+* `ContactManagerAuthorizationHandler`：允许管理人员批准或拒绝的联系人。
+* `ContactAdministratorsAuthorizationHandler`：允许管理员可以批准或拒绝联系人并将编辑/删除联系人。
 
 ## <a name="prerequisites"></a>系统必备
 
@@ -281,58 +282,65 @@ dotnet user-secrets set SeedUserPW <PW>
 
 ## <a name="test-the-completed-app"></a>测试已完成的应用程序
 
+如果你尚未设置设定为种子的用户帐户的密码，使用[机密管理器工具](xref:security/app-secrets#secret-manager)设置密码：
+
+* 选择一个强密码：使用八个或更多的字符和至少一个大写字符，其编号，和符号。 例如，`Passw0rd!`符合强密码要求。
+* 执行以下命令从项目的文件夹，其中`<PW>`的密码：
+
+  ```console
+  dotnet user-secrets set SeedUserPW <PW>
+  ```
+
 如果应用了联系人：
 
-* 删除中的所有记录`Contact`表。
+* 删除所有记录中`Contact`表。
 * 重新启动应用以设定数据库种子。
 
-浏览联系人注册用户。
-
-测试已完成的应用程序的简单方法是启动三个不同的浏览器 （或 incognito/InPrivate 版本）。 在一个浏览器中注册一个新用户 (例如， `test@example.com`)。 登录到每个浏览器使用不同的用户。 验证以下操作：
+测试已完成的应用程序的简单方法是启动三个不同的浏览器 （或 incognito/InPrivate 会话）。 在一个浏览器中注册一个新用户 (例如， `test@example.com`)。 登录到每个浏览器使用不同的用户。 验证以下操作：
 
 * 已注册的用户可以查看所有已批准的联系人数据。
 * 已注册的用户可以编辑/删除其自己的数据。
-* 经理可以批准或拒绝的联系人数据。 `Details`视图视图将显示**批准**并**拒绝**按钮。
-* 管理员可以批准/拒绝和编辑/删除的任何数据。
+* 经理可以批准/拒绝的联系人数据。 `Details`视图视图将显示**批准**并**拒绝**按钮。
+* 管理员可以批准/拒绝和编辑/删除所有数据。
 
-| “用户”| 选项 |
-| ------------ | ---------|
-| test@example.com | 可以编辑/删除自己的数据 |
-| manager@contoso.com | 可以批准/拒绝和编辑/删除拥有的数据 |
-| admin@contoso.com | 可以编辑/删除和批准/拒绝的所有数据|
+| “用户”                | 由应用程序进行种子设定 | 选项                                  |
+| ------------------- | :---------------: | ---------------------------------------- |
+| test@example.com    | 否                | 编辑/删除自己的数据。                |
+| manager@contoso.com | 是               | 批准/拒绝和编辑/删除拥有的数据。 |
+| admin@contoso.com   | 是               | 批准/拒绝和编辑/删除所有数据。 |
 
 在管理员的浏览器中创建联系人。 删除 URL 复制并编辑从管理员的联系信息。 将下面的链接粘贴到测试用户的浏览器以验证测试用户不能执行这些操作。
 
 ## <a name="create-the-starter-app"></a>创建入门级应用
 
 * 创建名为"ContactManager"Razor 页面应用
-   * 创建包含应用**单个用户帐户**。
-   * 它命名为"ContactManager"使命名空间匹配的示例中使用的命名空间。
-   * `-uld` 指定 LocalDB，而不是 SQLite
+  * 创建包含应用**单个用户帐户**。
+  * 它命名为"ContactManager"使命名空间匹配的示例中使用的命名空间。
+  * `-uld` 指定 LocalDB，而不是 SQLite
 
   ```console
   dotnet new webapp -o ContactManager -au Individual -uld
   ```
 
-* 添加*Models\Contact.cs*:
+* 添加*Models/Contact.cs*:
 
   [!code-csharp[](secure-data/samples/starter2.1/Models/Contact.cs?name=snippet1)]
 
 * 基架`Contact`模型。
 * 创建初始迁移并更新数据库：
 
-```console
-dotnet aspnet-codegenerator razorpage -m Contact -udl -dc ApplicationDbContext -outDir Pages\Contacts --referenceScriptLibraries
-dotnet ef database drop -f
-dotnet ef migrations add initial
-dotnet ef database update
-```
+  ```console
+  dotnet aspnet-codegenerator razorpage -m Contact -udl -dc ApplicationDbContext -outDir Pages\Contacts --referenceScriptLibraries
+  dotnet ef database drop -f
+  dotnet ef migrations add initial
+  dotnet ef database update
+  ```
 
 * 更新**ContactManager**中的定位点*pages/_layout.cshtml*文件：
 
-```cshtml
-<a asp-page="/Contacts/Index" class="navbar-brand">ContactManager</a>
-```
+  ```cshtml
+  <a asp-page="/Contacts/Index" class="navbar-brand">ContactManager</a>
+  ```
 
 * 测试应用程序的创建、 编辑和删除联系人
 

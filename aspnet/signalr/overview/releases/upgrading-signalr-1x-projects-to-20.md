@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: adcfef99-9bc5-489d-a91b-9b7c2bc35e04
 msc.legacyurl: /signalr/overview/releases/upgrading-signalr-1x-projects-to-20
 msc.type: authoredcontent
-ms.openlocfilehash: 450ddedb520035cc05a0dbcca1a2666dd1ba24c7
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 23ea23585b15395cf86bdad13885af32d1b64e79
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48910546"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53286839"
 ---
 <a name="upgrading-signalr-1x-projects-to-version-2"></a>将 SignalR 1.x 项目升级到版本 2
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本主题介绍如何升级现有的 SignalR 1.x 项目到 SignalR 2.x 中，以及如何解决在升级过程中可能出现的问题。
 >
@@ -50,18 +52,18 @@ SignalR 2，在使用的服务器平台提供一致的开发体验[OWIN](http://
 
 虽然建议升级应用程序到 SignalR 2，SignalR 1.x 仍受支持。
 
-本教程介绍如何升级到 SignalR 2 web 承载的应用程序。 SignalR 2 下现在支持自承载应用程序 （这些托管在一个控制台应用程序、 Windows 服务或其他进程服务器）。 有关如何开始使用 SignalR 2 创建自承载的应用程序的信息，请参阅[教程： 自承载 SignalR](../deployment/tutorial-signalr-self-host.md)。
+本教程介绍如何升级到 SignalR 2 web 承载的应用程序。 SignalR 2 下现在支持自承载应用程序 （这些托管在一个控制台应用程序、 Windows 服务或其他进程服务器）。 有关如何开始使用 SignalR 2 创建自承载的应用程序的信息，请参阅[教程：自承载 SignalR](../deployment/tutorial-signalr-self-host.md)。
 
 ## <a name="contents"></a>内容
 
 以下部分介绍与升级 SignalR 项目，以及如何解决可能出现的问题涉及的任务。
 
-- [示例： 升级到 SignalR 2 入门教程](#example)
+- [示例：升级到 SignalR 2 入门教程](#example)
 - [在升级过程中遇到的错误疑难解答](#troubleshooting)
 
 <a id="example"></a>
 
-## <a name="example-upgrading-the-getting-started-tutorial-application-to-signalr-2"></a>示例： 快速入门教程应用程序升级到 SignalR 2
+## <a name="example-upgrading-the-getting-started-tutorial-application-to-signalr-2"></a>示例:入门教程应用程序升级到 SignalR 2
 
 在本部分中，你将更新中创建的应用程序[SignalR 1.x 版的入门教程](../older-versions/index.md)使用 SignalR 2。
 

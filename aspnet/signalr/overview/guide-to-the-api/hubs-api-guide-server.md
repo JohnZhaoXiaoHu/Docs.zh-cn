@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: b19913e5-cd8a-4e4b-a872-5ac7a858a934
 msc.legacyurl: /signalr/overview/guide-to-the-api/hubs-api-guide-server
 msc.type: authoredcontent
-ms.openlocfilehash: 6545491cfa36bb9fee555eb0348ec0a319bff470
-ms.sourcegitcommit: fc2486ddbeb15ab4969168d99b3fe0fbe91e8661
+ms.openlocfilehash: 4730c4d9f601f561cfc884e0a9c2c2d12785ae0f
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 11/01/2018
-ms.locfileid: "50758240"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53288100"
 ---
 <a name="aspnet-signalr-hubs-api-guide---server-c"></a>ASP.NET SignalR 中心 API 指南-服务器 (C#)
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom Dykstra](https://github.com/tdykstra)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本文档提供了简介 SignalR 版本 2，ASP.NET SignalR 中心 API 的服务器端编程的代码示例演示常见的选项。
 > 
@@ -41,7 +43,6 @@ ms.locfileid: "50758240"
 > ## <a name="questions-and-comments"></a>问题和提出的意见
 > 
 > 请在你喜欢本教程的内容以及我们可以改进的页的底部的评论中留下反馈。 如果你有与本教程不直接相关的问题，你可以发布到[ASP.NET SignalR 论坛](https://forums.asp.net/1254.aspx/1?ASP+NET+SignalR)或[StackOverflow.com](http://stackoverflow.com/)。
-
 
 ## <a name="overview"></a>概述
 
@@ -103,7 +104,7 @@ ms.locfileid: "50758240"
 
 [!code-csharp[Main](hubs-api-guide-server/samples/sample1.cs)]
 
-如果要添加到 ASP.NET MVC 应用程序的 SignalR 功能，请确保 SignalR 路由在其他路由之前添加。 有关详细信息，请参阅[教程： SignalR 2 和 MVC 5 入门](../getting-started/tutorial-getting-started-with-signalr-and-mvc.md)。
+如果要添加到 ASP.NET MVC 应用程序的 SignalR 功能，请确保 SignalR 路由在其他路由之前添加。 有关详细信息，请参阅[教程：使用 SignalR 2 和 MVC 5 入门](../getting-started/tutorial-getting-started-with-signalr-and-mvc.md)。
 
 <a id="signalrurl"></a>
 

@@ -8,12 +8,12 @@ ms.date: 10/14/2017
 ms.assetid: 8935bf14-ca6d-4a4e-9dbe-b96ce74cef49
 msc.legacyurl: /ajax/cdn
 msc.type: content
-ms.openlocfilehash: 0da6955a6062571d917fb8c9651417fe834ad34f
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: 65eee9bc477fc8adf10e8d819b93375ffbb72d7b
+ms.sourcegitcommit: 42a8164b8aba21f322ffefacb92301bdfb4d3c2d
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48912641"
+ms.lasthandoff: 01/16/2019
+ms.locfileid: "54341834"
 ---
 <a name="microsoft-ajax-content-delivery-network"></a>Microsoft Ajax 内容交付网络
 ====================
@@ -595,7 +595,7 @@ jQuery 迁移版本 1.2.0
 - [jQuery UI 1.8.8](jquery-ui/cdnjqueryui188.md "的 jQuery UI 1.8.8 Microsoft Ajax CDN")
 - [jQuery UI 1.8.7](jquery-ui/cdnjqueryui187.md "的 jQuery UI 1.8.7 Microsoft Ajax cdn")
 - [jQuery UI 1.8.6](jquery-ui/cdnjqueryui186.md "的 jQuery UI 1.8.6 Microsoft Ajax cdn")
-- [jQuery UI 1.8.5](jquery-ui/cdnjqueryui185.md "的 jQuery UI 1.8.5")
+- [jQuery UI 1.8.5](jquery-ui/cdnjqueryui185.md "jQuery UI 1.8.5")
 
 <a id="jQuery_Validation_Releases_on_the_CDN_3"></a>
 
@@ -603,6 +603,7 @@ jQuery 迁移版本 1.2.0
 
 此 CDN 上托管的 jQuery 验证库的以下版本。 单击每个链接以查看文件的实际列表。
 
+- [jQuery 验证 1.19.0](jquery-validate/cdnjqueryvalidate1190.md "jQuery 验证 1.19.0")
 - [jQuery 验证 1.17.0](jquery-validate/cdnjqueryvalidate1170.md "jQuery 验证 1.17.0")
 - [jQuery 验证 1.16.0](jquery-validate/cdnjqueryvalidate1160.md "jQuery 验证 1.16.0")
 - [jQuery 验证 1.15.1](jquery-validate/cdnjqueryvalidate1151.md "jQuery 验证 1.15.1")
@@ -796,6 +797,21 @@ jQuery 迁移版本 1.2.0
 
 以下版本的[getbootstrap.com](http://getbootstrap.com "getbootstrap.com") bootstrap 托管在 CDN 上：
 
+#### <a name="bootstrap-version-421"></a>Bootstrap 版本 4.2.1
+
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/bootstrap.js
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/bootstrap.min.js
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/bootstrap.bundle.js
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap.css.map
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap.min.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap-grid.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap-grid.min.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap-grid.css.map
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap-reboot.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap-reboot.min.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/4.2.1/css/bootstrap-reboot.css.map
+
 #### <a name="bootstrap-version-411"></a>Bootstrap 版 4.1.1
 
 - https://ajax.aspnetcdn.com/ajax/bootstrap/4.1.1/bootstrap.js
@@ -825,6 +841,22 @@ jQuery 迁移版本 1.2.0
 - https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/css/bootstrap-reboot.css
 - https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/css/bootstrap-reboot.min.css
 - https://ajax.aspnetcdn.com/ajax/bootstrap/4.0.0/css/bootstrap-reboot.css.map
+
+#### <a name="bootstrap-version-340"></a>Bootstrap 版本 3.4.0
+
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/bootstrap.js
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/bootstrap.min.js
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/css/bootstrap.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/css/bootstrap.css.map
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/css/bootstrap.min.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/css/bootstrap-theme.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/css/bootstrap-theme.css.map
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/css/bootstrap-theme.min.css
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/fonts/glyphicons-halflings-regular.eot
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/fonts/glyphicons-halflings-regular.svg
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/fonts/glyphicons-halflings-regular.ttf
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/fonts/glyphicons-halflings-regular.woff
+- https://ajax.aspnetcdn.com/ajax/bootstrap/3.4.0/fonts/glyphicons-halflings-regular.woff2
 
 #### <a name="bootstrap-version-337"></a>Bootstrap 版本 3.3.7
 

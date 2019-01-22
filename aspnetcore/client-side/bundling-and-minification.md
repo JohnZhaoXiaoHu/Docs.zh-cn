@@ -4,14 +4,14 @@ author: scottaddie
 description: 了解如何通过应用捆绑和缩减技术优化 ASP.NET Core web 应用程序中的静态资源。
 ms.author: scaddie
 ms.custom: mvc
-ms.date: 10/04/2018
+ms.date: 11/20/2018
 uid: client-side/bundling-and-minification
-ms.openlocfilehash: 152f3c810b587d734c1b1076a09ea38d13872e2d
-ms.sourcegitcommit: 7890dfb5a8f8c07d813f166d3ab0c263f893d0c6
+ms.openlocfilehash: 5d5f0aadb7740c9b2b959d12a585cd8c91758ce8
+ms.sourcegitcommit: 4225e2c49a0081e6ac15acff673587201f54b4aa
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/04/2018
-ms.locfileid: "48795400"
+ms.lasthandoff: 11/21/2018
+ms.locfileid: "52282130"
 ---
 # <a name="bundle-and-minify-static-assets-in-aspnet-core"></a>捆绑和缩小在 ASP.NET Core 中的静态资产
 
@@ -67,9 +67,21 @@ MVC 和 Razor 页面项目模板提供开箱解决方案捆绑和缩小包含 JS
 
 ## <a name="configure-bundling-and-minification"></a>配置捆绑和缩减
 
-MVC 和 Razor 页面项目模板提供了*bundleconfig.json*配置文件用于定义每个捆绑包的选项。 默认情况下，一个捆绑包配置定义的自定义 JavaScript (*wwwroot/js/site.js*) 和样式表 (*wwwroot/css/site.css*) 文件：
+::: moniker range="<= aspnetcore-2.0"
+
+MVC 和 Razor 页面项目模板提供了在 ASP.NET Core 2.0 或更早*bundleconfig.json*定义每个捆绑包的选项的配置文件：
+
+::: moniker-end
+
+::: moniker range=">= aspnetcore-2.1"
+
+在 ASP.NET Core 2.1 或更高版本，添加一个新的 JSON 文件，名为*bundleconfig.json*，与 MVC 或 Razor 页面项目根目录。 作为起始点，在该文件中包含以下 JSON:
+
+::: moniker-end
 
 [!code-json[](../client-side/bundling-and-minification/samples/BuildBundlerMinifierApp/bundleconfig.json)]
+
+*Bundleconfig.json*文件定义每个捆绑包的选项。 在上述示例中，一个捆绑包配置为定义了自定义 JavaScript (*wwwroot/js/site.js*) 和样式表 (*wwwroot/css/site.css*) 文件。
 
 配置选项包括：
 
@@ -216,27 +228,31 @@ dotnet bundle
 
 以下`environment`标记将转换的未处理的 CSS 文件在运行时`Development`环境：
 
-# <a name="aspnet-core-2xtabaspnetcore2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x/)
+::: moniker range=">= aspnetcore-2.0"
 
 [!code-cshtml[](../client-side/bundling-and-minification/samples/BuildBundlerMinifierApp/Pages/_Layout.cshtml?highlight=3&range=21-24)]
 
-# <a name="aspnet-core-1xtabaspnetcore1x"></a>[ASP.NET Core 1.x](#tab/aspnetcore1x/)
+::: moniker-end
+
+::: moniker range="<= aspnetcore-1.1"
 
 [!code-cshtml[](../client-side/bundling-and-minification/samples/BuildBundlerMinifierApp/Pages/_Layout.cshtml?highlight=3&range=9-12)]
 
----
+::: moniker-end
 
 以下`environment`标记呈现的捆绑和缩小 CSS 文件，而不在环境中运行时`Development`。 例如，在运行`Production`或`Staging`触发这些样式表的呈现：
 
-# <a name="aspnet-core-2xtabaspnetcore2x"></a>[ASP.NET Core 2.x](#tab/aspnetcore2x/)
+::: moniker range=">= aspnetcore-2.0"
 
 [!code-cshtml[](../client-side/bundling-and-minification/samples/BuildBundlerMinifierApp/Pages/_Layout.cshtml?highlight=5&range=25-30)]
 
-# <a name="aspnet-core-1xtabaspnetcore1x"></a>[ASP.NET Core 1.x](#tab/aspnetcore1x/)
+::: moniker-end
+
+::: moniker range="<= aspnetcore-1.1"
 
 [!code-cshtml[](../client-side/bundling-and-minification/samples/BuildBundlerMinifierApp/Pages/_Layout.cshtml?highlight=3&range=13-18)]
 
----
+::: moniker-end
 
 ## <a name="consume-bundleconfigjson-from-gulp"></a>使用 Gulp 从 bundleconfig.json
 

@@ -3,14 +3,14 @@ title: 在 ASP.NET Core 中的密钥存储提供程序
 author: rick-anderson
 description: 了解有关 ASP.NET Core 以及如何配置密钥的存储位置中的密钥存储提供程序。
 ms.author: riande
-ms.date: 07/16/2018
+ms.date: 12/19/2018
 uid: security/data-protection/implementation/key-storage-providers
-ms.openlocfilehash: 35e2cea4b6404af94de95352dc6ebf3071925cb1
-ms.sourcegitcommit: f5d403004f3550e8c46585fdbb16c49e75f495f3
+ms.openlocfilehash: d6dabc9e4581e0891d1dd14f73e086d50b45bba4
+ms.sourcegitcommit: 3e94d192b2ed9409fe72e3735e158b333354964c
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/20/2018
-ms.locfileid: "49477145"
+ms.lasthandoff: 12/21/2018
+ms.locfileid: "53735734"
 ---
 # <a name="key-storage-providers-in-aspnet-core"></a>在 ASP.NET Core 中的密钥存储提供程序
 
@@ -91,7 +91,7 @@ public void ConfigureServices(IServiceCollection services)
 
 * [StackExchange.Redis ConnectionMultiplexer](https://github.com/StackExchange/StackExchange.Redis/blob/master/docs/Basics.md)
 * [Azure Redis 缓存](/azure/redis-cache/cache-dotnet-how-to-use-azure-redis-cache#connect-to-the-cache)
-* [aspnet/DataProtection 示例](https://github.com/aspnet/DataProtection/tree/master/samples)
+* [aspnet/DataProtection 示例](https://github.com/aspnet/AspNetCore/tree/2.2.0/src/DataProtection/samples)
 
 ## <a name="registry"></a>注册表
 
@@ -125,6 +125,38 @@ public void ConfigureServices(IServiceCollection services)
 泛型参数`TContext`，必须继承自[DbContext](/dotnet/api/microsoft.entityframeworkcore.dbcontext)并[IDataProtectionKeyContext](/dotnet/api/microsoft.aspnetcore.dataprotection.entityframeworkcore.idataprotectionkeycontext):
 
 [!code-csharp[Main](key-storage-providers/sample/MyKeysContext.cs)]
+
+创建`DataProtectionKeys`表。 
+
+# <a name="visual-studiotabvisual-studio"></a>[Visual Studio](#tab/visual-studio)
+
+执行以下命令中的**程序包管理器控制台**(PMC) 窗口：
+
+```PowerShell
+Add-Migration AddDataProtectionKeys -Context MyKeysContext
+Update-Database -Context MyKeysContext
+```
+
+# <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)
+
+在命令行界面中执行以下命令：
+
+```console
+dotnet ef migrations add AddDataProtectionKeys --context MyKeysContext
+dotnet ef database update --context MyKeysContext
+```
+
+---
+
+`MyKeysContext` 是`DbContext`在上面的代码示例中定义。 如果您使用的`DbContext`使用不同的名称，替换为你`DbContext`名称`MyKeysContext`。
+
+`DataProtectionKeys`类/实体采用下表中所示的结构。
+
+| 属性/字段 | CLR 类型 | SQL 类型              |
+| -------------- | -------- | --------------------- |
+| `Id`           | `int`    | `int`PK，不为 null   |
+| `FriendlyName` | `string` | `nvarchar(MAX)`null |
+| `Xml`          | `string` | `nvarchar(MAX)`null |
 
 ::: moniker-end
 

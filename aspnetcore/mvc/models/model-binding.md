@@ -4,14 +4,14 @@ author: tdykstra
 description: 了解 ASP.NET Core MVC 中的模型绑定如何将 HTTP 请求中的数据映射到操作方法参数。
 ms.assetid: 0be164aa-1d72-4192-bd6b-192c9c301164
 ms.author: tdykstra
-ms.date: 08/14/2018
+ms.date: 11/13/2018
 uid: mvc/models/model-binding
-ms.openlocfilehash: 0ce20a8040c6b19da1f57e1c053a7ef81d8bcb23
-ms.sourcegitcommit: d53e0cc71542b92de867bcce51575b054886f529
+ms.openlocfilehash: 1dc9b41328ed78440622acc1865b6f088d394403
+ms.sourcegitcommit: 1d6ab43eed9cb3df6211c22b97bb3a9351ec4419
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 08/16/2018
-ms.locfileid: "41751603"
+ms.lasthandoff: 11/13/2018
+ms.locfileid: "51597779"
 ---
 # <a name="model-binding-in-aspnet-core"></a>ASP.NET Core 中的模型绑定
 
@@ -55,7 +55,7 @@ The link works but generates an error when building with DocFX
 
 到目前为止，示例使用的都是简单类型。 在 MVC 中，简单类型是任何 .NET 基元类型或包含字符串类型转换器的类型。 如果操作方法的参数是一个属性为简单类型和复杂类型的类，如 `Movie` 类型，则 MVC 的模型绑定仍可对其进行妥善处理。 它使用反射和递归来遍历查找匹配项的复杂类型的属性。 模型绑定查找模式 parameter_name.property_name 以将值绑定到属性 。 如果未找到此窗体的匹配值，它将尝试仅使用属性名称进行绑定。 对于诸如 `Collection` 类型的类型，模型绑定将查找 parameter_name[index] 或仅 [index] 的匹配项。 对于 `Dictionary` 类型，模型绑定的处理方法与之类似，即请求 parameter_name[key] 或仅 [key]（只要键是简单类型）。 受支持的键匹配字段名称 HTML 和针对相同模型类型生成的标记帮助程序。 这样就可以启用往返值，以便用户仍能方便地输入内容来填充窗体字段，例如当创建或编辑的绑定数据未通过验证时。
 
-为了进行绑定，类必须具有公共默认构造函数，并且要绑定的成员必须是公共可写属性。 发生模型绑定时，在仅使用公共默认构造函数对类进行实例化后才可设置属性。
+若要实现模型绑定，该类必须具有要绑定的公共默认构造函数和公共可写属性。 发生模型绑定时，在使用公共默认构造函数对类进行实例化后才可设置属性。
 
 绑定参数时，模型绑定将停止查找具有该名称的值并向前移动以绑定下一个参数。 否则，默认模型绑定行为将根据参数的类型将参数设置为其默认值：
 

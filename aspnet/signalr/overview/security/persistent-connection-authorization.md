@@ -8,16 +8,18 @@ ms.date: 06/10/2014
 ms.assetid: e264677b-9c01-47ec-94f9-3cd8f08f94af
 msc.legacyurl: /signalr/overview/security/persistent-connection-authorization
 msc.type: authoredcontent
-ms.openlocfilehash: 0df0ced803af04c4dc537aff6f1db60278aae578
-ms.sourcegitcommit: a4dcca4f1cb81227c5ed3c92dc0e28be6e99447b
+ms.openlocfilehash: bbbcb5593fb265eca4fb261d378532047d53e674
+ms.sourcegitcommit: 74e3be25ea37b5fc8b4b433b0b872547b4b99186
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/10/2018
-ms.locfileid: "48911209"
+ms.lasthandoff: 12/12/2018
+ms.locfileid: "53287367"
 ---
 <a name="authentication-and-authorization-for-signalr-persistent-connections"></a>身份验证和授权 SignalR 永久性连接
 ====================
 通过[Patrick Fletcher](https://github.com/pfletcher)， [Tom FitzMacken](https://github.com/tfitzmac)
+
+[!INCLUDE [Consider ASP.NET Core SignalR](~/includes/signalr/signalr-version-disambiguation.md)]
 
 > 本主题介绍如何强制执行的持续性连接上的授权。 有关将安全集成到 SignalR 应用程序的常规信息，请参阅[安全性简介](introduction-to-security.md)。
 >

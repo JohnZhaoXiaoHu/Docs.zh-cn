@@ -5,14 +5,14 @@ description: 了解如何响应压缩以及如何在 ASP.NET Core 应用中使�
 monikerRange: '>= aspnetcore-1.1'
 ms.author: riande
 ms.custom: mvc
-ms.date: 09/21/2018
+ms.date: 12/18/2018
 uid: performance/response-compression
-ms.openlocfilehash: 8c3d74b6a346d51507d3c278b03ddc842feea13e
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: a9f72a6816298b11e7b7d30b2b4bd44083baab3a
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207974"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099034"
 ---
 # <a name="response-compression-in-aspnet-core"></a>在 ASP.NET Core 中的响应压缩
 
@@ -24,7 +24,7 @@ ms.locfileid: "50207974"
 
 ## <a name="when-to-use-response-compression-middleware"></a>何时使用响应压缩中间件
 
-使用 IIS、 Apache 或 Nginx 中的基于服务器的响应压缩技术。 中间件的性能可能不匹配，服务器模块。 [HTTP.sys 服务器](xref:fundamentals/servers/httpsys)并[Kestrel](xref:fundamentals/servers/kestrel)当前不提供内置的压缩支持。
+使用 IIS、 Apache 或 Nginx 中的基于服务器的响应压缩技术。 中间件的性能可能不匹配，服务器模块。 [HTTP.sys 服务器](xref:fundamentals/servers/httpsys)服务器和[Kestrel](xref:fundamentals/servers/kestrel) server 当前不提供内置的压缩支持。
 
 如果你已，使用响应压缩中间件：
 
@@ -33,12 +33,12 @@ ms.locfileid: "50207974"
   * [Apache mod_deflate 模块](http://httpd.apache.org/docs/current/mod/mod_deflate.html)
   * [Nginx 压缩和解压缩](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)
 * 直接在上托管：
-  * [HTTP.sys 服务器](xref:fundamentals/servers/httpsys)(以前称为[WebListener](xref:fundamentals/servers/weblistener))
-  * [Kestrel](xref:fundamentals/servers/kestrel)
+  * [HTTP.sys 服务器](xref:fundamentals/servers/httpsys)（以前称为 WebListener）
+  * [Kestrel 服务器](xref:fundamentals/servers/kestrel)
 
 ## <a name="response-compression"></a>响应压缩
 
-通常情况下，可以从响应压缩受益本身不压缩任何响应。 响应本身不压缩通常包括： CSS、 JavaScript、 HTML、 XML 和 JSON。 不应压缩本机压缩的资产，如 PNG 文件。 如果您尝试进一步将压缩本机压缩的响应，小型进一步降低大小和传输时间将有可能屏蔽处理压缩花费的时间。 不压缩小于大约 150 1000年字节 （具体取决于文件的内容和压缩的效率） 的文件。 压缩小文件的开销可能会产生大于未压缩的文件的压缩的文件。
+通常情况下，可以从响应压缩受益本身不压缩任何响应。 响应本身不压缩通常包括：CSS、 JavaScript、 HTML、 XML 和 JSON。 不应压缩本机压缩的资产，如 PNG 文件。 如果您尝试进一步将压缩本机压缩的响应，小型进一步降低大小和传输时间将有可能屏蔽处理压缩花费的时间。 不压缩小于大约 150 1000年字节 （具体取决于文件的内容和压缩的效率） 的文件。 压缩小文件的开销可能会产生大于未压缩的文件的压缩的文件。
 
 客户端时客户端可以处理压缩的内容，必须通过发送通知的功能的服务器`Accept-Encoding`与请求的标头。 当一台服务器发送压缩的内容时，它必须包括中的信息`Content-Encoding`标头压缩的响应的编码方式。 下表中显示内容由中间件支持指定的编码内容。
 
@@ -50,7 +50,7 @@ ms.locfileid: "50207974"
 | `deflate`                       | 否                   | [DEFLATE 压缩的数据格式](https://tools.ietf.org/html/rfc1951) |
 | `exi`                           | 否                   | [W3C 有效 XML 交换](https://tools.ietf.org/id/draft-varga-netconf-exi-capability-00.html) |
 | `gzip`                          | 是                  | [Gzip 文件格式](https://tools.ietf.org/html/rfc1952) |
-| `identity`                      | 是                  | "没有编码"标识符： 不进行编码的响应。 |
+| `identity`                      | 是                  | "没有 encoding"的标识符：响应必须不进行编码。 |
 | `pack200-gzip`                  | 否                   | [Java 存档文件的网络传输格式](https://jcp.org/aboutJava/communityprocess/review/jsr200/index.html) |
 | `*`                             | 是                  | 编码不显式请求任何可用内容 |
 
@@ -64,7 +64,7 @@ ms.locfileid: "50207974"
 | `deflate`                       | 否                   | [DEFLATE 压缩的数据格式](https://tools.ietf.org/html/rfc1951) |
 | `exi`                           | 否                   | [W3C 有效 XML 交换](https://tools.ietf.org/id/draft-varga-netconf-exi-capability-00.html) |
 | `gzip`                          | 是 （默认值）        | [Gzip 文件格式](https://tools.ietf.org/html/rfc1952) |
-| `identity`                      | 是                  | "没有编码"标识符： 不进行编码的响应。 |
+| `identity`                      | 是                  | "没有 encoding"的标识符：响应必须不进行编码。 |
 | `pack200-gzip`                  | 否                   | [Java 存档文件的网络传输格式](https://jcp.org/aboutJava/communityprocess/review/jsr200/index.html) |
 | `*`                             | 是                  | 编码不显式请求任何可用内容 |
 
@@ -74,7 +74,7 @@ ms.locfileid: "50207974"
 
 中间件可以添加额外的压缩的自定义的提供程序`Accept-Encoding`标头值。 有关详细信息，请参阅[自定义提供程序](#custom-providers)下面。
 
-中间件是能够对质量值作出反应 (qvalue， `q`) 权重时由客户端发送，以确定压缩方案的优先级。 有关详细信息，请参阅[RFC 7231: Accept-encoding](https://tools.ietf.org/html/rfc7231#section-5.3.4)。
+中间件是能够对质量值作出反应 (qvalue， `q`) 权重时由客户端发送，以确定压缩方案的优先级。 有关详细信息，请参阅[RFC 7231:接受编码](https://tools.ietf.org/html/rfc7231#section-5.3.4)。
 
 压缩算法会有所压缩速度和压缩的效率之间的权衡。 *有效性*在此上下文中引用的输出大小在压缩之后的。 最小大小通过最*最佳*压缩。
 
@@ -94,7 +94,7 @@ ms.locfileid: "50207974"
 * 使用 Gzip 和自定义压缩提供程序的应用程序响应的压缩。
 * 如何将 MIME 类型添加到压缩的 MIME 类型的默认列表。
 
-## <a name="package"></a>Package
+## <a name="package"></a>package
 
 ::: moniker range=">= aspnetcore-2.1"
 
@@ -143,8 +143,10 @@ public class Startup
 }
 ```
 
-> [!NOTE]
-> 使用之类的工具[Fiddler](http://www.telerik.com/fiddler)， [Firebug](http://getfirebug.com/)，或[Postman](https://www.getpostman.com/)设置`Accept-Encoding`请求标头并研究响应标头、 大小和正文。
+注意： 
+
+* `app.UseResponseCompression` 前必须调用`app.UseMvc`。
+* 使用一种工具，如[Fiddler](http://www.telerik.com/fiddler)， [Firebug](http://getfirebug.com/)，或[Postman](https://www.getpostman.com/)设置`Accept-Encoding`请求标头并研究响应标头、 大小和正文。
 
 向示例应用程序而无需提交一个申请`Accept-Encoding`标头，并观察的响应是未压缩。 `Content-Encoding`和`Vary`标头不存在的响应。
 
@@ -432,7 +434,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ## <a name="middleware-issue-when-behind-an-nginx-reverse-proxy"></a>当位于 Nginx 反向代理中间件问题
 
-如果请求的是代理的 Nginx`Accept-Encoding`删除标头。 这可以防止中间件压缩响应。 有关详细信息，请参阅[NGINX： 压缩和解压缩](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)。 此问题由跟踪[找出 nginx (BasicMiddleware #123) 传递压缩](https://github.com/aspnet/BasicMiddleware/issues/123)。
+如果请求的是代理的 Nginx`Accept-Encoding`删除标头。 删除`Accept-Encoding`标头可防止中间件压缩响应。 有关详细信息，请参阅[NGINX:压缩和解压缩](https://www.nginx.com/resources/admin-guide/compression-and-decompression/)。 此问题由跟踪[找出传递压缩 Nginx (aspnet/BasicMiddleware \#123)](https://github.com/aspnet/BasicMiddleware/issues/123)。
 
 ## <a name="working-with-iis-dynamic-compression"></a>使用 IIS 动态压缩
 
@@ -464,7 +466,7 @@ public void ConfigureServices(IServiceCollection services)
 
 * <xref:fundamentals/startup>
 * <xref:fundamentals/middleware/index>
-* [Mozilla 开发人员网络： 接受的编码](https://developer.mozilla.org/docs/Web/HTTP/Headers/Accept-Encoding)
-* [RFC 7231 节 3.1.2.1： 内容 Codings](https://tools.ietf.org/html/rfc7231#section-3.1.2.1)
-* [RFC 7230 4.2.3 节： Gzip 编码](https://tools.ietf.org/html/rfc7230#section-4.2.3)
+* [Mozilla 开发人员网络：接受编码](https://developer.mozilla.org/docs/Web/HTTP/Headers/Accept-Encoding)
+* [RFC 7231 节 3.1.2.1:内容 Codings](https://tools.ietf.org/html/rfc7231#section-3.1.2.1)
+* [RFC 7230 4.2.3 节：Gzip 编码](https://tools.ietf.org/html/rfc7230#section-4.2.3)
 * [GZIP 文件格式规范版本 4.3](http://www.ietf.org/rfc/rfc1952.txt)

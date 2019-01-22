@@ -3,14 +3,15 @@ title: ASP.NET Core 中的 Razor 页面和 Entity Framework Core - 第 1 个教�
 author: rick-anderson
 description: 介绍了如何使用 Entity Framework Core 创建 Razor 页面应用
 ms.author: riande
-ms.date: 6/31/2017
+ms.custom: seodec18
+ms.date: 11/22/2018
 uid: data/ef-rp/intro
-ms.openlocfilehash: a234d5fefd671d4503f6c63b79074d47c893f69c
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 868163ed621ef9818759efd72ed3d233dc958219
+ms.sourcegitcommit: ec71fd5a988f927ae301813aae5ff764feb3bb6a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207701"
+ms.lasthandoff: 01/12/2019
+ms.locfileid: "54249498"
 ---
 # <a name="razor-pages-with-entity-framework-core-in-aspnet-core---tutorial-1-of-8"></a>ASP.NET Core 中的 Razor 页面和 Entity Framework Core - 第 1 个教程（共 8 个）
 
@@ -64,7 +65,7 @@ Contoso University 示例 Web 应用演示了如何使用 Entity Framework (EF) 
 * 创建新的 ASP.NET Core Web 应用程序。 将该项目命名为 ContosoUniversity 。 务必将该项目命名为 ContosoUniversity，以便复制/粘贴代码时命名空间相匹配。
 * 在下拉列表中选择“ASP.NET Core 2.1”，然后选择“Web 应用程序”。
 
-有关上述步骤的图像，请参阅[创建 Razor Web 应用](xref:tutorials/razor-pages/razor-pages-start#create-a-razor-web-app)。
+有关上述步骤的图像，请参阅[创建 Razor Web 应用](xref:tutorials/razor-pages/razor-pages-start#create-a-razor-pages-web-app)。
 运行应用。
 
 # <a name="net-core-clitabnetcore-cli"></a>[.NET Core CLI](#tab/netcore-cli)
@@ -113,7 +114,7 @@ dotnet run
 
 `ID` 属性成为此类对应的数据库 (DB) 表的主键列。 默认情况下，EF Core 将名为 `ID` 或 `classnameID` 的属性视为主键。 在 `classnameID` 中，`classname` 为类名称。 另一种自动识别的主键是上例中的 `StudentID`。
 
-`Enrollments` 属性是[导航属性](/ef/core/modeling/relationship)。 导航属性链接到与此实体相关的其他实体。 在这种情况下，`Student entity` 的 `Enrollments` 属性包含与该 `Student` 相关的所有 `Enrollment` 实体。 例如，如果数据库中的 Student 行有两个相关的 Enrollment 行，则 `Enrollments` 导航属性包含这两个 `Enrollment` 实体。 相关的 `Enrollment` 行是 `StudentID` 列中包含该学生的主键值的行。 例如，假设 ID=1 的学生在 `Enrollment` 表中有两行。 `Enrollment` 表中有两行的 `StudentID` = 1。 `StudentID` 是 `Enrollment` 表中的外键，用于指定 `Student` 表中的学生。
+`Enrollments` 属性是[导航属性](/ef/core/modeling/relationships)。 导航属性链接到与此实体相关的其他实体。 在这种情况下，`Student entity` 的 `Enrollments` 属性包含与该 `Student` 相关的所有 `Enrollment` 实体。 例如，如果数据库中的 Student 行有两个相关的 Enrollment 行，则 `Enrollments` 导航属性包含这两个 `Enrollment` 实体。 相关的 `Enrollment` 行是 `StudentID` 列中包含该学生的主键值的行。 例如，假设 ID=1 的学生在 `Enrollment` 表中有两行。 `Enrollment` 表中有两行的 `StudentID` = 1。 `StudentID` 是 `Enrollment` 表中的外键，用于指定 `Student` 表中的学生。
 
 如果导航属性包含多个实体，则导航属性必须是列表类型，例如 `ICollection<T>`。 可以指定 `ICollection<T>` 或诸如 `List<T>` 或 `HashSet<T>` 的类型。 使用 `ICollection<T>` 时，EF Core 会默认创建 `HashSet<T>` 集合。 包含多个实体的导航属性来自于多对多和一对多关系。
 
@@ -189,8 +190,8 @@ dotnet aspnet-codegenerator razorpage -m Student -dc ContosoUniversity.Models.Sc
 
 ### <a name="file-updates"></a>文件更新
 
-* Startup.cs：下一部分详细介绍对此文件所作的更改。
-* appsettings.json：添加用于连接到本地数据的连接字符串。
+* *Startup.cs*：下一部分详细介绍对此文件所作的更改。
+* *appsettings.json*：添加用于连接到本地数据库的连接字符串。
 
 ## <a name="examine-the-context-registered-with-dependency-injection"></a>检查通过依赖关系注入注册的上下文
 
@@ -261,6 +262,8 @@ EF Core 会创建一个空的数据库。 本部分中编写了 `Initialize` 方
 
 [!code-csharp[](intro/samples/cu21/Data/DbInitializer.cs?name=snippet_Intro)]
 
+注意:上面的代码对命名空间使用 `Models` (`namespace ContosoUniversity.Models`)，而不是 `Data`。 `Models` 与基架生成的代码一致。 有关详细信息，请参阅[此 GitHub 基架问题](https://github.com/aspnet/Scaffolding/issues/822)。
+
 该代码会检查数据库中是否存在任何学生。 如果 DB 中没有任何学生，则会使用测试数据初始化该 DB。 代码中使用数组存放测试数据而不是使用 `List<T>` 集合是为了优化性能。
 
 `EnsureCreated` 方法自动为数据库上下文创建数据库。 如果数据库已存在，则返回 `EnsureCreated`，并且不修改数据库。
@@ -306,11 +309,11 @@ Web 服务器的可用线程是有限的，而在高负载情况下的可能所�
 * EF Core 上下文并非线程安全：请勿尝试并行执行多个操作。
 * 若要利用异步代码的性能优势，请验证在调用向数据库发送查询的 EF Core 方法时，库程序包（如用于分页）是否使用异步。
 
-有关 .NET 中异步编程的详细信息，请参阅[异步概述](/dotnet/articles/standard/async)和[使用 Async 和 Await 的异步编程](/dotnet/csharp/programming-guide/concepts/async/)。
+有关 .NET 中异步编程的详细信息，请参阅[异步概述](/dotnet/standard/async)和[使用 Async 和 Await 的异步编程](/dotnet/csharp/programming-guide/concepts/async/)。
 
 下一个教程将介绍基本的 CRUD（创建、读取、更新、删除）操作。
 
 ::: moniker-end
 
 > [!div class="step-by-step"]
-> [下一篇](xref:data/ef-rp/crud)
+> [下一页](xref:data/ef-rp/crud)

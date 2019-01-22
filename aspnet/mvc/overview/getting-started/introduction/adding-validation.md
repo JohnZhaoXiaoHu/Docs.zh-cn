@@ -4,16 +4,16 @@ title: 添加验证 |Microsoft Docs
 author: Rick-Anderson
 description: ''
 ms.author: riande
-ms.date: 10/17/2013
+ms.date: 01/06/2019
 ms.assetid: 9f35ca15-e216-4db6-9ebf-24380b0f31b4
 msc.legacyurl: /mvc/overview/getting-started/introduction/adding-validation
 msc.type: authoredcontent
-ms.openlocfilehash: 22e59a99a179a7a414447036b973e3ad3b462515
-ms.sourcegitcommit: 7b4e3936feacb1a8fcea7802aab3e2ea9c8af5b4
+ms.openlocfilehash: 6831259ce19c3747c179d6fc1b7e2095051a603b
+ms.sourcegitcommit: 97d7a00bd39c83a8f6bccb9daa44130a509f75ce
 ms.translationtype: MT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/04/2018
-ms.locfileid: "48577946"
+ms.lasthandoff: 01/08/2019
+ms.locfileid: "54099021"
 ---
 <a name="adding-validation"></a>添加验证
 ====================
@@ -97,7 +97,7 @@ ASP.NET MVC 的核心设计原则之一是[DRY](http://en.wikipedia.org/wiki/Don
 
 [!code-csharp[Main](adding-validation/samples/sample5.cs)]
 
-第一个 (HTTP GET) `Create` 操作方法显示初始的“创建”表单。 第二个 (`[HttpPost]`) 版本处理表单发布。 第二个 `Create` 方法（`HttpPost` 版本）调用 `ModelState.IsValid` 以检查电影是否有任何验证错误。 调用此方法将评估已应用于对象的任何验证特性。 如果对象有验证错误，则 `Create` 方法会重新显示此表单。 如果没有错误，此方法则将新电影保存在数据库中。 在我们的电影示例中，**窗体不会发布到服务器时有验证错误在客户端; 上检测到第二个** `Create`**永远不会调用方法**。 如果在浏览器中禁用 JavaScript，请禁用客户端验证和 HTTP POST`Create`方法调用`ModelState.IsValid`检查电影是否有任何验证错误。
+第一个 (HTTP GET) `Create` 操作方法显示初始的“创建”表单。 第二个 (`[HttpPost]`) 版本处理表单发布。 第二个`Create`方法 (`HttpPost`版本) 检查`ModelState.IsValid`若要查看电影是否有任何验证错误。 获取此属性的计算结果应用于对象的任何验证特性。 如果对象具有验证错误，`Create`方法重新显示该窗体。 如果没有错误，此方法则将新电影保存在数据库中。 在我们的电影示例中，**窗体不会发布到服务器时有验证错误在客户端; 上检测到第二个** `Create` **永远不会调用方法**。 如果在浏览器中禁用 JavaScript，客户端验证已禁用，，HTTP POST`Create`方法获取`ModelState.IsValid`检查电影是否有任何验证错误。
 
 可以在 `HttpPost Create` 方法中设置断点，并验证方法从未被调用，客户端验证在检测到存在验证错误时不会提交表单数据。 如果在浏览器中禁用 JavaScript，然后提交错误的表单，将触发断点。 在没有 JavaScript 的情况下仍然可以进行完整的验证。 下图显示了如何禁用 Internet Explorer 中的 JavaScript。
 
@@ -159,7 +159,7 @@ ASP.NET MVC 的核心设计原则之一是[DRY](http://en.wikipedia.org/wiki/Don
 
 以下代码显示组合在一行上的特性：
 
-[!code-csharp[Main](adding-validation/samples/sample10.cs?highlight=6,10)]
+[!code-csharp[Main](adding-validation/samples/sample10.cs?highlight=4,6,10,12)]
 
 在本系列的下一部分中，我们将回顾应用程序，并对自动生成的 `Details` 和 `Delete` 方法进行一些改进。
 

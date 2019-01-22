@@ -4,14 +4,14 @@ author: rick-anderson
 description: 了解如何在 ASP.NET Core Web 应用中提供和保护静态文件，以及如何配置静态文件托管中间件行为。
 ms.author: riande
 ms.custom: mvc
-ms.date: 10/18/2018
+ms.date: 12/18/2018
 uid: fundamentals/static-files
-ms.openlocfilehash: 5d00e6ba57053d17b45a24a1c57a446cb3db22ca
-ms.sourcegitcommit: 375e9a67f5e1f7b0faaa056b4b46294cc70f55b7
+ms.openlocfilehash: 4c08d65cc1f658ef08a9b4b362ac7f8a3a243557
+ms.sourcegitcommit: 816f39e852a8f453e8682081871a31bc66db153a
 ms.translationtype: HT
 ms.contentlocale: zh-CN
-ms.lasthandoff: 10/29/2018
-ms.locfileid: "50207129"
+ms.lasthandoff: 12/19/2018
+ms.locfileid: "53637769"
 ---
 # <a name="static-files-in-aspnet-core"></a>ASP.NET Core 中的静态文件
 
@@ -122,10 +122,10 @@ ms.locfileid: "50207129"
 
 静态文件中间件不提供授权检查。 可公开访问由静态文件中间件提供的任何文件，包括 wwwroot 下的文件。 根据授权提供文件：
 
-* 将文件存储在 wwwroot 和静态文件中间件可访问的任何目录之外并
+* 将文件存储在 wwwroot 和静态文件中间件可访问的任何目录之外。
 * 通过有授权的操作方法提供文件。 返回 [FileResult](/dotnet/api/microsoft.aspnetcore.mvc.fileresult) 对象：
 
-[!code-csharp[](static-files/samples/1x/Controllers/HomeController.cs?name=snippet_BannerImageAction)]
+  [!code-csharp[](static-files/samples/1x/Controllers/HomeController.cs?name=snippet_BannerImageAction)]
 
 ## <a name="enable-directory-browsing"></a>启用目录浏览
 
@@ -246,7 +246,7 @@ app.UseFileServer(enableDirectoryBrowsing: true);
 
 * 使用 `UseDirectoryBrowser` 和 `UseStaticFiles` 公开的内容的 URL 受大小写和基础文件系统字符限制的影响。 例如，Windows 不区分大小写 &mdash; macOS 和 Linux 却要区分。
 
-* 托管于 IIS 中的 ASP.NET Core 应用使用 [ASP.NET Core 模块](xref:fundamentals/servers/aspnet-core-module)将所有请求转发到应用，包括静态文件请求。 未使用 IIS 静态文件处理程序。 在模块处理请求前，处理程序没有机会处理请求。
+* 托管于 IIS 中的 ASP.NET Core 应用使用 [ASP.NET Core 模块](xref:host-and-deploy/aspnet-core-module)将所有请求转发到应用，包括静态文件请求。 未使用 IIS 静态文件处理程序。 在模块处理请求前，处理程序没有机会处理请求。
 
 * 在 IIS Manager 中完成以下步骤，删除服务器或网站级别的 IIS 静态文件处理程序：
     1. 转到“模块”功能。
